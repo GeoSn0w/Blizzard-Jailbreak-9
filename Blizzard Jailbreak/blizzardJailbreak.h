@@ -9,4 +9,5 @@
 #define blizzardJailbreak_h
 
 #include <stdio.h>
+int blizzardGetTFP0(void);
 #endif /* blizzardJailbreak_h */

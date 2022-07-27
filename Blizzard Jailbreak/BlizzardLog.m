@@ -8,6 +8,7 @@
 
 #import "BlizzardLog.h"
 #import "../Blizzard Jailbreak/blizzardJailbreak.h"
+#import "../Exploits/Phoenix Exploit/exploit.h"
 
 #define currentVer(v)  ([[[UIDevice currentDevice] systemVersion] compare:@v options:NSNumericSearch] != NSOrderedDescending)
 @interface BlizzardLog()
@@ -22,7 +23,7 @@ static BlizzardLog *BlizzLogger;
 }
 
 int dismissButtonActionType = 0;
-int IS_BLIZZARD_DEBUG = 0;
+int IS_BLIZZARD_DEBUG = 1;
 int shouldUnjailbreak = 0;
 
 - (void)viewDidLoad {
@@ -42,14 +43,11 @@ int shouldUnjailbreak = 0;
     
 }
 -(void) runJailbreak {
-    if (currentVer("11.4")){
-    
-    } else if (currentVer("13.7")){
+    if (currentVer("9.3.5")){
         extern char *get_current_deviceModel(void);
-
         printf("Version: %s\n", [[[UIDevice currentDevice] systemVersion] UTF8String]);
-        
-        
+        blizzardGetTFP0();
+    } else if (currentVer("9.3.4")){
     }
 }
 - (IBAction)dismissLogWindow:(id)sender {

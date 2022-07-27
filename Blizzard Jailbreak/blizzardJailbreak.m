@@ -14,6 +14,20 @@
 #include <sys/mman.h>
 #include <spawn.h>
 #include "BlizzardLog.h"
+#import "../Exploits/Phoenix Exploit/exploit.h"
 
+mach_port_t kern_task = 0;
 
+int blizzardGetTFP0(){
+    printf("Blizzard is exploting the kernel...\n");
+    exploit();
+    kern_task  = tfp0;
+    
+    if (kern_task != 0){
+        printf("Got tfp0: %0xllx\n", kern_task);
+    } else {
+        printf("FAILED to obtain Kernel Task Port!\n");
+    }
+    return 0;
+}
 

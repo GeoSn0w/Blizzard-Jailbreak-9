@@ -15,6 +15,7 @@
 		D613B71B24E217D90069CA9B /* BlizzardLog.m in Sources */ = {isa = PBXBuildFile; fileRef = D613B71A24E217D90069CA9B /* BlizzardLog.m */; };
 		D613B75024E2CD5E0069CA9B /* BlizzardSpawnerTools.c in Sources */ = {isa = PBXBuildFile; fileRef = D613B74E24E2CD5E0069CA9B /* BlizzardSpawnerTools.c */; };
 		D63EDAC124E1989F009B305D /* blizzardJailbreak.m in Sources */ = {isa = PBXBuildFile; fileRef = D63EDABF24E1989F009B305D /* blizzardJailbreak.m */; };
+		D6B1D2D92891299100D7ECBE /* exploit.c in Sources */ = {isa = PBXBuildFile; fileRef = D6B1D2D82891299100D7ECBE /* exploit.c */; };
 		D6FFA56224E1A59A00CAC2E2 /* blizzardView.m in Sources */ = {isa = PBXBuildFile; fileRef = D6FFA56124E1A59A00CAC2E2 /* blizzardView.m */; };
 /* End PBXBuildFile section */
 
@@ -67,6 +68,21 @@
 		D69C4CB6256868BB001DE2BC /* IOKitKeys.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IOKitKeys.h; sourceTree = "<group>"; };
 		D69C4CB7256868BB001DE2BC /* IOKitLib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IOKitLib.h; sourceTree = "<group>"; };
 		D69C4CB8256868BB001DE2BC /* IOTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IOTypes.h; sourceTree = "<group>"; };
+		D6B1D2D72891299100D7ECBE /* exploit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = exploit.h; sourceTree = "<group>"; };
+		D6B1D2D82891299100D7ECBE /* exploit.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = exploit.c; sourceTree = "<group>"; };
+		D6B1D2DA28912B0000D7ECBE /* IOCFUnserialize.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IOCFUnserialize.h; sourceTree = "<group>"; };
+		D6B1D2DB28912B0100D7ECBE /* IOKitServer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IOKitServer.h; sourceTree = "<group>"; };
+		D6B1D2DC28912B0100D7ECBE /* IOMessage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IOMessage.h; sourceTree = "<group>"; };
+		D6B1D2DD28912B0100D7ECBE /* IOCFSerialize.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IOCFSerialize.h; sourceTree = "<group>"; };
+		D6B1D2DE28912B0100D7ECBE /* IOCFPlugIn.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IOCFPlugIn.h; sourceTree = "<group>"; };
+		D6B1D2DF28912B0100D7ECBE /* IOCFURLAccess.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IOCFURLAccess.h; sourceTree = "<group>"; };
+		D6B1D2E028912B0100D7ECBE /* IOCFBundle.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IOCFBundle.h; sourceTree = "<group>"; };
+		D6B1D2E128912B0100D7ECBE /* IOBSD.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IOBSD.h; sourceTree = "<group>"; };
+		D6B1D2E228912B0100D7ECBE /* IODataQueueClient.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IODataQueueClient.h; sourceTree = "<group>"; };
+		D6B1D2E328912B0100D7ECBE /* IODataQueueShared.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IODataQueueShared.h; sourceTree = "<group>"; };
+		D6B1D2E428912B0100D7ECBE /* iokitmig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = iokitmig.h; sourceTree = "<group>"; };
+		D6B1D2E528912B0100D7ECBE /* IOSharedLock.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IOSharedLock.h; sourceTree = "<group>"; };
+		D6B1D2E628912B1100D7ECBE /* OSMessageNotification.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OSMessageNotification.h; sourceTree = "<group>"; };
 		D6FFA56024E1A59A00CAC2E2 /* blizzardView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = blizzardView.h; sourceTree = "<group>"; };
 		D6FFA56124E1A59A00CAC2E2 /* blizzardView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = blizzardView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -99,6 +115,7 @@
 		82F179E322DF4ED700231F8C = {
 			isa = PBXGroup;
 			children = (
+				D6B1D2E728912E9100D7ECBE /* PatchFinder */,
 				D69C4C9525686579001DE2BC /* Exploits */,
 				D6FFA55F24E19E0900CAC2E2 /* Blizzard Jailbreak */,
 				82F179ED22DF4ED700231F8C /* Products */,
@@ -137,6 +154,7 @@
 		D69C4C9525686579001DE2BC /* Exploits */ = {
 			isa = PBXGroup;
 			children = (
+				D6B1D2D62891296B00D7ECBE /* Phoenix Exploit */,
 				D69C4CB4256868A8001DE2BC /* IOKit */,
 			);
 			path = Exploits;
@@ -145,12 +163,41 @@
 		D69C4CB4256868A8001DE2BC /* IOKit */ = {
 			isa = PBXGroup;
 			children = (
+				D6B1D2E128912B0100D7ECBE /* IOBSD.h */,
+				D6B1D2E028912B0100D7ECBE /* IOCFBundle.h */,
+				D6B1D2DE28912B0100D7ECBE /* IOCFPlugIn.h */,
+				D6B1D2DD28912B0100D7ECBE /* IOCFSerialize.h */,
+				D6B1D2DA28912B0000D7ECBE /* IOCFUnserialize.h */,
+				D6B1D2DF28912B0100D7ECBE /* IOCFURLAccess.h */,
+				D6B1D2E228912B0100D7ECBE /* IODataQueueClient.h */,
+				D6B1D2E328912B0100D7ECBE /* IODataQueueShared.h */,
+				D6B1D2E428912B0100D7ECBE /* iokitmig.h */,
+				D6B1D2DB28912B0100D7ECBE /* IOKitServer.h */,
+				D6B1D2DC28912B0100D7ECBE /* IOMessage.h */,
+				D6B1D2E528912B0100D7ECBE /* IOSharedLock.h */,
+				D6B1D2E628912B1100D7ECBE /* OSMessageNotification.h */,
 				D69C4CB6256868BB001DE2BC /* IOKitKeys.h */,
 				D69C4CB7256868BB001DE2BC /* IOKitLib.h */,
 				D69C4CB5256868BB001DE2BC /* IOReturn.h */,
 				D69C4CB8256868BB001DE2BC /* IOTypes.h */,
 			);
 			path = IOKit;
+			sourceTree = "<group>";
+		};
+		D6B1D2D62891296B00D7ECBE /* Phoenix Exploit */ = {
+			isa = PBXGroup;
+			children = (
+				D6B1D2D72891299100D7ECBE /* exploit.h */,
+				D6B1D2D82891299100D7ECBE /* exploit.c */,
+			);
+			path = "Phoenix Exploit";
+			sourceTree = "<group>";
+		};
+		D6B1D2E728912E9100D7ECBE /* PatchFinder */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = PatchFinder;
 			sourceTree = "<group>";
 		};
 		D6FFA55F24E19E0900CAC2E2 /* Blizzard Jailbreak */ = {
@@ -314,6 +361,7 @@
 				D613B71B24E217D90069CA9B /* BlizzardLog.m in Sources */,
 				82F179F122DF4ED700231F8C /* AppDelegate.m in Sources */,
 				D63EDAC124E1989F009B305D /* blizzardJailbreak.m in Sources */,
+				D6B1D2D92891299100D7ECBE /* exploit.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

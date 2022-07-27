@@ -24,6 +24,7 @@
 
 mach_port_t kern_task = 0;
 #define KERNEL_HEADER_SIZE (0x1000)
+uint32_t sandbox_sbops;
 kaddr_t text_vmaddr = 0;
 size_t text_vmsize = 0;
 kaddr_t text_text_sec_addr = 0;
@@ -489,6 +490,8 @@ int blizzardGetTFP0(){
         patch_mount_common();
         printf("Patching cs_enforcement_disable...\n");
         patch_cs_enforcement_disable();
+        printf("Patching Sandbox' pe_I_can_has_debugger...\n");
+        patch_sb_i_can_has_debugger();
     } else {
         printf("FAILED to obtain Kernel Task Port!\n");
     }
@@ -543,7 +546,7 @@ int blizzardGetRoot(){
 int blizzardEscapeSandbox(){
     printf("[i] Preparing to escape SandBox...\n");
     printf("[i] Getting SBOPS Offset...\n");
-    uint32_t sandbox_sbops = find_sbops(KernelBase, kdata, 32 * 1024 * 1024);
+    sandbox_sbops = find_sbops(KernelBase, kdata, 32 * 1024 * 1024);
     
     if (sandbox_sbops != 0){
         printf("[+] Found SBOPS offset: %x\n", sandbox_sbops);
@@ -663,7 +666,7 @@ int blizzardPatchPMAP() {
 
 int patch_mount_common(){
     uint32_t mount_common = KernelBase + find_mount_check(KernelBase, kdata, 32 * 1024 * 1024);
-    printf(" -- [i] Found mount_common at 0x%08x\n", mount_common);
+    printf("  -- [i] Found mount_common at 0x%08x\n", mount_common);
     if (WriteKernel8(mount_common, 0xe0) != 0) {
         printf("[+] Successfully patched mount_common MACF check. \n");
         return 0;
@@ -675,10 +678,21 @@ int patch_mount_common(){
 int patch_cs_enforcement_disable(){
     uint32_t cs_enforcement_disable_amfi = KernelOffset(KernelBase, find_cs_enforcement_disable_amfi(KernelBase, kdata, ksize));
     uint32_t cs_enforcement_location = KernelBase + cs_enforcement_disable_amfi - 1;
-    printf(" -- [i] Patching cs_enforcement_disable at 0x%08x\n", cs_enforcement_location);
+    printf("  -- [i] Patching cs_enforcement_disable at 0x%08x\n", cs_enforcement_location);
     if (WriteKernel8(KernelBase + cs_enforcement_disable_amfi, 1) &&
         WriteKernel8(KernelBase + cs_enforcement_disable_amfi - 1, 1) != 0) {
         printf("[+] Succesfully patched cs_enforcement_disable!\n");
+        return 0;
+    } else {
+        return -1;
+    }
+}
+
+int patch_sb_i_can_has_debugger(){
+    uint32_t sbdebug = find_sb_i_can_has_debugger(KernelBase, kdata, ksize);
+    printf("  -- [i] Patching Sandbox' i_can_has_debugger at 0x%08lx\n", KernelBase + sbdebug);
+    if (WriteKernel32(KernelBase + sbdebug, 0xbf00bf00) != 0) {
+        printf("[+] Successfully patched Sandbox' i_can_has_debugger.\n");
         return 0;
     } else {
         return -1;

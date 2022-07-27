@@ -1783,3 +1783,37 @@ uint32_t find_sbops(uint32_t region, uint8_t* kdata, size_t ksize) {
 
     return sbops;
 }
+
+uint32_t find_sb_i_can_has_debugger(uint32_t region, uint8_t* kdata, size_t ksize) {
+    const struct find_search_mask search_masks_90[] =
+    {
+        {0xFFFF, 0xB590}, // PUSH {R4,R7,LR}
+        {0xFFFF, 0xAF01}, // ADD  R7, SP, #4
+        {0xFFFF, 0x2000}, // MOVS R0, #0
+        {0xFFFF, 0x2400}, // MOVS R4, #0
+        {0xF800, 0xF000}, // BL   i_can_has_debugger
+        {0xD000, 0xD000},
+        {0xFD07, 0xB100}  // CBZ  R0, loc_xxx
+    };
+    
+    const struct find_search_mask search_masks[] =
+    {
+        {0xFFFF, 0xB590}, // PUSH {R4,R7,LR}
+        {0xFFFF, 0x2000}, // MOVS R0, #0
+        {0xFFFF, 0xAF01}, // ADD  R7, SP, #4
+        {0xFFFF, 0x2400}, // MOVS R4, #0
+        {0xF800, 0xF000}, // BL   i_can_has_debugger
+        {0xD000, 0xD000},
+        {0xFD07, 0xB100}  // CBZ  R0, loc_xxx
+    };
+    
+    uint16_t* ptr = find_with_search_mask(region, kdata, ksize, sizeof(search_masks_90) / sizeof(*search_masks_90), search_masks_90);
+    if (!ptr) {
+        ptr = find_with_search_mask(region, kdata, ksize, sizeof(search_masks) / sizeof(*search_masks), search_masks);
+    }
+    if (!ptr)
+        return 0;
+    
+    uint32_t sbdbg = (uintptr_t)ptr + 8 - ((uintptr_t)kdata);
+    return sbdbg;
+}

@@ -1817,3 +1817,22 @@ uint32_t find_sb_i_can_has_debugger(uint32_t region, uint8_t* kdata, size_t ksiz
     uint32_t sbdbg = (uintptr_t)ptr + 8 - ((uintptr_t)kdata);
     return sbdbg;
 }
+
+uint32_t find_lwvm_call(uint32_t region, uint8_t* kdata, size_t ksize) {
+    char* faceable = memmem(kdata, ksize, "\xce\xab\x1e\xef\xfa\xce\xab\x1e", 8);
+    if (!faceable)
+        return -1;
+    char* lwvm_call_pointer = faceable + 0x78;
+    uint32_t lwvm_call = (uintptr_t)lwvm_call_pointer - (uintptr_t)kdata;
+    return lwvm_call;
+}
+
+uint32_t find_lwvm_call_offset(uint32_t region, uint8_t* kdata, size_t ksize) {
+    for (uint32_t i = 0; i < ksize; i += 2) {
+        if (*(uint64_t*)&kdata[i] == 0xf010798044406da0 && *(uint32_t*)&kdata[i+0x8] == 0xd0060f01 && *(uint16_t*)&kdata[i+0xC] == 0x4620) {
+            uint32_t lwvm_call_offset = i + 1;
+            return lwvm_call_offset;
+        }
+    }
+    return -1;
+}

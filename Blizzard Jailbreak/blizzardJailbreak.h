@@ -18,4 +18,5 @@ int blizzardPatchPMAP(void);
 int patch_mount_common(void);
 int patch_cs_enforcement_disable(void);
 int patch_sb_i_can_has_debugger(void);
+int blizzardRemountRootFS(void);
 #endif /* blizzardJailbreak_h */

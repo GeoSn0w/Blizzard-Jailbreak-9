@@ -492,6 +492,8 @@ int blizzardGetTFP0(){
         patch_cs_enforcement_disable();
         printf("Patching Sandbox' pe_I_can_has_debugger...\n");
         patch_sb_i_can_has_debugger();
+        printf("Remounting Root File System as R/W...\n");
+        blizzardRemountRootFS();
     } else {
         printf("FAILED to obtain Kernel Task Port!\n");
     }
@@ -697,4 +699,38 @@ int patch_sb_i_can_has_debugger(){
     } else {
         return -1;
     }
+}
+
+int blizzardRemountRootFS(){
+    FILE *testCase = fopen("/.blizzard", "w");
+    if (!testCase) {
+        printf("[i] The Root File System is Read-Only.\n");
+    }
+    else {
+        printf("[!] Already remounted Root File System as Read / Write. Wot...\n");
+        return -2;
+    }
+    
+    uint32_t lwvm_call = find_lwvm_call(KernelBase, kdata, ksize);
+    uint32_t lwvm_call_offset = find_lwvm_call_offset(KernelBase, kdata, ksize);
+    printf("   -- [i] Patching lwvm_call at 0x%08lx\n",
+         KernelBase + lwvm_call);
+    printf("   -- [i] Patching lwvm_call_offset at 0x%08lx\n",
+         KernelBase + lwvm_call_offset);
+    WriteKernel32(KernelBase + lwvm_call, KernelBase + lwvm_call_offset);
+    
+    printf("[i] Remounting the Root File System as Read / Write...\n");
+    char *volume = strdup("/dev/disk0s1s1");
+    int mountpoint = mount("hfs", "/", MNT_UPDATE, &volume);
+    printf("   -- [i] Root File System Remount Status: %d\n", mountpoint);
+    printf("[i] Testing current Root File System conditions...\n");
+    FILE *testFile = fopen("/.blizzard", "w");
+    if (!testFile) {
+        printf("[!] Failed to remount the Root File System! Patch failed.\n");
+        return -2;
+    }
+    else {
+        printf("[+] Successfully remounted Root File System as Read / Write\n");
+    }
+    return 0;
 }

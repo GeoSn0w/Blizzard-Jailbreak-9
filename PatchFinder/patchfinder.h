@@ -36,6 +36,7 @@ uint32_t find_p_bootargs(uint32_t region, uint8_t* kdata, size_t ksize);
 uint32_t find_p_bootargs_generic(uint32_t region, uint8_t* kdata, size_t ksize);
 
 // No ideas...
+uint32_t find_sbops(uint32_t region, uint8_t* kdata, size_t ksize);
 uint32_t find_csops(uint32_t region, uint8_t* kdata, size_t ksize);
 uint32_t find_mount_93(uint32_t region, uint8_t* kdata, size_t ksize);
 

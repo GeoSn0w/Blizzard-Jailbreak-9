@@ -1727,4 +1727,35 @@ uint32_t find_tfp0_patch(uint32_t region, uint8_t* kdata, size_t ksize)
     return ((uintptr_t)fn_start) + 6 - ((uintptr_t)kdata);
 }
 
+uint32_t find_sbops(uint32_t region, uint8_t* kdata, size_t ksize) {
+    char* seatbelt_sandbox_policy = memmem(kdata,
+                                           ksize,
+                                           "Seatbelt sandbox policy",
+                                           strlen("Seatbelt sandbox policy"));
+    printf("  -- [i] seatbelt_sandbox_policy 0x%08lx\n",
+         (uintptr_t)seatbelt_sandbox_policy);
+    if (!seatbelt_sandbox_policy)
+        return -1;
+    
+    uint32_t seatbelt =   (uintptr_t)seatbelt_sandbox_policy
+    - (uintptr_t)kdata
+    + region;
+    printf("  -- [i] seatbelt: 0x%08x\n", seatbelt);
+    
+    char* seatbelt_sandbox_policy_ptr = memmem(kdata,
+                                               ksize,
+                                               (char*)&seatbelt,
+                                               sizeof(seatbelt));
+    
+    printf("  -- [i] seatbelt_sandbox_policy_ptr 0x%08lx\n",
+         (uintptr_t)seatbelt_sandbox_policy_ptr);
+    if (!seatbelt_sandbox_policy_ptr)
+        return -1;
+    
+    uint32_t ptr_to_seatbelt =   (uintptr_t)seatbelt_sandbox_policy_ptr
+    - (uintptr_t)kdata;
+    uint32_t sbops = ptr_to_seatbelt + 0x24;
+
+    return sbops;
+}
 #endif

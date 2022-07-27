@@ -13,4 +13,6 @@ typedef uint32_t kaddr_t;
 int blizzardGetTFP0(void);
 kaddr_t blizzardGetAllproc(void);
 int blizzardGetRoot(void);
+int blizzardEscapeSandbox(void);
+void blizzardPatchPMAP(mach_port_t tfp0, uintptr_t kernBase);
 #endif /* blizzardJailbreak_h */

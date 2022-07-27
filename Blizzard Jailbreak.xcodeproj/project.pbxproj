@@ -1,0 +1,635 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 48;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		82F179F122DF4ED700231F8C /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 82F179F022DF4ED700231F8C /* AppDelegate.m */; };
+		82F179F722DF4ED700231F8C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 82F179F522DF4ED700231F8C /* Main.storyboard */; };
+		82F179F922DF4ED700231F8C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 82F179F822DF4ED700231F8C /* Assets.xcassets */; };
+		82F179FC22DF4ED700231F8C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 82F179FA22DF4ED700231F8C /* LaunchScreen.storyboard */; };
+		82F179FF22DF4ED700231F8C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 82F179FE22DF4ED700231F8C /* main.m */; };
+		D613B71B24E217D90069CA9B /* BlizzardLog.m in Sources */ = {isa = PBXBuildFile; fileRef = D613B71A24E217D90069CA9B /* BlizzardLog.m */; };
+		D613B75024E2CD5E0069CA9B /* BlizzardSpawnerTools.c in Sources */ = {isa = PBXBuildFile; fileRef = D613B74E24E2CD5E0069CA9B /* BlizzardSpawnerTools.c */; };
+		D63EDAC124E1989F009B305D /* blizzardJailbreak.m in Sources */ = {isa = PBXBuildFile; fileRef = D63EDABF24E1989F009B305D /* blizzardJailbreak.m */; };
+		D6FFA56224E1A59A00CAC2E2 /* blizzardView.m in Sources */ = {isa = PBXBuildFile; fileRef = D6FFA56124E1A59A00CAC2E2 /* blizzardView.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		82F17A0522DF4ED800231F8C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 82F179E422DF4ED700231F8C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 82F179EB22DF4ED700231F8C;
+			remoteInfo = socket_free;
+		};
+		82F17A1022DF4ED800231F8C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 82F179E422DF4ED700231F8C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 82F179EB22DF4ED700231F8C;
+			remoteInfo = socket_free;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		82F179EC22DF4ED700231F8C /* Blizzard Jailbreak.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Blizzard Jailbreak.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		82F179EF22DF4ED700231F8C /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		82F179F022DF4ED700231F8C /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		82F179F622DF4ED700231F8C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		82F179F822DF4ED700231F8C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		82F179FB22DF4ED700231F8C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		82F179FD22DF4ED700231F8C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		82F179FE22DF4ED700231F8C /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		82F17A0422DF4ED800231F8C /* Blizzard JailbreakTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Blizzard JailbreakTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		82F17A0F22DF4ED800231F8C /* Blizzard JailbreakUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Blizzard JailbreakUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		82F17A2822DF57B700231F8C /* IOKit.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = IOKit.tbd; path = socket_free/IOKit.tbd; sourceTree = "<group>"; };
+		D613B71924E217D90069CA9B /* BlizzardLog.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BlizzardLog.h; sourceTree = "<group>"; };
+		D613B71A24E217D90069CA9B /* BlizzardLog.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BlizzardLog.m; sourceTree = "<group>"; };
+		D613B72A24E2A7B70069CA9B /* liboffsetfinder64.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = liboffsetfinder64.a; path = "../electra1131-master/electra1131/libs/liboffsetfinder64.a"; sourceTree = "<group>"; };
+		D613B72B24E2A7B70069CA9B /* libplist.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libplist.a; path = "../electra1131-master/electra1131/libs/libplist.a"; sourceTree = "<group>"; };
+		D613B72C24E2A7B70069CA9B /* libplist++.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libplist++.a"; path = "../electra1131-master/electra1131/libs/libplist++.a"; sourceTree = "<group>"; };
+		D613B72D24E2A7B70069CA9B /* libmerged.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libmerged.a; path = "../electra1131-master/electra1131/libs/libmerged.a"; sourceTree = "<group>"; };
+		D613B72E24E2A7B70069CA9B /* libimg4tool.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libimg4tool.a; path = "../electra1131-master/electra1131/libs/libimg4tool.a"; sourceTree = "<group>"; };
+		D613B74A24E2B2560069CA9B /* libcompression.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libcompression.tbd; path = usr/lib/libcompression.tbd; sourceTree = SDKROOT; };
+		D613B74C24E2B25F0069CA9B /* libMobileGestalt.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libMobileGestalt.tbd; path = usr/lib/libMobileGestalt.tbd; sourceTree = SDKROOT; };
+		D613B74E24E2CD5E0069CA9B /* BlizzardSpawnerTools.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = BlizzardSpawnerTools.c; sourceTree = "<group>"; };
+		D613B74F24E2CD5E0069CA9B /* BlizzardSpawnerTools.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BlizzardSpawnerTools.h; sourceTree = "<group>"; };
+		D62CA20A24E1D95F002E6756 /* kerneldec */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; name = kerneldec; path = "../jelbrekLib-master/kerneldec/kerneldec"; sourceTree = "<group>"; };
+		D63EDABF24E1989F009B305D /* blizzardJailbreak.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = blizzardJailbreak.m; sourceTree = "<group>"; };
+		D63EDAC024E1989F009B305D /* blizzardJailbreak.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = blizzardJailbreak.h; sourceTree = "<group>"; };
+		D69C4C96256865BF001DE2BC /* IOKit.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = IOKit.tbd; path = ../ToolChain/IOKit.tbd; sourceTree = "<group>"; };
+		D69C4C9825686627001DE2BC /* IOKit.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = IOKit.tbd; path = "../ToolChain/Jailbreak Frameworks/IOKit.tbd"; sourceTree = "<group>"; };
+		D69C4CB5256868BB001DE2BC /* IOReturn.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IOReturn.h; sourceTree = "<group>"; };
+		D69C4CB6256868BB001DE2BC /* IOKitKeys.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IOKitKeys.h; sourceTree = "<group>"; };
+		D69C4CB7256868BB001DE2BC /* IOKitLib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IOKitLib.h; sourceTree = "<group>"; };
+		D69C4CB8256868BB001DE2BC /* IOTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IOTypes.h; sourceTree = "<group>"; };
+		D6FFA56024E1A59A00CAC2E2 /* blizzardView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = blizzardView.h; sourceTree = "<group>"; };
+		D6FFA56124E1A59A00CAC2E2 /* blizzardView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = blizzardView.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		82F179E922DF4ED700231F8C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		82F17A0122DF4ED800231F8C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		82F17A0C22DF4ED800231F8C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		82F179E322DF4ED700231F8C = {
+			isa = PBXGroup;
+			children = (
+				D69C4C9525686579001DE2BC /* Exploits */,
+				D6FFA55F24E19E0900CAC2E2 /* Blizzard Jailbreak */,
+				82F179ED22DF4ED700231F8C /* Products */,
+				82F17A2722DF57B700231F8C /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		82F179ED22DF4ED700231F8C /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				82F179EC22DF4ED700231F8C /* Blizzard Jailbreak.app */,
+				82F17A0422DF4ED800231F8C /* Blizzard JailbreakTests.xctest */,
+				82F17A0F22DF4ED800231F8C /* Blizzard JailbreakUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		82F17A2722DF57B700231F8C /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				D69C4C96256865BF001DE2BC /* IOKit.tbd */,
+				D69C4C9825686627001DE2BC /* IOKit.tbd */,
+				D613B74C24E2B25F0069CA9B /* libMobileGestalt.tbd */,
+				D613B74A24E2B2560069CA9B /* libcompression.tbd */,
+				D613B72E24E2A7B70069CA9B /* libimg4tool.a */,
+				D613B72D24E2A7B70069CA9B /* libmerged.a */,
+				D613B72A24E2A7B70069CA9B /* liboffsetfinder64.a */,
+				D613B72B24E2A7B70069CA9B /* libplist.a */,
+				D613B72C24E2A7B70069CA9B /* libplist++.a */,
+				D62CA20A24E1D95F002E6756 /* kerneldec */,
+				82F17A2822DF57B700231F8C /* IOKit.tbd */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		D69C4C9525686579001DE2BC /* Exploits */ = {
+			isa = PBXGroup;
+			children = (
+				D69C4CB4256868A8001DE2BC /* IOKit */,
+			);
+			path = Exploits;
+			sourceTree = "<group>";
+		};
+		D69C4CB4256868A8001DE2BC /* IOKit */ = {
+			isa = PBXGroup;
+			children = (
+				D69C4CB6256868BB001DE2BC /* IOKitKeys.h */,
+				D69C4CB7256868BB001DE2BC /* IOKitLib.h */,
+				D69C4CB5256868BB001DE2BC /* IOReturn.h */,
+				D69C4CB8256868BB001DE2BC /* IOTypes.h */,
+			);
+			path = IOKit;
+			sourceTree = "<group>";
+		};
+		D6FFA55F24E19E0900CAC2E2 /* Blizzard Jailbreak */ = {
+			isa = PBXGroup;
+			children = (
+				82F179FD22DF4ED700231F8C /* Info.plist */,
+				82F179EF22DF4ED700231F8C /* AppDelegate.h */,
+				82F179F022DF4ED700231F8C /* AppDelegate.m */,
+				82F179F822DF4ED700231F8C /* Assets.xcassets */,
+				82F179FE22DF4ED700231F8C /* main.m */,
+				82F179F522DF4ED700231F8C /* Main.storyboard */,
+				82F179FA22DF4ED700231F8C /* LaunchScreen.storyboard */,
+				D63EDAC024E1989F009B305D /* blizzardJailbreak.h */,
+				D63EDABF24E1989F009B305D /* blizzardJailbreak.m */,
+				D6FFA56024E1A59A00CAC2E2 /* blizzardView.h */,
+				D6FFA56124E1A59A00CAC2E2 /* blizzardView.m */,
+				D613B71924E217D90069CA9B /* BlizzardLog.h */,
+				D613B71A24E217D90069CA9B /* BlizzardLog.m */,
+				D613B74E24E2CD5E0069CA9B /* BlizzardSpawnerTools.c */,
+				D613B74F24E2CD5E0069CA9B /* BlizzardSpawnerTools.h */,
+			);
+			path = "Blizzard Jailbreak";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		82F179EB22DF4ED700231F8C /* Blizzard Jailbreak */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 82F17A1822DF4ED800231F8C /* Build configuration list for PBXNativeTarget "Blizzard Jailbreak" */;
+			buildPhases = (
+				82F179E822DF4ED700231F8C /* Sources */,
+				82F179E922DF4ED700231F8C /* Frameworks */,
+				82F179EA22DF4ED700231F8C /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Blizzard Jailbreak";
+			productName = socket_free;
+			productReference = 82F179EC22DF4ED700231F8C /* Blizzard Jailbreak.app */;
+			productType = "com.apple.product-type.application";
+		};
+		82F17A0322DF4ED800231F8C /* Blizzard JailbreakTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 82F17A1B22DF4ED800231F8C /* Build configuration list for PBXNativeTarget "Blizzard JailbreakTests" */;
+			buildPhases = (
+				82F17A0022DF4ED800231F8C /* Sources */,
+				82F17A0122DF4ED800231F8C /* Frameworks */,
+				82F17A0222DF4ED800231F8C /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				82F17A0622DF4ED800231F8C /* PBXTargetDependency */,
+			);
+			name = "Blizzard JailbreakTests";
+			productName = socket_freeTests;
+			productReference = 82F17A0422DF4ED800231F8C /* Blizzard JailbreakTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		82F17A0E22DF4ED800231F8C /* Blizzard JailbreakUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 82F17A1E22DF4ED800231F8C /* Build configuration list for PBXNativeTarget "Blizzard JailbreakUITests" */;
+			buildPhases = (
+				82F17A0B22DF4ED800231F8C /* Sources */,
+				82F17A0C22DF4ED800231F8C /* Frameworks */,
+				82F17A0D22DF4ED800231F8C /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				82F17A1122DF4ED800231F8C /* PBXTargetDependency */,
+			);
+			name = "Blizzard JailbreakUITests";
+			productName = socket_freeUITests;
+			productReference = 82F17A0F22DF4ED800231F8C /* Blizzard JailbreakUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		82F179E422DF4ED700231F8C /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 1010;
+				ORGANIZATIONNAME = GeoSn0w;
+				TargetAttributes = {
+					82F179EB22DF4ED700231F8C = {
+						CreatedOnToolsVersion = 9.2;
+						ProvisioningStyle = Automatic;
+					};
+					82F17A0322DF4ED800231F8C = {
+						CreatedOnToolsVersion = 9.2;
+						ProvisioningStyle = Automatic;
+						TestTargetID = 82F179EB22DF4ED700231F8C;
+					};
+					82F17A0E22DF4ED800231F8C = {
+						CreatedOnToolsVersion = 9.2;
+						ProvisioningStyle = Automatic;
+						TestTargetID = 82F179EB22DF4ED700231F8C;
+					};
+				};
+			};
+			buildConfigurationList = 82F179E722DF4ED700231F8C /* Build configuration list for PBXProject "Blizzard Jailbreak" */;
+			compatibilityVersion = "Xcode 8.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 82F179E322DF4ED700231F8C;
+			productRefGroup = 82F179ED22DF4ED700231F8C /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				82F179EB22DF4ED700231F8C /* Blizzard Jailbreak */,
+				82F17A0322DF4ED800231F8C /* Blizzard JailbreakTests */,
+				82F17A0E22DF4ED800231F8C /* Blizzard JailbreakUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		82F179EA22DF4ED700231F8C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				82F179FC22DF4ED700231F8C /* LaunchScreen.storyboard in Resources */,
+				82F179F922DF4ED700231F8C /* Assets.xcassets in Resources */,
+				82F179F722DF4ED700231F8C /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		82F17A0222DF4ED800231F8C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		82F17A0D22DF4ED800231F8C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		82F179E822DF4ED700231F8C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D6FFA56224E1A59A00CAC2E2 /* blizzardView.m in Sources */,
+				82F179FF22DF4ED700231F8C /* main.m in Sources */,
+				D613B75024E2CD5E0069CA9B /* BlizzardSpawnerTools.c in Sources */,
+				D613B71B24E217D90069CA9B /* BlizzardLog.m in Sources */,
+				82F179F122DF4ED700231F8C /* AppDelegate.m in Sources */,
+				D63EDAC124E1989F009B305D /* blizzardJailbreak.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		82F17A0022DF4ED800231F8C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		82F17A0B22DF4ED800231F8C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		82F17A0622DF4ED800231F8C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 82F179EB22DF4ED700231F8C /* Blizzard Jailbreak */;
+			targetProxy = 82F17A0522DF4ED800231F8C /* PBXContainerItemProxy */;
+		};
+		82F17A1122DF4ED800231F8C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 82F179EB22DF4ED700231F8C /* Blizzard Jailbreak */;
+			targetProxy = 82F17A1022DF4ED800231F8C /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		82F179F522DF4ED700231F8C /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				82F179F622DF4ED700231F8C /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		82F179FA22DF4ED700231F8C /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				82F179FB22DF4ED700231F8C /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		82F17A1622DF4ED800231F8C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		82F17A1722DF4ED800231F8C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		82F17A1922DF4ED800231F8C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = U7CBM293CM;
+				ENABLE_BITCODE = NO;
+				HEADER_SEARCH_PATHS = "";
+				INFOPLIST_FILE = "$(SRCROOT)/Blizzard Jailbreak/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
+				OTHER_LDFLAGS = (
+					"-framework",
+					IOKit,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.geosn0w.blizzard;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				TARGETED_DEVICE_FAMILY = 1;
+				USER_HEADER_SEARCH_PATHS = "";
+				VALID_ARCHS = "arm64 arm64e armv7";
+			};
+			name = Debug;
+		};
+		82F17A1A22DF4ED800231F8C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = U7CBM293CM;
+				ENABLE_BITCODE = NO;
+				HEADER_SEARCH_PATHS = "";
+				INFOPLIST_FILE = "$(SRCROOT)/Blizzard Jailbreak/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
+				OTHER_LDFLAGS = (
+					"-framework",
+					IOKit,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.geosn0w.blizzard;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				TARGETED_DEVICE_FAMILY = 1;
+				USER_HEADER_SEARCH_PATHS = "";
+				VALID_ARCHS = "arm64 arm64e armv7";
+			};
+			name = Release;
+		};
+		82F17A1C22DF4ED800231F8C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 22G2QV87A2;
+				INFOPLIST_FILE = socket_freeTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.jakeashacks.socket-freeTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Blizzard Jailbreak.app/Blizzard Jailbreak";
+			};
+			name = Debug;
+		};
+		82F17A1D22DF4ED800231F8C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 22G2QV87A2;
+				INFOPLIST_FILE = socket_freeTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.jakeashacks.socket-freeTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Blizzard Jailbreak.app/Blizzard Jailbreak";
+			};
+			name = Release;
+		};
+		82F17A1F22DF4ED800231F8C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 22G2QV87A2;
+				INFOPLIST_FILE = socket_freeUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.jakeashacks.socket-freeUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = socket_free;
+			};
+			name = Debug;
+		};
+		82F17A2022DF4ED800231F8C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 22G2QV87A2;
+				INFOPLIST_FILE = socket_freeUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.jakeashacks.socket-freeUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = socket_free;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		82F179E722DF4ED700231F8C /* Build configuration list for PBXProject "Blizzard Jailbreak" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				82F17A1622DF4ED800231F8C /* Debug */,
+				82F17A1722DF4ED800231F8C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		82F17A1822DF4ED800231F8C /* Build configuration list for PBXNativeTarget "Blizzard Jailbreak" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				82F17A1922DF4ED800231F8C /* Debug */,
+				82F17A1A22DF4ED800231F8C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		82F17A1B22DF4ED800231F8C /* Build configuration list for PBXNativeTarget "Blizzard JailbreakTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				82F17A1C22DF4ED800231F8C /* Debug */,
+				82F17A1D22DF4ED800231F8C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		82F17A1E22DF4ED800231F8C /* Build configuration list for PBXNativeTarget "Blizzard JailbreakUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				82F17A1F22DF4ED800231F8C /* Debug */,
+				82F17A2022DF4ED800231F8C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 82F179E422DF4ED700231F8C /* Project object */;
+}

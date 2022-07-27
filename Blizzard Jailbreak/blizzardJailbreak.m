@@ -485,6 +485,8 @@ int blizzardGetTFP0(){
         blizzardEscapeSandbox();
         printf("Patching Kernel PMAP...\n");
         blizzardPatchPMAP();
+        printf("Patching mount_common MACF check...\n");
+        patch_mount_common();
     } else {
         printf("FAILED to obtain Kernel Task Port!\n");
     }
@@ -655,4 +657,15 @@ int blizzardPatchPMAP() {
     printf("[+] Successfully patched Kernel PMAP!\n");
     usleep(100000);
     return 0;
+}
+
+int patch_mount_common(){
+    uint32_t mount_common = KernelBase + find_mount_check(KernelBase, kdata, 32 * 1024 * 1024);
+    printf(" -- [i] Found mount_common at 0x%08x\n", mount_common);
+    if (WriteKernel8(mount_common, 0xe0) != 0) {
+        printf("[+] Successfully patched mount_common MACF check. \n");
+        return 0;
+    } else {
+        return -1;
+    }
 }

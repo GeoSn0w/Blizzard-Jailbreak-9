@@ -16,7 +16,7 @@
 		D613B75024E2CD5E0069CA9B /* BlizzardSpawnerTools.c in Sources */ = {isa = PBXBuildFile; fileRef = D613B74E24E2CD5E0069CA9B /* BlizzardSpawnerTools.c */; };
 		D63EDAC124E1989F009B305D /* blizzardJailbreak.m in Sources */ = {isa = PBXBuildFile; fileRef = D63EDABF24E1989F009B305D /* blizzardJailbreak.m */; };
 		D6B1D2D92891299100D7ECBE /* exploit.c in Sources */ = {isa = PBXBuildFile; fileRef = D6B1D2D82891299100D7ECBE /* exploit.c */; };
-		D6B1D2EA28912EEE00D7ECBE /* patchfinder.c in Sources */ = {isa = PBXBuildFile; fileRef = D6B1D2E928912EEE00D7ECBE /* patchfinder.c */; };
+		D6B1D2EA28912EEE00D7ECBE /* patchfinder.m in Sources */ = {isa = PBXBuildFile; fileRef = D6B1D2E928912EEE00D7ECBE /* patchfinder.m */; };
 		D6B1D2ED2891348B00D7ECBE /* KernMemory.m in Sources */ = {isa = PBXBuildFile; fileRef = D6B1D2EC2891348B00D7ECBE /* KernMemory.m */; };
 		D6FFA56224E1A59A00CAC2E2 /* blizzardView.m in Sources */ = {isa = PBXBuildFile; fileRef = D6FFA56124E1A59A00CAC2E2 /* blizzardView.m */; };
 /* End PBXBuildFile section */
@@ -86,7 +86,7 @@
 		D6B1D2E528912B0100D7ECBE /* IOSharedLock.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IOSharedLock.h; sourceTree = "<group>"; };
 		D6B1D2E628912B1100D7ECBE /* OSMessageNotification.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OSMessageNotification.h; sourceTree = "<group>"; };
 		D6B1D2E828912EEE00D7ECBE /* patchfinder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = patchfinder.h; sourceTree = "<group>"; };
-		D6B1D2E928912EEE00D7ECBE /* patchfinder.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = patchfinder.c; sourceTree = "<group>"; };
+		D6B1D2E928912EEE00D7ECBE /* patchfinder.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = patchfinder.m; sourceTree = "<group>"; };
 		D6B1D2EC2891348B00D7ECBE /* KernMemory.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KernMemory.m; sourceTree = "<group>"; };
 		D6B1D2EF289134D400D7ECBE /* CommonStuff.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CommonStuff.h; sourceTree = "<group>"; };
 		D6B1D2F02891353200D7ECBE /* KernMemory.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KernMemory.h; sourceTree = "<group>"; };
@@ -206,7 +206,7 @@
 			isa = PBXGroup;
 			children = (
 				D6B1D2E828912EEE00D7ECBE /* patchfinder.h */,
-				D6B1D2E928912EEE00D7ECBE /* patchfinder.c */,
+				D6B1D2E928912EEE00D7ECBE /* patchfinder.m */,
 			);
 			path = PatchFinder;
 			sourceTree = "<group>";
@@ -390,7 +390,7 @@
 				82F179F122DF4ED700231F8C /* AppDelegate.m in Sources */,
 				D6B1D2ED2891348B00D7ECBE /* KernMemory.m in Sources */,
 				D63EDAC124E1989F009B305D /* blizzardJailbreak.m in Sources */,
-				D6B1D2EA28912EEE00D7ECBE /* patchfinder.c in Sources */,
+				D6B1D2EA28912EEE00D7ECBE /* patchfinder.m in Sources */,
 				D6B1D2D92891299100D7ECBE /* exploit.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

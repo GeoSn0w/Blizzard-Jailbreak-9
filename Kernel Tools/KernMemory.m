@@ -47,7 +47,7 @@ __unused kaddr_t wk16(kaddr_t addr, uint16_t val) {
     return val;
 }
 
-__unused kaddr_t wk8(kaddr_t addr, uint8_t val) {
+__unused kaddr_t WriteKernel8(kaddr_t addr, uint8_t val) {
     copyout(addr, &val, 1);
     return val;
 }

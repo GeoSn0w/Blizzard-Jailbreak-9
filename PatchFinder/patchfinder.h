@@ -6,6 +6,7 @@
 #include <stdint.h>
 #include <string.h>
 
+uint32_t find_mount_check(uint32_t region, uint8_t* kdata, size_t ksize);
 // Helper gadget.
 uint32_t find_ret0_gadget(uint32_t region, uint8_t* kdata, size_t ksize);
 uint32_t find_ret1_gadget(uint32_t region, uint8_t* kdata, size_t ksize);

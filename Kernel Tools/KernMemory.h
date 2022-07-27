@@ -23,7 +23,7 @@ void copyout(kaddr_t to, void* from, size_t size);
 uint32_t ReadKernel32(kaddr_t addr);
 kaddr_t WriteKernel32(kaddr_t addr, uint32_t val);
 __unused kaddr_t wk16(kaddr_t addr, uint16_t val);
-__unused kaddr_t wk8(kaddr_t addr, uint8_t val);
+__unused kaddr_t WriteKernel8(kaddr_t addr, uint8_t val);
 
 kaddr_t rkptr(kaddr_t addr);
 kaddr_t wkptr(kaddr_t addr, kaddr_t val);

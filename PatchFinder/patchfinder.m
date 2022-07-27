@@ -6,10 +6,10 @@
 //  Copyright © 2022 GeoSn0w. All rights reserved.
 //
 
-#ifndef __LP64__
 #include <stdint.h>
 #include <string.h>
 #include "patchfinder.h"
+#include <UIKit/UIKit.h>
 
 static uint32_t bit_range(uint32_t x, int start, int end)
 {
@@ -1112,6 +1112,31 @@ uint32_t find_mount_93(uint32_t region, uint8_t* kdata, size_t ksize){
     return ((uintptr_t)insn) - ((uintptr_t)kdata) + 1;
 }
 
+uint32_t find_mount_check(uint32_t region, uint8_t* kdata, size_t ksize) {
+    char *version = (char*)[[[UIDevice currentDevice] systemVersion]
+                            UTF8String];
+    float version_float = strtof(version, 0);
+    for (uint32_t i = 0; i < ksize; i++) {
+        if (version_float == (float)9.3) {
+            if (*(uint64_t*)&kdata[i] == 0x2501d1030f01f01b && *(uint32_t*)&kdata[i+0x8] == 0x2501e016) {
+                uint32_t mount_common = i + 0x5;
+                return mount_common;
+            }
+        } else if (version_float == (float)9.0) {
+            if ((*(uint64_t*)&kdata[i] & 0x00ffffffffffffff) == 0xd4d0060f01f010) {
+                uint32_t mount_common = i + 0x5;
+                return mount_common;
+            }
+        } else {
+            if (*(uint32_t*)&kdata[i] == 0x0f01f010 && *(uint8_t*)&kdata[i+0x5] == 0xd0 && *(uint32_t*)&kdata[i+0xe] == 0x0f40f010 && *(uint8_t*)&kdata[i+0x13] == 0xd0) {
+                uint32_t mount_common = i + 0x5;
+                return mount_common;
+            }
+        }
+    }
+    return -1;
+}
+
 // Replace with NOP
 uint32_t find_csops(uint32_t region, uint8_t* kdata, size_t ksize)
 {
@@ -1758,4 +1783,3 @@ uint32_t find_sbops(uint32_t region, uint8_t* kdata, size_t ksize) {
 
     return sbops;
 }
-#endif

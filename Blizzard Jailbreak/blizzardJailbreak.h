@@ -15,4 +15,5 @@ kaddr_t blizzardGetAllproc(void);
 int blizzardGetRoot(void);
 int blizzardEscapeSandbox(void);
 int blizzardPatchPMAP(void);
+int patch_mount_common(void);
 #endif /* blizzardJailbreak_h */

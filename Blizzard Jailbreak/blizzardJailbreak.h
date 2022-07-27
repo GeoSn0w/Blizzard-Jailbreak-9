@@ -14,5 +14,5 @@ int blizzardGetTFP0(void);
 kaddr_t blizzardGetAllproc(void);
 int blizzardGetRoot(void);
 int blizzardEscapeSandbox(void);
-void blizzardPatchPMAP(mach_port_t tfp0, uintptr_t kernBase);
+int blizzardPatchPMAP(void);
 #endif /* blizzardJailbreak_h */

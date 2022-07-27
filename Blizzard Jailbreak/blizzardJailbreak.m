@@ -15,6 +15,7 @@
 #include <spawn.h>
 #include "BlizzardLog.h"
 #import "../Exploits/Phoenix Exploit/exploit.h"
+#import "../PatchFinder/patchfinder.h"
 
 mach_port_t kern_task = 0;
 
@@ -31,3 +32,6 @@ int blizzardGetTFP0(){
     return 0;
 }
 
+int blizzardGetRoot(){
+    return 0;
+}

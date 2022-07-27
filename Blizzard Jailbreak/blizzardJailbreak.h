@@ -9,5 +9,8 @@
 #define blizzardJailbreak_h
 
 #include <stdio.h>
+typedef uint32_t kaddr_t;
 int blizzardGetTFP0(void);
+kaddr_t blizzardGetAllproc(void);
+int blizzardGetRoot(void);
 #endif /* blizzardJailbreak_h */

@@ -487,6 +487,8 @@ int blizzardGetTFP0(){
         blizzardPatchPMAP();
         printf("Patching mount_common MACF check...\n");
         patch_mount_common();
+        printf("Patching cs_enforcement_disable...\n");
+        patch_cs_enforcement_disable();
     } else {
         printf("FAILED to obtain Kernel Task Port!\n");
     }
@@ -664,6 +666,19 @@ int patch_mount_common(){
     printf(" -- [i] Found mount_common at 0x%08x\n", mount_common);
     if (WriteKernel8(mount_common, 0xe0) != 0) {
         printf("[+] Successfully patched mount_common MACF check. \n");
+        return 0;
+    } else {
+        return -1;
+    }
+}
+
+int patch_cs_enforcement_disable(){
+    uint32_t cs_enforcement_disable_amfi = KernelOffset(KernelBase, find_cs_enforcement_disable_amfi(KernelBase, kdata, ksize));
+    uint32_t cs_enforcement_location = KernelBase + cs_enforcement_disable_amfi - 1;
+    printf(" -- [i] Patching cs_enforcement_disable at 0x%08x\n", cs_enforcement_location);
+    if (WriteKernel8(KernelBase + cs_enforcement_disable_amfi, 1) &&
+        WriteKernel8(KernelBase + cs_enforcement_disable_amfi - 1, 1) != 0) {
+        printf("[+] Succesfully patched cs_enforcement_disable!\n");
         return 0;
     } else {
         return -1;

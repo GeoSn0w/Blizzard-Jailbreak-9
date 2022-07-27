@@ -16,4 +16,5 @@ int blizzardGetRoot(void);
 int blizzardEscapeSandbox(void);
 int blizzardPatchPMAP(void);
 int patch_mount_common(void);
+int patch_cs_enforcement_disable(void);
 #endif /* blizzardJailbreak_h */

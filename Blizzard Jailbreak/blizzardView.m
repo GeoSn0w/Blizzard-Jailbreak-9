@@ -8,6 +8,8 @@
 
 #import "blizzardView.h"
 #include "blizzardJailbreak.h"
+#import <sys/utsname.h>
+
 #define iosVersionSupport(v)  ([[[UIDevice currentDevice] systemVersion] compare:@v options:NSNumericSearch] != NSOrderedDescending)
 
 @interface blizzardView () <UITextFieldDelegate>
@@ -18,8 +20,17 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.nonceField.delegate = self;
     printf("Blizzard Jailbreak\nby GeoSn0w (@FCE365)\n\nAn Open-Source Jailbreak for you to study and dissect :-)\n");
+    
+    struct utsname uts;
+    uname(&uts);
+    
+    if (strstr(uts.version, "Blizzard")) {
+        printf("%s %s %s\n", uts.sysname, uts.version, uts.release);
+        printf("[i] Already Jailbroken\n");
+        self->_blizzardInit.enabled = NO;
+        [self->_blizzardInit setTitle:@"JAILBROKEN" forState:UIControlStateDisabled];
+    }
 }
 - (IBAction)blizzardInit:(id)sender {
     if (iosVersionSupport("9.3.5")){

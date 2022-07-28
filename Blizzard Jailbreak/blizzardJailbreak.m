@@ -988,10 +988,24 @@ int installDropbearSSH(){
     mkdir("/etc/dropbear/", 0777);
     unlink("/Library/LaunchDaemons/dropbear.plist");
     
-    if (copyfile([[[NSBundle mainBundle] resourcePath]stringByAppendingString:@"/dropbear"].UTF8String, "/usr/local/bin/dropbear", NULL, COPYFILE_ALL) != 0 && copyfile([[[NSBundle mainBundle] resourcePath]stringByAppendingString:@"/dropbearconvert"].UTF8String, "/usr/local/bin/dropbearconvert", NULL, COPYFILE_ALL) != 0 && copyfile([[[NSBundle mainBundle] resourcePath]stringByAppendingString:@"/dropbearkey"].UTF8String, "/usr/local/bin/dropbearkey", NULL, COPYFILE_ALL) != 0 && copyfile([[[NSBundle mainBundle] resourcePath]stringByAppendingString:@"/motd"].UTF8String, "/etc/motd", NULL, COPYFILE_ALL) != 0 && copyfile([[[NSBundle mainBundle] resourcePath]stringByAppendingString:@"/dropbear.plist"].UTF8String, "/Library/LaunchDaemons/dropbear.plist", NULL, COPYFILE_ALL) != 0){
-        printf("[!] Could not install Dropbear!\n");
+    NSString *dropbearPath = [[[NSBundle mainBundle] resourcePath]stringByAppendingString:@"/dropbear.tar"];
+    const char *dropBearArchive = [dropbearPath UTF8String];
+    
+    NSString *tarBinaryPath = [[[NSBundle mainBundle] resourcePath]stringByAppendingString:@"/tar"];
+    const char *tarApplication = [tarBinaryPath UTF8String];
+    
+    char *argv[] = {tarApplication, "-xf",
+        dropBearArchive, "-C", "/", "--preserve-permissions",
+        NULL};
+    
+    if (posix_spawn(&processID, tarApplication, NULL, NULL, argv, environment) != 0){
+        printf("[!] Failed to extract Dropbear Archive.\n");
         return -1;
     }
+    
+    copyfile([[[NSBundle mainBundle] resourcePath]stringByAppendingString:@"/motd"].UTF8String, "/etc/motd", NULL, COPYFILE_ALL);
+        
+    sleep(5);
     chmod("/usr/local/bin/dropbear", 0775);
     chown("/usr/local/bin/dropbear", 0, 0);
     
@@ -1003,6 +1017,13 @@ int installDropbearSSH(){
     
     chmod("/Library/LaunchDaemons/dropbear.plist", 0644);
     chown("/Library/LaunchDaemons/dropbear.plist", 0, 0);
+    
+    chmod("/etc/motd", 0644);
+    chown("/etc/motd", 0, 0);
+    
+    spawnBinaryAtPath("/usr/local/bin/dropbearkey -t rsa -f /etc/dropbear/dropbear_rsa_host_key");
+    spawnBinaryAtPath("/usr/local/bin/dropbearkey -t dss -f /etc/dropbear/dropbear_dss_host_key");
+    spawnBinaryAtPath("/usr/local/bin/dropbearkey -t ecdsa -f /etc/dropbear/dropbear_ecdsa_host_key");
     return 0;
 }
 

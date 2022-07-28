@@ -16,9 +16,11 @@
 #include <mach-o/dyld.h>
 #include <sys/stat.h>
 #include <sys/mount.h>
+#include <sys/sysctl.h>
 #include <mach/mach.h>
 #include <sys/mman.h>
 #include <spawn.h>
+#include <sys/utsname.h>
 #include "BlizzardLog.h"
 #import "../Exploits/Phoenix Exploit/exploit.h"
 #import "../PatchFinder/patchfinder.h"
@@ -497,6 +499,11 @@ int blizzardGetTFP0(){
         patch_mount_common();
         printf("Patching cs_enforcement_disable...\n");
         patch_cs_enforcement_disable();
+        printf("Patching amfi_pe_i_can_has_debugger...\n");
+        patch_amfi_pe_i_can_has_debugger();
+        patch_second_amfi_pe_i_can_has_debugger();
+        printf("Patching AMFI File MMAP...\n");
+        patch_amfi_mmap();
         printf("Patching Sandbox' pe_I_can_has_debugger...\n");
         patch_sb_i_can_has_debugger();
         printf("Remounting Root File System as R/W...\n");
@@ -700,9 +707,8 @@ int patch_mount_common(){
 }
 
 int patch_cs_enforcement_disable(){
-    uint32_t cs_enforcement_disable_amfi = KernelOffset(KernelBase, find_cs_enforcement_disable_amfi(KernelBase, kdata, ksize));
-    uint32_t cs_enforcement_location = KernelBase + cs_enforcement_disable_amfi - 1;
-    printf("  -- [i] Patching cs_enforcement_disable at 0x%08x\n", cs_enforcement_location);
+    uint32_t cs_enforcement_disable_amfi = find_cs_enforcement_disable_amfi(KernelBase, kdata, ksize);
+    printf("  -- [i] Patching cs_enforcement_disable at 0x%08x\n", cs_enforcement_disable_amfi);
     if (WriteKernel8(KernelBase + cs_enforcement_disable_amfi, 1) &&
         WriteKernel8(KernelBase + cs_enforcement_disable_amfi - 1, 1) != 0) {
         printf("[+] Succesfully patched cs_enforcement_disable!\n");
@@ -710,6 +716,27 @@ int patch_cs_enforcement_disable(){
     } else {
         return -1;
     }
+}
+
+int patch_amfi_pe_i_can_has_debugger(){
+    uint32_t PE_i_can_has_debugger_1 = find_PE_i_can_has_debugger_uno(KernelBase, kdata, ksize);
+    printf("[i] Patching PE_i_can_has_debugger_1 at 0x%08x\n",PE_i_can_has_debugger_1);
+    WriteKernel32(KernelBase + PE_i_can_has_debugger_1, 1);
+    return 0;
+}
+
+int patch_second_amfi_pe_i_can_has_debugger(){
+    uint32_t PE_i_can_has_debugger_2 = find_PE_i_can_has_debugger_dos(KernelBase, kdata, ksize);
+    printf("[i] Patching PE_i_can_has_debugger_2 at 0x%08x\n",PE_i_can_has_debugger_2);
+    WriteKernel32(KernelBase + PE_i_can_has_debugger_2, 1);
+    return 0;
+}
+
+int patch_amfi_mmap(){
+    uint32_t amfi_file_check_mmap = find_amfi_file_check_mmap(KernelBase, kdata, ksize);
+    printf("[i] Patching amfi_file_check_mmap at 0x%08lx\n", KernelBase + amfi_file_check_mmap);
+    WriteKernel32(KernelBase + amfi_file_check_mmap, 0xbf00bf00);
+    return 0;
 }
 
 int patch_sb_i_can_has_debugger(){
@@ -762,8 +789,12 @@ int getBootstrapReady(){
     NSString *tarBinaryPath = [[[NSBundle mainBundle] resourcePath]stringByAppendingString:@"/tar"];
     const char *tarApplication = [tarBinaryPath UTF8String];
     
+    printf("TAR path: %s\n", tarApplication);
+    
     NSString *BlizzardBootstrapPath = [[[NSBundle mainBundle] resourcePath]stringByAppendingString:@"/blizzard.tar"];
     const char *blizzardBootstrapArchive = [BlizzardBootstrapPath UTF8String];
+    
+    printf("Blizzard Strap: %s\n", blizzardBootstrapArchive);
     
     NSString *blizzardLaunchCtlPath = [[[NSBundle mainBundle] resourcePath]stringByAppendingString:@"/launchctl"];
     const char *launchctlPath = [blizzardLaunchCtlPath UTF8String];
@@ -775,6 +806,7 @@ int getBootstrapReady(){
     
     printf("   -- [i] Fixing Bootstrap permissions...\n");
     chmod(blizzardBootstrapArchive, 0777);
+    chmod(tarApplication, 0777);
     
     if (blizzardInstallBootstrap(tarApplication, blizzardBootstrapArchive, launchctlPath) != 0) {
         printf("[!] Failed to get Bootstrap installed.\n");
@@ -803,9 +835,13 @@ int fixBinaryPermissions(){
 }
 
 int copyBaseBinariesToPath(){
-    copyfile([[[NSBundle mainBundle] resourcePath]stringByAppendingString:@"/tar"].UTF8String, "/bin/tar", NULL, COPYFILE_ALL);
+    if (copyfile([[[NSBundle mainBundle] resourcePath]stringByAppendingString:@"/tar"].UTF8String, "/bin/tar", NULL, COPYFILE_ALL) != 0){
+        printf("[!!!] FAILED TO COPY SHIT!\n");
+    }
     
-    copyfile([[[NSBundle mainBundle] resourcePath]stringByAppendingString:@"/launchctl"].UTF8String, "/bin/launchctl", NULL, COPYFILE_ALL);
+    if (copyfile([[[NSBundle mainBundle] resourcePath]stringByAppendingString:@"/launchctl"].UTF8String, "/bin/launchctl", NULL, COPYFILE_ALL) != 0){
+        printf("[!!!] FAILED TO COPY launchtl!\n");
+    }
     return 0;
 }
 
@@ -869,9 +905,8 @@ int blizzardInstallBootstrap(const char *tarbin, const char* bootstrap, const ch
     char *argv[] = {tarbin, "-xf",
                     bootstrap, "-C", "/", "--preserve-permissions",
                     NULL};
-    posix_spawn(&processID, tarbin, NULL, NULL, argv, environment);
     
-    if (processID == 0){
+    if (posix_spawn(&processID, tarbin, NULL, NULL, argv, environment) != 0){
         printf("[!] Failed to extract Bootstrap Archive.\n");
         return -1;
     }

@@ -10,6 +10,10 @@
 #include <string.h>
 #include "patchfinder.h"
 #include <UIKit/UIKit.h>
+#include <sys/stat.h>
+#include <sys/mount.h>
+#include <sys/sysctl.h>
+#include <sys/utsname.h>
 
 static uint32_t bit_range(uint32_t x, int start, int end)
 {
@@ -783,26 +787,11 @@ uint32_t find_vnode_enforce(uint32_t region, uint8_t* kdata, size_t ksize)
     return *vnode_enforce_ptr - region;
 }
 
-// Write 1 here.
-uint32_t find_cs_enforcement_disable_amfi(uint32_t region, uint8_t* kdata, size_t ksize)
-{
-    // Find a function referencing cs_enforcement_disable_amfi
-    const uint8_t search_function[] = {0x20, 0x68, 0x40, 0xF4, 0x40, 0x70, 0x20, 0x60, 0x00, 0x20, 0x90, 0xBD};
-    uint8_t* ptr = memmem(kdata, ksize, search_function, sizeof(search_function));
-    if(!ptr)
-        return 0;
-    
-    // Only LDRB in there should try to dereference cs_enforcement_disable_amfi
-    uint16_t* ldrb = find_last_insn_matching(region, kdata, ksize, (uint16_t*) ptr, insn_is_ldrb_imm);
-    if(!ldrb)
-        return 0;
-    
-    // Weird, not the right one.
-    if(insn_ldrb_imm_imm(ldrb) != 0 || insn_ldrb_imm_rt(ldrb) > 12)
-        return 0;
-    
-    // See what address that LDRB is dereferencing
-    return find_pc_rel_value(region, kdata, ksize, ldrb, insn_ldrb_imm_rn(ldrb));
+uint32_t find_cs_enforcement_disable_amfi(uint32_t region, uint8_t* kdata, size_t ksize) {
+    char* amfi = memmem(kdata, ksize, "com.apple.driver.AppleMobileFileIntegrity", strlen("com.apple.driver.AppleMobileFileIntegrity"));
+    uint32_t cs_enforcement_disable_amfi = (uintptr_t)amfi - (uintptr_t)kdata + 0xb1;
+    printf("[*] cs_enforcement_disable_amfi: 0x%08x\n", cs_enforcement_disable_amfi);
+    return cs_enforcement_disable_amfi;
 }
 
 uint32_t find_vm_fault_enter_patch(uint32_t region, uint8_t* kdata, size_t ksize)
@@ -1836,3 +1825,225 @@ uint32_t find_lwvm_call_offset(uint32_t region, uint8_t* kdata, size_t ksize) {
     }
     return -1;
 }
+
+uint32_t find_amfi_file_check_mmap(uint32_t region, uint8_t* kdata, size_t ksize) {
+    uint8_t* rootless = memmem(kdata, ksize, "com.apple.rootless.install", sizeof("com.apple.rootless.install"));
+    if (!rootless)
+        return 0;
+
+    uint16_t* ref = find_literal_ref(region, kdata, ksize, (uint16_t*) kdata, (uintptr_t)rootless - (uintptr_t)kdata);
+    if (!ref)
+        return 0;
+    
+    int i=0;
+    while (1){
+        if (i>16)
+            return 0;
+        if ((ref[i] & 0xfff0) == 0xbf10)
+            break;
+        i++;
+    }
+    ref += (i-1);
+    uint32_t amfi_file_check_mmap = (uintptr_t)ref - (uintptr_t)kdata;
+    return amfi_file_check_mmap;
+}
+
+/*
+THANKS TO zachary7829 FOR THESE HARDCODED OFFSETS FOR PE_I_CAN_HAS_DEBUGGER. MY PATCH REFUSED TO WORK FOR SOME REASON SO IT'S HARDCODED FOR NOW.
+*/
+
+NSString *KernelVersion(void) {
+    size_t size;
+    sysctlbyname("kern.version", NULL, &size, NULL, 0);
+    char *kernelVersion = malloc(size);
+    sysctlbyname("kern.version", kernelVersion, &size, NULL, 0);
+    char *newkernv = malloc(size - 44);
+    char *semicolon = strchr(kernelVersion, '~');
+    int indexofsemi = (int)(semicolon - kernelVersion);
+    int indexofrootxnu = indexofsemi;
+    while (kernelVersion[indexofrootxnu - 1] != '-') {
+        indexofrootxnu -= 1;
+    }
+    memcpy(newkernv, &kernelVersion[indexofrootxnu], indexofsemi - indexofrootxnu + 2);
+    newkernv[indexofsemi - indexofrootxnu + 2] = '\0';
+    return [NSString stringWithUTF8String:newkernv];
+}
+
+// Thanks to zachary7829
+
+uint32_t find_PE_i_can_has_debugger_uno(uint32_t region, uint8_t* kdata, size_t ksize) {
+    uint32_t PE_i_can_has_debugger_1;
+    struct utsname systemInfo;
+    uname(&systemInfo);
+    NSArray *isA5orA5X = [NSArray arrayWithObjects:@"iPad2,1",@"iPad2,2",@"iPad2,3",@"iPad2,4",@"iPad2,5",@"iPad2,6",@"iPad2,7",@"iPad3,1",@"iPad3,2",@"iPad3,3",@"iPhone4,1",@"iPod5,1", nil];
+    if([isA5orA5X containsObject:[NSString stringWithCString:systemInfo.machine encoding:NSUTF8StringEncoding]]) {
+        if ([[NSArray arrayWithObjects:@"3248.61.1~1", nil] containsObject:KernelVersion()]) { //9.3.5-9.3.6
+            PE_i_can_has_debugger_1 = 0x3a82c4;
+        } else if ([[NSArray arrayWithObjects:@"3248.60.9~1", nil] containsObject:KernelVersion()]) { //9.3.3b4-9.3.4
+            PE_i_can_has_debugger_1 = 0x3a82d4;
+        } else if ([[NSArray arrayWithObjects:@"3248.60.8~1", nil] containsObject:KernelVersion()]) { //9.3.3b3
+            PE_i_can_has_debugger_1 = 0x3a8424;
+        } else if ([[NSArray arrayWithObjects:@"3248.60.4~1", nil] containsObject:KernelVersion()]) { //9.3.3b2
+            PE_i_can_has_debugger_1 = 0x3a81f4;
+        } else if ([[NSArray arrayWithObjects:@"3248.60.3~3", nil] containsObject:KernelVersion()]) { //9.3.3b1
+            PE_i_can_has_debugger_1 = 0x3a8294;
+        } else if ([[NSArray arrayWithObjects:@"3248.50.21~4", nil] containsObject:KernelVersion()]) { //9.3.2b3-9.3.2
+            PE_i_can_has_debugger_1 = 0x3a7ff4;
+        } else if ([[NSArray arrayWithObjects:@"3248.50.20~1", nil] containsObject:KernelVersion()]) { //9.3.2b2
+            PE_i_can_has_debugger_1 = 0x3a7ff4;
+        } else if ([[NSArray arrayWithObjects:@"3248.50.18~1", nil] containsObject:KernelVersion()]) { //9.3.2b1
+            PE_i_can_has_debugger_1 = 0x3a7ff4;
+        } else if ([[NSArray arrayWithObjects:@"3248.41.4~2", nil] containsObject:KernelVersion()]) { //9.3b7-9.3.1
+            PE_i_can_has_debugger_1 = 0x3a7ea4;
+        } else if ([[NSArray arrayWithObjects:@"3248.41.4~3", nil] containsObject:KernelVersion()]) { //9.3b5-9.3b6
+            PE_i_can_has_debugger_1 = 0x3a7ea4;
+        } else if ([[NSArray arrayWithObjects:@"3248.41.3~1", nil] containsObject:KernelVersion()]) { //9.3b4
+            PE_i_can_has_debugger_1 = 0x3a7ea4;
+        } else if ([[NSArray arrayWithObjects:@"3248.40.173.0.1~1", nil] containsObject:KernelVersion()]) { //9.3b3
+            PE_i_can_has_debugger_1 = 0x3a7cf4;
+        } else if ([[NSArray arrayWithObjects:@"3248.40.166.0.1~1", nil] containsObject:KernelVersion()]) { //9.3b2
+            PE_i_can_has_debugger_1 = 0x3af964;
+        } else if ([[NSArray arrayWithObjects:@"3248.40.155.1.1~3", nil] containsObject:KernelVersion()]) {
+            PE_i_can_has_debugger_1 = 0x3a77f4;
+        } else if ([[NSArray arrayWithObjects:@"3248.31.3~2", nil] containsObject:KernelVersion()]) { //9.2.1b1-9.2.1
+            PE_i_can_has_debugger_1 = 0x3a1434;
+        } else if ([[NSArray arrayWithObjects:@"3248.21.2~1", nil] containsObject:KernelVersion()]) { //9.2b4-9.2
+            PE_i_can_has_debugger_1 = 0x3a12c4;
+        } else if ([[NSArray arrayWithObjects:@"3248.21.1~2", nil] containsObject:KernelVersion()]) { //9.2b3
+            PE_i_can_has_debugger_1 = 0x3a1164;
+        } else if ([[NSArray arrayWithObjects:@"3248.20.39~8", nil] containsObject:KernelVersion()]) { //9.2b2
+            PE_i_can_has_debugger_1 = 0x3a0a94;
+        } else if ([[NSArray arrayWithObjects:@"3248.20.33.0.1~7", nil] containsObject:KernelVersion()]) { //9.2b1
+            PE_i_can_has_debugger_1 = 0x3ac744;
+        } else if ([[NSArray arrayWithObjects:@"3248.10.42~4",@"3248.10.41~1",@"3248.10.38~3", nil] containsObject:KernelVersion()]) {
+            PE_i_can_has_debugger_1 = 0x3aa734;
+        } else if ([[NSArray arrayWithObjects:@"3248.10.27~1", nil] containsObject:KernelVersion()]){ //9.1b1
+            PE_i_can_has_debugger_1 = 0x3aa654;
+        } else if ([[NSArray arrayWithObjects:@"3248.1.3~1",@"3248.1.2~3", nil] containsObject:KernelVersion()]) {
+            PE_i_can_has_debugger_1 = 0x3a8fc4;
+        } else if ([[NSArray arrayWithObjects:@"3247.1.88.1.1~1", nil] containsObject:KernelVersion()]) { //9.0b5
+            PE_i_can_has_debugger_1 = 0x3a8f44;
+        } else if ([[NSArray arrayWithObjects:@"3247.1.56~1", nil] containsObject:KernelVersion()]) { //9.0b4
+            PE_i_can_has_debugger_1 = 0x3a7394;
+        } else if ([[NSArray arrayWithObjects:@"3247.1.36.0.1~9", nil] containsObject:KernelVersion()]) { //9.0b3
+            PE_i_can_has_debugger_1 = 0x3a8444;
+        } else if ([[NSArray arrayWithObjects:@"3247.1.6.1.1~2", nil] containsObject:KernelVersion()]){ //9.0b2
+            PE_i_can_has_debugger_1 = 0x3ad524;
+        } else if ([[NSArray arrayWithObjects:@"3216.0.0.1.15~2", nil] containsObject:KernelVersion()]){ //9.0b1
+            PE_i_can_has_debugger_1 = 0x45ad20;
+        } else {
+            PE_i_can_has_debugger_1 = 0x3f4dc0;
+        }
+    } else {
+        if ([[NSArray arrayWithObjects:@"3248.61.1~1", nil] containsObject:KernelVersion()]) { //9.3.5-9.3.6
+            PE_i_can_has_debugger_1 = 0x3afee4;
+        } else if ([[NSArray arrayWithObjects:@"3248.60.9~1", nil] containsObject:KernelVersion()]) { //9.3.3b4-9.3.4
+            PE_i_can_has_debugger_1 = 0x3aff14;
+        } else if ([[NSArray arrayWithObjects:@"3248.60.8~1", nil] containsObject:KernelVersion()]) { //9.3.3b3
+            PE_i_can_has_debugger_1 = 0x3b0094;
+        } else if ([[NSArray arrayWithObjects:@"3248.60.4~1", nil] containsObject:KernelVersion()]) { //9.3.3b2
+            PE_i_can_has_debugger_1 = 0x3afcf4;
+        } else if ([[NSArray arrayWithObjects:@"3248.60.3~3", nil] containsObject:KernelVersion()]) { //9.3.3b1
+            PE_i_can_has_debugger_1 = 0x3afda4;
+        } else if ([[NSArray arrayWithObjects:@"3248.50.21~4",@"3248.50.20~1",@"3248.50.18~1", nil] containsObject:KernelVersion()]){
+            PE_i_can_has_debugger_1 = 0x3afb14;
+        } else if ([[NSArray arrayWithObjects:@"3248.41.4~2",@"3248.41.4~3",@"3248.41.3~1", nil] containsObject:KernelVersion()]){
+            PE_i_can_has_debugger_1 = 0x3afaf4;
+        } else if ([[NSArray arrayWithObjects:@"3248.40.173.0.1~1", nil] containsObject:KernelVersion()]) { //9.3b3
+            PE_i_can_has_debugger_1 = 0x3af914;
+        } else if ([[NSArray arrayWithObjects:@"3248.40.166.0.1~1", nil] containsObject:KernelVersion()]) { //9.3b2
+            PE_i_can_has_debugger_1 = 0x3af964;
+        } else if ([[NSArray arrayWithObjects:@"3248.40.155.1.1~3", nil] containsObject:KernelVersion()]) {
+            PE_i_can_has_debugger_1 = 0x3af3e4;
+        } else if ([[NSArray arrayWithObjects:@"3248.31.3~2", nil] containsObject:KernelVersion()]){ //9.2.1b1-9.2.1
+            PE_i_can_has_debugger_1 = 0x3a8764;
+        } else if ([[NSArray arrayWithObjects:@"3248.21.2~1", nil] containsObject:KernelVersion()]){ //9.2b4-9.2
+            PE_i_can_has_debugger_1 = 0x3a85e4;
+        } else if ([[NSArray arrayWithObjects:@"3248.21.1~2", nil] containsObject:KernelVersion()]){ //9.2b3
+            PE_i_can_has_debugger_1 = 0x3a83b4;
+        } else if ([[NSArray arrayWithObjects:@"3248.20.39~8", nil] containsObject:KernelVersion()]){ //9.2b2
+            PE_i_can_has_debugger_1 = 0x3a7c54;
+        } else if ([[NSArray arrayWithObjects:@"3248.20.33.0.1~7", nil] containsObject:KernelVersion()]){ //9.2b1
+            PE_i_can_has_debugger_1 = 0x3b3c84;
+        } else if ([[NSArray arrayWithObjects:@"3248.10.42~4",@"3248.10.41~1",@"3248.10.38~3", nil] containsObject:KernelVersion()]) {
+            PE_i_can_has_debugger_1 = 0x3b0694;
+        } else if ([[NSArray arrayWithObjects:@"3248.10.27~1", nil] containsObject:KernelVersion()]){ //9.1b1
+            PE_i_can_has_debugger_1 = 0x3b0644;
+        } else if ([[NSArray arrayWithObjects:@"3248.1.3~1",@"3248.1.2~3",@"3247.1.88.1.1~1", nil] containsObject:KernelVersion()]) {
+            PE_i_can_has_debugger_1 = 0x3af014;
+        } else if ([[NSArray arrayWithObjects:@"3247.1.56~1", nil] containsObject:KernelVersion()]) { //9.0b4
+            PE_i_can_has_debugger_1 = 0x3ae364;
+        } else if ([[NSArray arrayWithObjects:@"3247.1.36.0.1~9", nil] containsObject:KernelVersion()]) { //9.0b3
+            PE_i_can_has_debugger_1 = 0x3b01a4;
+        } else if ([[NSArray arrayWithObjects:@"3247.1.6.1.1~2", nil] containsObject:KernelVersion()]) { //9.0b2
+            PE_i_can_has_debugger_1 = 0x3b4b94;
+        } else {
+            PE_i_can_has_debugger_1 = 0x461e40;
+        }
+    }
+    return PE_i_can_has_debugger_1;
+}
+
+// Thanks to zachary7829.
+
+uint32_t find_PE_i_can_has_debugger_dos(uint32_t region, uint8_t* kdata, size_t ksize) {
+    uint32_t PE_i_can_has_debugger_2;
+    struct utsname systemInfo;
+    uname(&systemInfo);
+    NSArray *isA5orA5X = [NSArray arrayWithObjects:@"iPad2,1",@"iPad2,2",@"iPad2,3",@"iPad2,4",@"iPad2,5",@"iPad2,6",@"iPad2,7",@"iPad3,1",@"iPad3,2",@"iPad3,3",@"iPhone4,1",@"iPod5,1", nil];
+    if([isA5orA5X containsObject:[NSString stringWithCString:systemInfo.machine encoding:NSUTF8StringEncoding]]) {
+        if ([[NSArray arrayWithObjects:@"3248.61.1~1",@"3248.60.9~1",@"3248.60.8~1",@"3248.60.4~1",@"3248.60.3~3",@"3248.50.21~4",@"3248.50.20~1",@"3248.50.18~1",@"3248.41.4~2",@"3248.41.4~3",@"3248.41.3~1", nil] containsObject:KernelVersion()]) {
+            PE_i_can_has_debugger_2 = 0x456070;
+        } else if ([[NSArray arrayWithObjects:@"3248.40.173.0.1~1",@"3248.40.166.0.1~1",@"3248.40.155.1.1~3", nil] containsObject:KernelVersion()]){
+            PE_i_can_has_debugger_2 = 0x456080;
+        } else if ([[NSArray arrayWithObjects:@"3248.31.3~2",@"3248.21.2~1",@"3248.21.1~2", nil] containsObject:KernelVersion()]){
+            PE_i_can_has_debugger_2 = 0x44f070;
+        } else if ([[NSArray arrayWithObjects:@"3248.20.39~8", nil] containsObject:KernelVersion()]){ //9.2b2
+            PE_i_can_has_debugger_2 = 0x44d870;
+        } else if ([[NSArray arrayWithObjects:@"3248.20.33.0.1~7", nil] containsObject:KernelVersion()]){ //9.2b1
+            PE_i_can_has_debugger_2 = 0x459870;
+        } else if ([[NSArray arrayWithObjects:@"3248.10.42~4",@"3248.10.41~1",@"3248.10.38~3", nil] containsObject:KernelVersion()]) {
+            PE_i_can_has_debugger_2 = 0x457860;
+        } else if ([[NSArray arrayWithObjects:@"3248.10.27~1", nil] containsObject:KernelVersion()]){ //9.1b1
+            PE_i_can_has_debugger_2 = 0x4577e0;
+        } else if ([[NSArray arrayWithObjects:@"3248.1.3~1",@"3248.1.2~3",@"3247.1.88.1.1~1", nil] containsObject:KernelVersion()]) {
+            PE_i_can_has_debugger_2 = 0x4567d0;
+        } else if ([[NSArray arrayWithObjects:@"3247.1.56~1", nil] containsObject:KernelVersion()]){ //9.0b4
+            PE_i_can_has_debugger_2 = 0x454750;
+        } else if ([[NSArray arrayWithObjects:@"3247.1.36.0.1~9", nil] containsObject:KernelVersion()]){ //9.0b3
+            PE_i_can_has_debugger_2 = 0x455740;
+        } else if ([[NSArray arrayWithObjects:@"3247.1.6.1.1~2", nil] containsObject:KernelVersion()]){ //9.0b2
+            PE_i_can_has_debugger_2 = 0x45c630;
+        } else if ([[NSArray arrayWithObjects:@"3216.0.0.1.15~2", nil] containsObject:KernelVersion()]) { //9.0b1
+            PE_i_can_has_debugger_2 = 0x459520;
+        } else {
+            PE_i_can_has_debugger_2 = 0x3f2dc0;
+        }
+    } else {
+        if ([[NSArray arrayWithObjects:@"3248.61.1~1",@"3248.60.9~1",@"3248.60.8~1",@"3248.60.4~1",@"3248.60.3~3",@"3248.50.21~4",@"3248.50.20~1",@"3248.50.18~1",@"3248.41.4~2",@"3248.41.4~3",@"3248.41.3~1",@"3248.40.173.0.1~1",@"3248.40.166.0.1~1",@"3248.40.155.1.1~3", nil] containsObject:KernelVersion()]) { //9.3b1-9.3.6
+            PE_i_can_has_debugger_2 = 0x45e1a0;
+        } else if ([[NSArray arrayWithObjects:@"3248.31.3~2",@"3248.21.2~1",@"3248.21.1~2", nil] containsObject:KernelVersion()]){
+            PE_i_can_has_debugger_2 = 0x456190;
+        } else if ([[NSArray arrayWithObjects:@"3248.20.39~8", nil] containsObject:KernelVersion()]){ //9.2b2
+            PE_i_can_has_debugger_2 = 0x455990;
+        } else if ([[NSArray arrayWithObjects:@"3248.20.33.0.1~7", nil] containsObject:KernelVersion()]){ //9.2b1
+            PE_i_can_has_debugger_2 = 0x461990;
+        } else if ([[NSArray arrayWithObjects:@"3248.10.42~4",@"3248.10.41~1",@"3248.10.38~3", nil] containsObject:KernelVersion()]) {
+            PE_i_can_has_debugger_2 = 0x45e980;
+        } else if ([[NSArray arrayWithObjects:@"3248.10.27~1", nil] containsObject:KernelVersion()]){ //9.1b1
+            PE_i_can_has_debugger_2 = 0x45d900;
+        } else if ([[NSArray arrayWithObjects:@"3248.1.3~1",@"3248.1.2~3",@"3247.1.88.1.1~1", nil] containsObject:KernelVersion()]) {
+            PE_i_can_has_debugger_2 = 0x45c8f0;
+        } else if ([[NSArray arrayWithObjects:@"3247.1.56~1", nil] containsObject:KernelVersion()]) { //9.0b4
+            PE_i_can_has_debugger_2 = 0x45b870;
+        } else if ([[NSArray arrayWithObjects:@"3247.1.36.0.1~9", nil] containsObject:KernelVersion()]) { //9.0b3
+            PE_i_can_has_debugger_2 = 0x45d860;
+        } else if ([[NSArray arrayWithObjects:@"3247.1.6.1.1~2", nil] containsObject:KernelVersion()]) { //9.0b2
+            PE_i_can_has_debugger_2 = 0x464750;
+        } else { //9.0b1
+            PE_i_can_has_debugger_2 = 0x460640;
+        }
+    }
+    return PE_i_can_has_debugger_2;
+}
+

@@ -30,4 +30,7 @@ int loadBlizzardLaunchDaemons(void);
 int respringDeviceNow(void);
 int blizzardPostInstFixup(void);
 int checkIfBootstrapPresent(void);
+int patch_amfi_pe_i_can_has_debugger(void);
+int patch_second_amfi_pe_i_can_has_debugger(void);
+int patch_amfi_mmap(void);
 #endif /* blizzardJailbreak_h */

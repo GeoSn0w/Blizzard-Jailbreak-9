@@ -57,5 +57,8 @@ uint32_t find_tfp0_patch(uint32_t region, uint8_t* kdata, size_t ksize);
 uint32_t find_sb_i_can_has_debugger(uint32_t region, uint8_t* kdata, size_t ksize);
 uint32_t find_lwvm_call(uint32_t region, uint8_t* kdata, size_t ksize);
 uint32_t find_lwvm_call_offset(uint32_t region, uint8_t* kdata, size_t ksize);
+uint32_t find_amfi_file_check_mmap(uint32_t region, uint8_t* kdata, size_t ksize);
+uint32_t find_PE_i_can_has_debugger_uno(uint32_t region, uint8_t* kdata, size_t ksize);
+uint32_t find_PE_i_can_has_debugger_dos(uint32_t region, uint8_t* kdata, size_t ksize);
 #endif
 #endif

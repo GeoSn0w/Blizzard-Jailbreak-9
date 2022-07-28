@@ -479,52 +479,198 @@ static int blizzardInitializeKernel(kaddr_t base) {
     return 0;
 }
 
-int blizzardGetTFP0(){
+int runKernelExploit(){
     printf("Blizzard is exploting the kernel...\n");
     exploit();
     kern_task = tfp0;
+    if (tfp0 != 0){
+        printf("Got tfp0: %0xllx\n", kern_task);
+        return 0;
+    }
+    return -1;
+}
+
+int getAllProcStub(){
+    blizzardInitializeKernel(KernelBase);
+    printf("Getting ALLPROC...\n");
+    if (blizzardGetAllproc() != 0){
+        return 0;
+    }
+    return -1;
+}
+
+int getRootStub(){
+    printf("Getting ROOT...\n");
+    if (blizzardGetRoot() == 0){
+        return 0;
+    }
+    return -1;
+}
+
+int patchSandboxStub(){
+    printf("Escaping SandBox...\n");
+    if (blizzardEscapeSandbox() == 0){
+        return 0;
+    }
+    return -1;
+}
+
+// Big thanks to Jonathan Seals for this.
+#define ptrSize sizeof(uintptr_t)
+
+int updateKernelVersionString(){
+    char *newVersionString = "BlizzardJB Kernel";
+    uintptr_t versionPtr = 0;
+    struct utsname u = {0};
+    uname(&u);
+        
+    mach_port_t kernel_task = tfp0;
+    vm_address_t kernel_base;
+    kernel_base = KernelBase;
+        
+    uintptr_t darwinTextPtr = 0;
+    char *buf;
+    vm_size_t sz;
+    uintptr_t TEXT_const = 0;
+    uint32_t sizeofTEXT_const = 0;
+    uintptr_t DATA_data = 0;
+    uint32_t sizeofDATA_data = 0;
+        
+    char *sectName = "__const";
+        
+    for (uintptr_t i=kernel_base; i < (kernel_base+0x2000); i+=(ptrSize)) {
+        int ret = vm_read(kernel_task, i, 0x150, (vm_offset_t*)&buf, (mach_msg_type_number_t*)&sz);
+        if (ret != KERN_SUCCESS) {
+            printf("Failed vm_read %i\n", ret);
+        }
+            
+        if (!strcmp(buf, sectName) && !strcmp(buf+0x10, "__TEXT")) {
+            TEXT_const = *(uintptr_t*)(buf+0x20);
+            sizeofTEXT_const = *(uintptr_t*)(buf+(0x20 + ptrSize));
+            
+        } else if (!strcmp(buf, "__data") && !strcmp(buf+0x10, "__DATA")) {
+            DATA_data = *(uintptr_t*)(buf+0x20);
+            sizeofDATA_data = *(uintptr_t*)(buf+(0x20 + ptrSize));
+        }
+        
+        if (TEXT_const && sizeofTEXT_const && DATA_data && sizeofDATA_data)
+            break;
+    }
+        
+    if (!(TEXT_const && sizeofTEXT_const && DATA_data && sizeofDATA_data)) {
+        printf("Error parsing kernel macho\n");
+        return -1;
+    }
+        
+    for (uintptr_t i = TEXT_const; i < (TEXT_const+sizeofTEXT_const); i += 2) {
+        int ret = vm_read_overwrite(kernel_task, i, strlen("Darwin Kernel Version"), (vm_address_t)buf, &sz);
+        if (ret != KERN_SUCCESS) {
+            printf("Failed vm_read %i\n", ret);
+            return -1;
+        }
+        if (!memcmp(buf, "Darwin Kernel Version", strlen("Darwin Kernel Version"))) {
+            darwinTextPtr = i;
+            break;
+        }
+    }
+        
+    if (!darwinTextPtr) {
+        printf("Error finding Darwin text\n");
+        return -1;
+    }
+        
+    uintptr_t versionTextXref[ptrSize];
+    versionTextXref[0] = darwinTextPtr;
+        
+    for (uintptr_t i = DATA_data; i < (DATA_data+sizeofDATA_data); i += ptrSize) {
+            int ret = vm_read_overwrite(kernel_task, i, ptrSize, (vm_address_t)buf, &sz);
+        if (ret != KERN_SUCCESS) {
+            printf("Failed vm_read %i\n", ret);
+            return -1;
+        }
+            
+        if (!memcmp(buf, versionTextXref, ptrSize)) {
+            versionPtr = i;
+            break;
+        }
+    }
+        
+    if (!versionPtr) {
+        printf("Error finding _version pointer, did you already patch it?\n");
+        return -1;
+    }
+        
+    kern_return_t ret;
+    vm_address_t newStringPtr = 0;
+    vm_allocate(kernel_task, &newStringPtr, strlen(newVersionString), VM_FLAGS_ANYWHERE);
+        
+    ret = vm_write(kernel_task, newStringPtr, (vm_offset_t)newVersionString, strlen(newVersionString));
+    if (ret != KERN_SUCCESS) {
+        printf("Failed vm_write %i\n", ret);
+        exit(-1);
+    }
+        
+    ret = vm_write(kernel_task, versionPtr, (vm_offset_t)&newStringPtr, ptrSize);
+    if (ret != KERN_SUCCESS) {
+        printf("Failed vm_write %i\n", ret);
+        return -1;
+    } else {
+        memset(&u, 0x0, sizeof(struct utsname));
+        uname(&u);
+        return 0;
+    }
+}
+
+int applyKernelPatchesStub(){
+    printf("Patching Kernel PMAP...\n");
+    blizzardPatchPMAP();
+    printf("Patching mount_common MACF check...\n");
+    patch_mount_common();
+    printf("Patching cs_enforcement_disable...\n");
+    patch_cs_enforcement_disable();
+    printf("Patching amfi_pe_i_can_has_debugger...\n");
+    patch_amfi_pe_i_can_has_debugger();
+    patch_second_amfi_pe_i_can_has_debugger();
+    printf("Patching AMFI File MMAP...\n");
+    patch_amfi_mmap();
+    printf("Patching Sandbox' pe_I_can_has_debugger...\n");
+    patch_sb_i_can_has_debugger();
+    updateKernelVersionString();
+    return 0;
+}
+
+int remountROOTFSStub(){
+    printf("Remounting Root File System as R/W...\n");
+    if (blizzardRemountRootFS() == 0){
+        return 0;
+    }
+    return -1;
+}
+
+int installBootstrapStub(){
+    printf("Preparing to install Blizzard Bootstrap...\n");
+     if (checkIfBootstrapPresent() != -1){
+         if (getBootstrapReady() != 0) {
+             printf("[!] Bootstrap Preparation Failure! Jailbreak Failed\n");
+             return -1;
+         } else {
+             printf("Installing Dropbear...\n");
+             installDropbearSSH();
+             printf("Running post-install fixes...\n");
+             blizzardPostInstFixup();
+             return 0;
+         }
+     } else {
+         blizzardPostInstFixup();
+         return 0;
+     }
+    return -1;
+}
+
+int blizzardGetTFP0(){
     
     if (kern_task != 0){
-        printf("Got tfp0: %0xllx\n", kern_task);
-        blizzardInitializeKernel(KernelBase);
-        printf("Getting ALLPROC...\n");
-        blizzardGetAllproc();
-        printf("Getting ROOT...\n");
-        blizzardGetRoot();
-        printf("Escaping SandBox...\n");
-        blizzardEscapeSandbox();
-        printf("Patching Kernel PMAP...\n");
-        blizzardPatchPMAP();
-        printf("Patching mount_common MACF check...\n");
-        patch_mount_common();
-        printf("Patching cs_enforcement_disable...\n");
-        patch_cs_enforcement_disable();
-        printf("Patching amfi_pe_i_can_has_debugger...\n");
-        patch_amfi_pe_i_can_has_debugger();
-        patch_second_amfi_pe_i_can_has_debugger();
-        printf("Patching AMFI File MMAP...\n");
-        patch_amfi_mmap();
-        printf("Patching Sandbox' pe_I_can_has_debugger...\n");
-        patch_sb_i_can_has_debugger();
-        printf("Remounting Root File System as R/W...\n");
-        blizzardRemountRootFS();
-        printf("Preparing to install Blizzard Bootstrap...\n");
-        /*
-        if (checkIfBootstrapPresent() != -1){
-            if (getBootstrapReady() != 0) {
-                printf("[!] Bootstrap Preparation Failure! Jailbreak Failed\n");
-            }
-        } else {
-            blizzardPostInstFixup();
-        }
-         */
-        if (getBootstrapReady() != 0) {
-            printf("[!] Bootstrap Preparation Failure! Jailbreak Failed\n");
-        }
-        printf("Installing Dropbear...\n");
-        installDropbearSSH();
-        printf("Running post-install fixes...\n");
-        blizzardPostInstFixup();
+        
     } else {
         printf("FAILED to obtain Kernel Task Port!\n");
     }
@@ -846,7 +992,15 @@ int installDropbearSSH(){
         printf("[!] Could not install Dropbear!\n");
         return -1;
     }
-
+    chmod("/usr/local/bin/dropbear", 0775);
+    chown("/usr/local/bin/dropbear", 0, 0);
+    
+    chmod("/usr/local/bin/dropbearkey", 0775);
+    chown("/usr/local/bin/dropbearkey", 0, 0);
+    
+    chmod("/usr/local/bin/dropbearconvert", 0775);
+    chown("/usr/local/bin/dropbearconvert", 0, 0);
+    
     chmod("/Library/LaunchDaemons/dropbear.plist", 0644);
     chown("/Library/LaunchDaemons/dropbear.plist", 0, 0);
     return 0;
@@ -947,7 +1101,7 @@ int blizzardPostInstFixup(){
     fixSpringBoardApplications();
     spawnBinaryAtPath("su -c uicache mobile &");
     loadBlizzardLaunchDaemons();
-    //respringDeviceNow();
+    respringDeviceNow();
     printf("[+] JAILBREAK SUCCEEDED!\n");
     return 0;
 }

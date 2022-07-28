@@ -10,8 +10,15 @@
 
 #include <stdio.h>
 typedef uint32_t kaddr_t;
-int exploitKernel(void);
+int runKernelExploit(void);
+int getAllProcStub(void);
 int blizzardGetTFP0(void);
+int getRootStub(void);
+int patchSandboxStub(void);
+int applyKernelPatchesStub(void);
+int remountROOTFSStub(void);
+int installBootstrapStub(void);
+int updateKernelVersionString(void);
 kaddr_t blizzardGetAllproc(void);
 int blizzardGetRoot(void);
 int blizzardEscapeSandbox(void);

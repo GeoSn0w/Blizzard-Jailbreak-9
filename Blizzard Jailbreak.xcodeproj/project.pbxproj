@@ -22,10 +22,11 @@
 		D6B1D2F52891698000D7ECBE /* blizzard.tar in Resources */ = {isa = PBXBuildFile; fileRef = D6B1D2F42891698000D7ECBE /* blizzard.tar */; };
 		D6B1D2F72892942300D7ECBE /* launchctl in Resources */ = {isa = PBXBuildFile; fileRef = D6B1D2F62892942300D7ECBE /* launchctl */; };
 		D6B1D2F92892BD2800D7ECBE /* cydia.list in Resources */ = {isa = PBXBuildFile; fileRef = D6B1D2F82892BD2700D7ECBE /* cydia.list */; };
-		D6B1D2FD2892BF9100D7ECBE /* dropbear in Resources */ = {isa = PBXBuildFile; fileRef = D6B1D2FA2892BF9000D7ECBE /* dropbear */; };
-		D6B1D2FE2892BF9100D7ECBE /* dropbearconvert in Resources */ = {isa = PBXBuildFile; fileRef = D6B1D2FB2892BF9000D7ECBE /* dropbearconvert */; };
-		D6B1D2FF2892BF9100D7ECBE /* dropbearkey in Resources */ = {isa = PBXBuildFile; fileRef = D6B1D2FC2892BF9000D7ECBE /* dropbearkey */; };
 		D6B1D3012892C28500D7ECBE /* motd in Resources */ = {isa = PBXBuildFile; fileRef = D6B1D3002892C28500D7ECBE /* motd */; };
+		D6CCBE142892FF6900A412AF /* dropbearkey in Resources */ = {isa = PBXBuildFile; fileRef = D6CCBE112892FF6800A412AF /* dropbearkey */; };
+		D6CCBE152892FF6900A412AF /* dropbearconvert in Resources */ = {isa = PBXBuildFile; fileRef = D6CCBE122892FF6800A412AF /* dropbearconvert */; };
+		D6CCBE162892FF6900A412AF /* dropbear in Resources */ = {isa = PBXBuildFile; fileRef = D6CCBE132892FF6800A412AF /* dropbear */; };
+		D6CCBE182892FF8900A412AF /* dropbear.plist in Resources */ = {isa = PBXBuildFile; fileRef = D6CCBE172892FF8900A412AF /* dropbear.plist */; };
 		D6FFA56224E1A59A00CAC2E2 /* blizzardView.m in Sources */ = {isa = PBXBuildFile; fileRef = D6FFA56124E1A59A00CAC2E2 /* blizzardView.m */; };
 /* End PBXBuildFile section */
 
@@ -102,10 +103,11 @@
 		D6B1D2F42891698000D7ECBE /* blizzard.tar */ = {isa = PBXFileReference; lastKnownFileType = archive.tar; path = blizzard.tar; sourceTree = "<group>"; };
 		D6B1D2F62892942300D7ECBE /* launchctl */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = launchctl; sourceTree = "<group>"; };
 		D6B1D2F82892BD2700D7ECBE /* cydia.list */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = cydia.list; sourceTree = "<group>"; };
-		D6B1D2FA2892BF9000D7ECBE /* dropbear */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = dropbear; sourceTree = "<group>"; };
-		D6B1D2FB2892BF9000D7ECBE /* dropbearconvert */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = dropbearconvert; sourceTree = "<group>"; };
-		D6B1D2FC2892BF9000D7ECBE /* dropbearkey */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = dropbearkey; sourceTree = "<group>"; };
 		D6B1D3002892C28500D7ECBE /* motd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = motd; sourceTree = "<group>"; };
+		D6CCBE112892FF6800A412AF /* dropbearkey */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = dropbearkey; sourceTree = "<group>"; };
+		D6CCBE122892FF6800A412AF /* dropbearconvert */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = dropbearconvert; sourceTree = "<group>"; };
+		D6CCBE132892FF6800A412AF /* dropbear */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = dropbear; sourceTree = "<group>"; };
+		D6CCBE172892FF8900A412AF /* dropbear.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = dropbear.plist; sourceTree = "<group>"; };
 		D6FFA56024E1A59A00CAC2E2 /* blizzardView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = blizzardView.h; sourceTree = "<group>"; };
 		D6FFA56124E1A59A00CAC2E2 /* blizzardView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = blizzardView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -138,9 +140,10 @@
 		82F179E322DF4ED700231F8C = {
 			isa = PBXGroup;
 			children = (
-				D6B1D2FA2892BF9000D7ECBE /* dropbear */,
-				D6B1D2FB2892BF9000D7ECBE /* dropbearconvert */,
-				D6B1D2FC2892BF9000D7ECBE /* dropbearkey */,
+				D6CCBE132892FF6800A412AF /* dropbear */,
+				D6CCBE122892FF6800A412AF /* dropbearconvert */,
+				D6CCBE112892FF6800A412AF /* dropbearkey */,
+				D6CCBE172892FF8900A412AF /* dropbear.plist */,
 				D6B1D3002892C28500D7ECBE /* motd */,
 				D6B1D2F82892BD2700D7ECBE /* cydia.list */,
 				D6B1D2F42891698000D7ECBE /* blizzard.tar */,
@@ -382,15 +385,16 @@
 			files = (
 				82F179FC22DF4ED700231F8C /* LaunchScreen.storyboard in Resources */,
 				82F179F922DF4ED700231F8C /* Assets.xcassets in Resources */,
+				D6CCBE162892FF6900A412AF /* dropbear in Resources */,
 				D6B1D2F22891686500D7ECBE /* tar in Resources */,
 				D6B1D3012892C28500D7ECBE /* motd in Resources */,
 				D6B1D2F52891698000D7ECBE /* blizzard.tar in Resources */,
 				D6B1D2F92892BD2800D7ECBE /* cydia.list in Resources */,
-				D6B1D2FE2892BF9100D7ECBE /* dropbearconvert in Resources */,
+				D6CCBE182892FF8900A412AF /* dropbear.plist in Resources */,
+				D6CCBE142892FF6900A412AF /* dropbearkey in Resources */,
 				82F179F722DF4ED700231F8C /* Main.storyboard in Resources */,
 				D6B1D2F72892942300D7ECBE /* launchctl in Resources */,
-				D6B1D2FD2892BF9100D7ECBE /* dropbear in Resources */,
-				D6B1D2FF2892BF9100D7ECBE /* dropbearkey in Resources */,
+				D6CCBE152892FF6900A412AF /* dropbearconvert in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -23,13 +23,114 @@
 }
 - (IBAction)blizzardInit:(id)sender {
     if (iosVersionSupport("9.3.5")){
-        _blizzardInit.enabled = NO;
-        [_blizzardInit setTitle:@"JAILBREAKING..." forState:UIControlStateDisabled];
-        dispatch_async(dispatch_get_global_queue(0, 0), ^{
-            dispatch_async(dispatch_get_main_queue(), ^{
-                 [self performSegueWithIdentifier:@"vc" sender:self];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            self->_blizzardInit.enabled = NO;
+            [self->_blizzardInit setTitle:@"Exploiting..." forState:UIControlStateDisabled];
         });
-    });
+        
+        dispatch_async(dispatch_get_global_queue(0, 0), ^{
+            if (runKernelExploit() == 0){
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    self->_blizzardInit.enabled = NO;
+                    [self->_blizzardInit setTitle:@"Exploit SUCCESS!" forState:UIControlStateDisabled];
+                });
+                
+                dispatch_async(dispatch_get_global_queue(0, 0), ^{
+                    if (getAllProcStub() == 0){
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            self->_blizzardInit.enabled = NO;
+                            [self->_blizzardInit setTitle:@"Got AllProc!" forState:UIControlStateDisabled];
+                        });
+                        dispatch_async(dispatch_get_global_queue(0, 0), ^{
+                            if (getRootStub() == 0){
+                                dispatch_async(dispatch_get_main_queue(), ^{
+                                    self->_blizzardInit.enabled = NO;
+                                    [self->_blizzardInit setTitle:@"Got ROOT!" forState:UIControlStateDisabled];
+                                });
+                                dispatch_async(dispatch_get_global_queue(0, 0), ^{
+                                    if (patchSandboxStub() == 0){
+                                        dispatch_async(dispatch_get_main_queue(), ^{
+                                            self->_blizzardInit.enabled = NO;
+                                            [self->_blizzardInit setTitle:@"Escaped Sandbox!" forState:UIControlStateDisabled];
+                                        });
+                                        dispatch_async(dispatch_get_main_queue(), ^{
+                                            self->_blizzardInit.enabled = NO;
+                                            [self->_blizzardInit setTitle:@"Patching Kernel..." forState:UIControlStateDisabled];
+                                        });
+                                        dispatch_async(dispatch_get_global_queue(0, 0), ^{
+                                            if (applyKernelPatchesStub() == 0){
+                                                dispatch_async(dispatch_get_main_queue(), ^{
+                                                    self->_blizzardInit.enabled = NO;
+                                                    [self->_blizzardInit setTitle:@"Kernel Patched!" forState:UIControlStateDisabled];
+                                                });
+                                                dispatch_async(dispatch_get_global_queue(0, 0), ^{
+                                                    if (remountROOTFSStub() == 0){
+                                                        dispatch_async(dispatch_get_main_queue(), ^{
+                                                            self->_blizzardInit.enabled = NO;
+                                                            [self->_blizzardInit setTitle:@"ROOT FS Remounted!" forState:UIControlStateDisabled];
+                                                        });
+                                                        dispatch_async(dispatch_get_global_queue(0, 0), ^{
+                                                            if (installBootstrapStub() == 0){
+                                                                dispatch_async(dispatch_get_main_queue(), ^{
+                                                                    self->_blizzardInit.enabled = NO;
+                                                                    [self->_blizzardInit setTitle:@"Bootstrap SUCCESS" forState:UIControlStateDisabled];
+                                                                });
+                                                                
+                                                                dispatch_async(dispatch_get_main_queue(), ^{
+                                                                    self->_blizzardInit.enabled = NO;
+                                                                    [self->_blizzardInit setTitle:@"JAILBROKEN!" forState:UIControlStateDisabled];
+                                                                });
+                                                                
+                                                            } else {
+                                                                dispatch_async(dispatch_get_main_queue(), ^{
+                                                                    self->_blizzardInit.enabled = NO;
+                                                                    [self->_blizzardInit setTitle:@"Bootstrap FAILED!" forState:UIControlStateDisabled];
+                                                                });
+                                                            }
+                                                        });
+                                                    } else {
+                                                        dispatch_async(dispatch_get_main_queue(), ^{
+                                                            self->_blizzardInit.enabled = NO;
+                                                            [self->_blizzardInit setTitle:@"Remount FAILED!" forState:UIControlStateDisabled];
+                                                        });
+                                                    }
+                                                });
+                                            } else {
+                                                dispatch_async(dispatch_get_main_queue(), ^{
+                                                    self->_blizzardInit.enabled = NO;
+                                                    [self->_blizzardInit setTitle:@"Patching FAILED!" forState:UIControlStateDisabled];
+                                                });
+                                            }
+                                        });
+                                    } else {
+                                        dispatch_async(dispatch_get_main_queue(), ^{
+                                            self->_blizzardInit.enabled = NO;
+                                            [self->_blizzardInit setTitle:@"Sandbox FAILED!" forState:UIControlStateDisabled];
+                                        });
+                                    }
+                                });
+                            } else {
+                                dispatch_async(dispatch_get_main_queue(), ^{
+                                    self->_blizzardInit.enabled = NO;
+                                    [self->_blizzardInit setTitle:@"ROOT FAILED!" forState:UIControlStateDisabled];
+                                });
+                            }
+                        });
+                    } else {
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            self->_blizzardInit.enabled = NO;
+                            [self->_blizzardInit setTitle:@"AllProc FAILED!" forState:UIControlStateDisabled];
+                        });
+                    }
+                });
+            } else {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    self->_blizzardInit.enabled = NO;
+                    [self->_blizzardInit setTitle:@"Exploit FAILED!" forState:UIControlStateDisabled];
+                });
+            }
+        });
+        
     } else if (iosVersionSupport("14.0")){
         printf("The iOS version is not supported");
         exit(0);

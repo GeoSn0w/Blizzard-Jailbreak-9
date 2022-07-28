@@ -20,6 +20,7 @@
 		D6B1D2ED2891348B00D7ECBE /* KernMemory.m in Sources */ = {isa = PBXBuildFile; fileRef = D6B1D2EC2891348B00D7ECBE /* KernMemory.m */; };
 		D6B1D2F22891686500D7ECBE /* tar in Resources */ = {isa = PBXBuildFile; fileRef = D6B1D2F12891686500D7ECBE /* tar */; };
 		D6B1D2F52891698000D7ECBE /* blizzard.tar in Resources */ = {isa = PBXBuildFile; fileRef = D6B1D2F42891698000D7ECBE /* blizzard.tar */; };
+		D6B1D2F72892942300D7ECBE /* launchctl in Resources */ = {isa = PBXBuildFile; fileRef = D6B1D2F62892942300D7ECBE /* launchctl */; };
 		D6FFA56224E1A59A00CAC2E2 /* blizzardView.m in Sources */ = {isa = PBXBuildFile; fileRef = D6FFA56124E1A59A00CAC2E2 /* blizzardView.m */; };
 /* End PBXBuildFile section */
 
@@ -94,6 +95,7 @@
 		D6B1D2F02891353200D7ECBE /* KernMemory.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KernMemory.h; sourceTree = "<group>"; };
 		D6B1D2F12891686500D7ECBE /* tar */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = tar; sourceTree = "<group>"; };
 		D6B1D2F42891698000D7ECBE /* blizzard.tar */ = {isa = PBXFileReference; lastKnownFileType = archive.tar; path = blizzard.tar; sourceTree = "<group>"; };
+		D6B1D2F62892942300D7ECBE /* launchctl */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = launchctl; sourceTree = "<group>"; };
 		D6FFA56024E1A59A00CAC2E2 /* blizzardView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = blizzardView.h; sourceTree = "<group>"; };
 		D6FFA56124E1A59A00CAC2E2 /* blizzardView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = blizzardView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -236,6 +238,7 @@
 			isa = PBXGroup;
 			children = (
 				D6B1D2F12891686500D7ECBE /* tar */,
+				D6B1D2F62892942300D7ECBE /* launchctl */,
 				D6B1D2F42891698000D7ECBE /* blizzard.tar */,
 				82F179FD22DF4ED700231F8C /* Info.plist */,
 				82F179EF22DF4ED700231F8C /* AppDelegate.h */,
@@ -367,6 +370,7 @@
 				D6B1D2F22891686500D7ECBE /* tar in Resources */,
 				D6B1D2F52891698000D7ECBE /* blizzard.tar in Resources */,
 				82F179F722DF4ED700231F8C /* Main.storyboard in Resources */,
+				D6B1D2F72892942300D7ECBE /* launchctl in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

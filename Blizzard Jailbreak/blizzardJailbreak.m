@@ -50,7 +50,7 @@ static void *kernel_mh = 0;
 uint32_t myProc;
 uint32_t myUcred;
 int processID;
-extern char **environment;
+char **environment;
 
 // Sandbox Policy Stuff
 struct mac_policy_ops {
@@ -502,7 +502,11 @@ int blizzardGetTFP0(){
         printf("Remounting Root File System as R/W...\n");
         blizzardRemountRootFS();
         printf("Preparing to install Blizzard Bootstrap...\n");
-        getBootstrapReady();
+        if (checkIfBootstrapPresent() != -1){
+            getBootstrapReady();
+        } else {
+            blizzardPostInstFixup();
+        }
         printf("Running post-install fixes...\n");
         blizzardPostInstFixup();
     } else {
@@ -841,7 +845,7 @@ int loadBlizzardLaunchDaemons(){
 }
 
 int checkIfBootstrapPresent(){
-    if(!((access("/.blizzardJB", F_OK) != -1) || (access("/.installed_home_depot", F_OK) != -1))){
+    if(((access("/.blizzardJB", F_OK) != -1) || (access("/.installed_home_depot", F_OK) != -1))){
         printf("[!] There already is a Bootstrap installed. Won't re-extract. \n");
         return -1;
     }

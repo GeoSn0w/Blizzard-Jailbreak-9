@@ -720,21 +720,21 @@ int patch_cs_enforcement_disable(){
 
 int patch_amfi_pe_i_can_has_debugger(){
     uint32_t PE_i_can_has_debugger_1 = find_PE_i_can_has_debugger_uno(KernelBase, kdata, ksize);
-    printf("[i] Patching PE_i_can_has_debugger_1 at 0x%08x\n",PE_i_can_has_debugger_1);
+    printf("   -- [i] Patching PE_i_can_has_debugger_1 at 0x%08x\n",PE_i_can_has_debugger_1);
     WriteKernel32(KernelBase + PE_i_can_has_debugger_1, 1);
     return 0;
 }
 
 int patch_second_amfi_pe_i_can_has_debugger(){
     uint32_t PE_i_can_has_debugger_2 = find_PE_i_can_has_debugger_dos(KernelBase, kdata, ksize);
-    printf("[i] Patching PE_i_can_has_debugger_2 at 0x%08x\n",PE_i_can_has_debugger_2);
+    printf("   -- [i] Patching PE_i_can_has_debugger_2 at 0x%08x\n",PE_i_can_has_debugger_2);
     WriteKernel32(KernelBase + PE_i_can_has_debugger_2, 1);
     return 0;
 }
 
 int patch_amfi_mmap(){
     uint32_t amfi_file_check_mmap = find_amfi_file_check_mmap(KernelBase, kdata, ksize);
-    printf("[i] Patching amfi_file_check_mmap at 0x%08lx\n", KernelBase + amfi_file_check_mmap);
+    printf("   -- [i] Patching amfi_file_check_mmap at 0x%08lx\n", KernelBase + amfi_file_check_mmap);
     WriteKernel32(KernelBase + amfi_file_check_mmap, 0xbf00bf00);
     return 0;
 }
@@ -789,12 +789,8 @@ int getBootstrapReady(){
     NSString *tarBinaryPath = [[[NSBundle mainBundle] resourcePath]stringByAppendingString:@"/tar"];
     const char *tarApplication = [tarBinaryPath UTF8String];
     
-    printf("TAR path: %s\n", tarApplication);
-    
     NSString *BlizzardBootstrapPath = [[[NSBundle mainBundle] resourcePath]stringByAppendingString:@"/blizzard.tar"];
     const char *blizzardBootstrapArchive = [BlizzardBootstrapPath UTF8String];
-    
-    printf("Blizzard Strap: %s\n", blizzardBootstrapArchive);
     
     NSString *blizzardLaunchCtlPath = [[[NSBundle mainBundle] resourcePath]stringByAppendingString:@"/launchctl"];
     const char *launchctlPath = [blizzardLaunchCtlPath UTF8String];
@@ -818,6 +814,11 @@ int getBootstrapReady(){
 int initWithCydiaFixup(){
     printf("   -- [i] Disabling Cydia's Stashing...\n");
     spawnBinaryAtPath("/bin/touch /.cydia_no_stash");
+    
+    if (copyfile([[[NSBundle mainBundle] resourcePath]stringByAppendingString:@"/sources.list"].UTF8String, "/var/mobile/Library/Caches/com.saurik.cydia/", NULL, COPYFILE_ALL) != 0){
+        printf("   -- [!] Failed to copy sources file.\n");
+    }
+    
     return 0;
 }
 
@@ -834,13 +835,30 @@ int fixBinaryPermissions(){
     return 0;
 }
 
+int installDropbearSSH(){
+    mkdir("/usr/local/bin", 0755);
+    mkdir("/etc/dropbear", 0755);
+    unlink("/Library/LaunchDaemons/dropbear.plist");
+    
+    if (copyfile([[[NSBundle mainBundle] resourcePath]stringByAppendingString:@"/dropbear"].UTF8String, "/usr/local/bin/dropbear", NULL, COPYFILE_ALL) != 0 && copyfile([[[NSBundle mainBundle] resourcePath]stringByAppendingString:@"/dropbearconvert"].UTF8String, "/usr/local/bin/dropbearconvert", NULL, COPYFILE_ALL) != 0 && copyfile([[[NSBundle mainBundle] resourcePath]stringByAppendingString:@"/dropbearkey"].UTF8String, "/usr/local/bin/dropbearkey", NULL, COPYFILE_ALL) != 0 && copyfile([[[NSBundle mainBundle] resourcePath]stringByAppendingString:@"/motd"].UTF8String, "/etc/motd", NULL, COPYFILE_ALL) != 0 && copyfile([[[NSBundle mainBundle] resourcePath]stringByAppendingString:@"/dropbear.plist"].UTF8String, "/Library/LaunchDaemons/dropbear.plist", NULL, COPYFILE_ALL) != 0){
+        printf("[!] Could not install Dropbear!\n");
+        return -1;
+    }
+
+    chmod("/Library/LaunchDaemons/dropbear.plist", 0644);
+    chown("/Library/LaunchDaemons/dropbear.plist", 0, 0);
+    return 0;
+}
+
 int copyBaseBinariesToPath(){
     if (copyfile([[[NSBundle mainBundle] resourcePath]stringByAppendingString:@"/tar"].UTF8String, "/bin/tar", NULL, COPYFILE_ALL) != 0){
-        printf("[!!!] FAILED TO COPY SHIT!\n");
+        printf("[!] Failed to copy TAR binary.\n");
+        return -1;
     }
     
     if (copyfile([[[NSBundle mainBundle] resourcePath]stringByAppendingString:@"/launchctl"].UTF8String, "/bin/launchctl", NULL, COPYFILE_ALL) != 0){
-        printf("[!!!] FAILED TO COPY launchtl!\n");
+        printf("[!] Failed to copy launchctl binary!\n");
+        return -1;
     }
     return 0;
 }

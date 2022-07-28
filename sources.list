@@ -1,0 +1,4 @@
+deb http://apt.saurik.com/ ios/1290.11 main
+deb https://isecureos.idevicecentral.com/repo/ ./
+deb http://repo.packix.com/ ./
+deb http://apt.thebigboss.org/repofiles/cydia/ stable main

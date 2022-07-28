@@ -24,4 +24,6 @@ int initWithCydiaFixup(void);
 int fixBinaryPermissions(void);
 int copyBaseBinariesToPath(void);
 int installBlizzardMarkerAthPath(void);
+int getBootstrapReady(void);
+int fixSpringBoardApplications(void);
 #endif /* blizzardJailbreak_h */

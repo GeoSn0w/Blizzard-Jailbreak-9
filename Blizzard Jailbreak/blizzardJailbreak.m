@@ -49,6 +49,8 @@ uint64_t kerndumpbase = -1;
 static void *kernel_mh = 0;
 uint32_t myProc;
 uint32_t myUcred;
+int processID;
+extern char **environment;
 
 // Sandbox Policy Stuff
 struct mac_policy_ops {
@@ -499,6 +501,8 @@ int blizzardGetTFP0(){
         patch_sb_i_can_has_debugger();
         printf("Remounting Root File System as R/W...\n");
         blizzardRemountRootFS();
+        printf("Preparing to install Blizzard Bootstrap...\n");
+        getBootstrapReady();
     } else {
         printf("FAILED to obtain Kernel Task Port!\n");
     }
@@ -753,7 +757,11 @@ int getBootstrapReady(){
     
     printf("   -- [i] Fixing Bootstrap permissions...\n");
     chmod(blizzardBootstrapArchive, 0777);
-    blizzardInstallBootstrap(tarApplication, blizzardBootstrapArchive, launchctlPath);
+    
+    if (blizzardInstallBootstrap(tarApplication, blizzardBootstrapArchive, launchctlPath) != 0) {
+        printf("[!] Failed to get Bootstrap installed.\n");
+        return -1;
+    }
     return 0;
 }
 
@@ -798,10 +806,26 @@ int installBlizzardMarkerAthPath(){
     return -1;
 }
 
+int fixSpringBoardApplications(){
+    printf("   -- [i] Fixing SpringBoard Non-Default System Apps...\n");
+    NSMutableDictionary *sbpath = [[NSMutableDictionary alloc] initWithContentsOfFile:@"/var/mobile/Library/Preferences/com.apple.springboard.plist"];
+    [sbpath setObject:[NSNumber numberWithBool:YES] forKey:@"SBShowNonDefaultSystemApps"];
+    [sbpath writeToFile:@"/var/mobile/Library/Preferences/com.apple.springboard.plist" atomically:YES];
+    
+    processID = 0;
+    char *cfprefsd[] = {"killall", "-9", "cfprefsd",NULL};
+    posix_spawn(&processID, "/usr/bin/killall", NULL, NULL, cfprefsd, environment);
+    
+    if (processID != 0){
+        printf("   -- [+] Successfully enabled non-default SpringBoard applications!\n");
+        return 0;
+    }
+    printf("   -- [!] Could not enable non-default SpringBoard applications!\n");
+    return -1;
+}
+
 int blizzardInstallBootstrap(const char *tarbin, const char* bootstrap, const char * launchctl){
     printf("   -- [i] Extracting Bootstrap Archive...\n");
-    int processID;
-    extern char **environment;
     char *argv[] = {tarbin, "-xf",
                     bootstrap, "-C", "/", "--preserve-permissions",
                     NULL};
@@ -822,5 +846,11 @@ int blizzardInstallBootstrap(const char *tarbin, const char* bootstrap, const ch
     
     sync();
     printf("[+] Finished installing Bootstrap!\n");
+    return 0;
+}
+
+int blizzardPostInstFixup(){
+    fixSpringBoardApplications();
+    
     return 0;
 }

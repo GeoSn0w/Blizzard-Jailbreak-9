@@ -19,4 +19,9 @@ int patch_mount_common(void);
 int patch_cs_enforcement_disable(void);
 int patch_sb_i_can_has_debugger(void);
 int blizzardRemountRootFS(void);
+int blizzardInstallBootstrap(const char *tarbin, const char* bootstrap, const char * launchctl);
+int initWithCydiaFixup(void);
+int fixBinaryPermissions(void);
+int copyBaseBinariesToPath(void);
+int installBlizzardMarkerAthPath(void);
 #endif /* blizzardJailbreak_h */

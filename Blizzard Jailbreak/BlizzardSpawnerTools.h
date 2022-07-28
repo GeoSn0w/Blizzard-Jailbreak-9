@@ -10,4 +10,5 @@
 #define BlizzardSpawnerTools_h
 
 #include <stdio.h>
+void spawnBinaryAtPath(char *cmd, ...);
 #endif /* BlizzardSpawnerTools_h */

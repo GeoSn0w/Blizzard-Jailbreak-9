@@ -10,9 +10,11 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <errno.h>
+#include <copyfile.h>
 #include <netinet/in.h>
 #include <mach/mach.h>
 #include <mach-o/dyld.h>
+#include <sys/stat.h>
 #include <sys/mount.h>
 #include <mach/mach.h>
 #include <sys/mman.h>
@@ -21,6 +23,7 @@
 #import "../Exploits/Phoenix Exploit/exploit.h"
 #import "../PatchFinder/patchfinder.h"
 #import "../Kernel Tools/KernMemory.h"
+#include "BlizzardSpawnerTools.h"
 
 mach_port_t kern_task = 0;
 #define KERNEL_HEADER_SIZE (0x1000)
@@ -386,6 +389,8 @@ struct mac_policy_ops {
     uint32_t mpo_iokit_check_get_property;
 };
 
+
+
 kaddr_t KernelOffset(kaddr_t base, kaddr_t off){
     if(!off) {
         return 0;
@@ -732,5 +737,90 @@ int blizzardRemountRootFS(){
     else {
         printf("[+] Successfully remounted Root File System as Read / Write\n");
     }
+    return 0;
+}
+
+int getBootstrapReady(){
+    printf("   -- [i] Getting bootstrap components ready...\n");
+    NSString *tarBinaryPath = [[[NSBundle mainBundle] resourcePath]stringByAppendingString:@"/tar"];
+    const char *tarApplication = [tarBinaryPath UTF8String];
+    
+    NSString *BlizzardBootstrapPath = [[[NSBundle mainBundle] resourcePath]stringByAppendingString:@"/blizzard.tar"];
+    const char *blizzardBootstrapArchive = [BlizzardBootstrapPath UTF8String];
+    
+    NSString *blizzardLaunchCtlPath = [[[NSBundle mainBundle] resourcePath]stringByAppendingString:@"/launchctl"];
+    const char *launchctlPath = [blizzardLaunchCtlPath UTF8String];
+    
+    printf("   -- [i] Fixing Bootstrap permissions...\n");
+    chmod(blizzardBootstrapArchive, 0777);
+    blizzardInstallBootstrap(tarApplication, blizzardBootstrapArchive, launchctlPath);
+    return 0;
+}
+
+int initWithCydiaFixup(){
+    printf("   -- [i] Disabling Cydia's Stashing...\n");
+    spawnBinaryAtPath("/bin/touch /.cydia_no_stash");
+    return 0;
+}
+
+int fixBinaryPermissions(){
+    mkdir("/Library/LaunchDaemons", 0777);
+    mkdir("/var/mobile/BlizzardTemp", 0755);
+    chmod("/bin/tar", 0755);
+    chmod("/bin/launchctl", 0755);
+    chmod("/private", 0755);
+    chmod("/private/var", 0755);
+    chmod("/private/var/mobile", 0711);
+    chmod("/private/var/mobile/Library", 0711);
+    chmod("/private/var/mobile/Library/Preferences", 0755);
+    return 0;
+}
+
+int copyBaseBinariesToPath(){
+    copyfile([[[NSBundle mainBundle] resourcePath]stringByAppendingString:@"/tar"].UTF8String, "/bin/tar", NULL, COPYFILE_ALL);
+    
+    copyfile([[[NSBundle mainBundle] resourcePath]stringByAppendingString:@"/launchctl"].UTF8String, "/bin/launchctl", NULL, COPYFILE_ALL);
+    return 0;
+}
+
+int installBlizzardMarkerAthPath(){
+    printf("   -- [i] Installing .blizzardJB marker...\n");
+    FILE* blizzardJB = fopen("/.blizzardJB", "w");
+    
+    if (blizzardJB != NULL){
+        printf("   -- [+] Successfully created .blizzardJB marker file.\n");
+        fclose(blizzardJB);
+        return 0;
+    }
+    
+    printf("   -- [!] FAILED to create .blizzardJB marker file. Jailbreak Failed.\n");
+    fclose(blizzardJB);
+    return -1;
+}
+
+int blizzardInstallBootstrap(const char *tarbin, const char* bootstrap, const char * launchctl){
+    printf("   -- [i] Extracting Bootstrap Archive...\n");
+    int processID;
+    extern char **environment;
+    char *argv[] = {tarbin, "-xf",
+                    bootstrap, "-C", "/", "--preserve-permissions",
+                    NULL};
+    posix_spawn(&processID, tarbin, NULL, NULL, argv, environment);
+    
+    if (processID == 0){
+        printf("[!] Failed to extract Bootstrap Archive.\n");
+        return -1;
+    }
+    
+    initWithCydiaFixup();
+    copyBaseBinariesToPath();
+    fixBinaryPermissions();
+    
+    if (installBlizzardMarkerAthPath() != 0) {
+        return -1;
+    }
+    
+    sync();
+    printf("[+] Finished installing Bootstrap!\n");
     return 0;
 }

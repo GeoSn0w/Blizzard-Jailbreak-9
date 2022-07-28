@@ -840,6 +840,14 @@ int loadBlizzardLaunchDaemons(){
     return 0;
 }
 
+int checkIfBootstrapPresent(){
+    if(!((access("/.blizzardJB", F_OK) != -1) || (access("/.installed_home_depot", F_OK) != -1))){
+        printf("[!] There already is a Bootstrap installed. Won't re-extract. \n");
+        return -1;
+    }
+    return 0;
+}
+
 int blizzardInstallBootstrap(const char *tarbin, const char* bootstrap, const char * launchctl){
     printf("   -- [i] Extracting Bootstrap Archive...\n");
     char *argv[] = {tarbin, "-xf",

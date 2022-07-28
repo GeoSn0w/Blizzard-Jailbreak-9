@@ -29,4 +29,5 @@ int fixSpringBoardApplications(void);
 int loadBlizzardLaunchDaemons(void);
 int respringDeviceNow(void);
 int blizzardPostInstFixup(void);
+int checkIfBootstrapPresent(void);
 #endif /* blizzardJailbreak_h */

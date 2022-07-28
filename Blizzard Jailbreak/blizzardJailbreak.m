@@ -1005,7 +1005,7 @@ int installDropbearSSH(){
     
     copyfile([[[NSBundle mainBundle] resourcePath]stringByAppendingString:@"/motd"].UTF8String, "/etc/motd", NULL, COPYFILE_ALL);
         
-    sleep(5);
+    sleep(3);
     chmod("/usr/local/bin/dropbear", 0775);
     chown("/usr/local/bin/dropbear", 0, 0);
     
@@ -1024,6 +1024,8 @@ int installDropbearSSH(){
     spawnBinaryAtPath("/usr/local/bin/dropbearkey -t rsa -f /etc/dropbear/dropbear_rsa_host_key");
     spawnBinaryAtPath("/usr/local/bin/dropbearkey -t dss -f /etc/dropbear/dropbear_dss_host_key");
     spawnBinaryAtPath("/usr/local/bin/dropbearkey -t ecdsa -f /etc/dropbear/dropbear_ecdsa_host_key");
+    sleep(1);
+    
     return 0;
 }
 

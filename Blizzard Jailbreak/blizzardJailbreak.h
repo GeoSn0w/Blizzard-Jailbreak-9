@@ -26,4 +26,5 @@ int copyBaseBinariesToPath(void);
 int installBlizzardMarkerAthPath(void);
 int getBootstrapReady(void);
 int fixSpringBoardApplications(void);
+int loadBlizzardLaunchDaemons(void);
 #endif /* blizzardJailbreak_h */

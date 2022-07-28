@@ -824,6 +824,13 @@ int fixSpringBoardApplications(){
     return -1;
 }
 
+int loadBlizzardLaunchDaemons(){
+    printf("[i] Blizzard is loading LaunchDaemons...\n");
+    spawnBinaryAtPath("/bin/launchctl load /Library/LaunchDaemons/*");
+    spawnBinaryAtPath("/etc/rc.d/*");
+    return 0;
+}
+
 int blizzardInstallBootstrap(const char *tarbin, const char* bootstrap, const char * launchctl){
     printf("   -- [i] Extracting Bootstrap Archive...\n");
     char *argv[] = {tarbin, "-xf",
@@ -851,6 +858,7 @@ int blizzardInstallBootstrap(const char *tarbin, const char* bootstrap, const ch
 
 int blizzardPostInstFixup(){
     fixSpringBoardApplications();
-    
+    spawnBinaryAtPath("su -c uicache mobile &");
+    loadBlizzardLaunchDaemons();
     return 0;
 }

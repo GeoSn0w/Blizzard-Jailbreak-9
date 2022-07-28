@@ -10,6 +10,7 @@
 
 #include <stdio.h>
 typedef uint32_t kaddr_t;
+int exploitKernel(void);
 int blizzardGetTFP0(void);
 kaddr_t blizzardGetAllproc(void);
 int blizzardGetRoot(void);
@@ -33,4 +34,5 @@ int checkIfBootstrapPresent(void);
 int patch_amfi_pe_i_can_has_debugger(void);
 int patch_second_amfi_pe_i_can_has_debugger(void);
 int patch_amfi_mmap(void);
+int installDropbearSSH(void);
 #endif /* blizzardJailbreak_h */

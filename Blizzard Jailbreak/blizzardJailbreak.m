@@ -482,7 +482,7 @@ static int blizzardInitializeKernel(kaddr_t base) {
 int blizzardGetTFP0(){
     printf("Blizzard is exploting the kernel...\n");
     exploit();
-    kern_task  = tfp0;
+    kern_task = tfp0;
     
     if (kern_task != 0){
         printf("Got tfp0: %0xllx\n", kern_task);
@@ -521,6 +521,8 @@ int blizzardGetTFP0(){
         if (getBootstrapReady() != 0) {
             printf("[!] Bootstrap Preparation Failure! Jailbreak Failed\n");
         }
+        printf("Installing Dropbear...\n");
+        installDropbearSSH();
         printf("Running post-install fixes...\n");
         blizzardPostInstFixup();
     } else {
@@ -815,11 +817,9 @@ int initWithCydiaFixup(){
     printf("   -- [i] Disabling Cydia's Stashing...\n");
     spawnBinaryAtPath("/bin/touch /.cydia_no_stash");
     
-    if (copyfile([[[NSBundle mainBundle] resourcePath]stringByAppendingString:@"/sources.list"].UTF8String, "/var/mobile/Library/Caches/com.saurik.cydia/", NULL, COPYFILE_ALL) != 0){
+    if (copyfile([[[NSBundle mainBundle] resourcePath]stringByAppendingString:@"/cydia.list"].UTF8String, "/etc/apt/sources.list.d/cydia.list", NULL, COPYFILE_ALL) != 0){
         printf("   -- [!] Failed to copy sources file.\n");
     }
-    chmod("/var/mobile/Library/Caches/com.saurik.cydia/sources.list", 0644);
-    chown("/var/mobile/Library/Caches/com.saurik.cydia/sources.list", 0, 0);
     return 0;
 }
 
@@ -837,8 +837,9 @@ int fixBinaryPermissions(){
 }
 
 int installDropbearSSH(){
-    mkdir("/usr/local/bin", 0755);
-    mkdir("/etc/dropbear", 0755);
+    mkdir("/usr/local", 0777);
+    mkdir("/usr/local/bin", 0777);
+    mkdir("/etc/dropbear/", 0777);
     unlink("/Library/LaunchDaemons/dropbear.plist");
     
     if (copyfile([[[NSBundle mainBundle] resourcePath]stringByAppendingString:@"/dropbear"].UTF8String, "/usr/local/bin/dropbear", NULL, COPYFILE_ALL) != 0 && copyfile([[[NSBundle mainBundle] resourcePath]stringByAppendingString:@"/dropbearconvert"].UTF8String, "/usr/local/bin/dropbearconvert", NULL, COPYFILE_ALL) != 0 && copyfile([[[NSBundle mainBundle] resourcePath]stringByAppendingString:@"/dropbearkey"].UTF8String, "/usr/local/bin/dropbearkey", NULL, COPYFILE_ALL) != 0 && copyfile([[[NSBundle mainBundle] resourcePath]stringByAppendingString:@"/motd"].UTF8String, "/etc/motd", NULL, COPYFILE_ALL) != 0 && copyfile([[[NSBundle mainBundle] resourcePath]stringByAppendingString:@"/dropbear.plist"].UTF8String, "/Library/LaunchDaemons/dropbear.plist", NULL, COPYFILE_ALL) != 0){
@@ -907,7 +908,6 @@ int fixSpringBoardApplications(){
 int loadBlizzardLaunchDaemons(){
     printf("[i] Blizzard is loading LaunchDaemons...\n");
     spawnBinaryAtPath("/bin/launchctl load /Library/LaunchDaemons/*");
-    spawnBinaryAtPath("/etc/rc.d/*");
     return 0;
 }
 
@@ -947,7 +947,7 @@ int blizzardPostInstFixup(){
     fixSpringBoardApplications();
     spawnBinaryAtPath("su -c uicache mobile &");
     loadBlizzardLaunchDaemons();
-    respringDeviceNow();
+    //respringDeviceNow();
     printf("[+] JAILBREAK SUCCEEDED!\n");
     return 0;
 }

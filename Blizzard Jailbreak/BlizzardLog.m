@@ -23,7 +23,7 @@ static BlizzardLog *BlizzLogger;
 }
 
 int dismissButtonActionType = 0;
-int IS_BLIZZARD_DEBUG = 1;
+int IS_BLIZZARD_DEBUG = 0;
 int shouldUnjailbreak = 0;
 
 - (void)viewDidLoad {
@@ -35,10 +35,13 @@ int shouldUnjailbreak = 0;
     [self.uiLogView scrollRangeToVisible:lastLine];
     
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        [self runJailbreak];
+        blizzardGetTFP0();
         dispatch_async(dispatch_get_main_queue(), ^{
-            //update UI in main thread.
+            [self redirectSTD:STDOUT_FILENO];
+            NSRange lastLine = NSMakeRange(self.uiLogView.text.length - 1, 1);
+            [self.uiLogView scrollRangeToVisible:lastLine];
         });
+        
     });
     
 }
@@ -53,8 +56,6 @@ int shouldUnjailbreak = 0;
 - (IBAction)dismissLogWindow:(id)sender {
     if (dismissButtonActionType == 0){
         [self dismissViewControllerAnimated:YES completion:nil];
-    } else if (dismissButtonActionType == 1){
-        [self loadSystemNotif];
     }
 }
 
@@ -85,16 +86,6 @@ int shouldUnjailbreak = 0;
                                                  name:NSFileHandleReadCompletionNotification
                                                object:pipeReadHandle] ;
     [pipeReadHandle readInBackgroundAndNotify];
-}
-
-- (void)loadSystemNotif {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        UIAlertController *apfsNoticeController = [UIAlertController alertControllerWithTitle:(@"Blizzard Jailbreak") message:(@"The APFS Snapshot has been successfully renamed! Your device will reboot now. If you wanna jailbreak, please come back to the app and re-jailbreak upon reboot.") preferredStyle:UIAlertControllerStyleAlert];
-        [apfsNoticeController addAction:[UIAlertAction actionWithTitle:(@"Dismiss") style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-            //reboot(RB_NOSYNC);
-        }]];
-        [self presentViewController:apfsNoticeController animated:YES completion:nil];
-    });
 }
 
 @end

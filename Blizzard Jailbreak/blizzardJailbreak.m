@@ -818,7 +818,8 @@ int initWithCydiaFixup(){
     if (copyfile([[[NSBundle mainBundle] resourcePath]stringByAppendingString:@"/sources.list"].UTF8String, "/var/mobile/Library/Caches/com.saurik.cydia/", NULL, COPYFILE_ALL) != 0){
         printf("   -- [!] Failed to copy sources file.\n");
     }
-    
+    chmod("/var/mobile/Library/Caches/com.saurik.cydia/sources.list", 0644);
+    chown("/var/mobile/Library/Caches/com.saurik.cydia/sources.list", 0, 0);
     return 0;
 }
 

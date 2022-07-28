@@ -503,6 +503,8 @@ int blizzardGetTFP0(){
         blizzardRemountRootFS();
         printf("Preparing to install Blizzard Bootstrap...\n");
         getBootstrapReady();
+        printf("Running post-install fixes...\n");
+        blizzardPostInstFixup();
     } else {
         printf("FAILED to obtain Kernel Task Port!\n");
     }
@@ -806,6 +808,13 @@ int installBlizzardMarkerAthPath(){
     return -1;
 }
 
+int respringDeviceNow(){
+    printf("[i] Device is respringing now...\n");
+    char *backboardd[] = {"killall", "-9", "backboardd",NULL};
+    posix_spawn(&processID, "/usr/bin/killall", NULL, NULL, backboardd, environment);
+    return 0;
+}
+
 int fixSpringBoardApplications(){
     printf("   -- [i] Fixing SpringBoard Non-Default System Apps...\n");
     NSMutableDictionary *sbpath = [[NSMutableDictionary alloc] initWithContentsOfFile:@"/var/mobile/Library/Preferences/com.apple.springboard.plist"];
@@ -860,5 +869,7 @@ int blizzardPostInstFixup(){
     fixSpringBoardApplications();
     spawnBinaryAtPath("su -c uicache mobile &");
     loadBlizzardLaunchDaemons();
+    respringDeviceNow();
+    printf("[+] JAILBREAK SUCCEEDED!\n");
     return 0;
 }

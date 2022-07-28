@@ -27,4 +27,6 @@ int installBlizzardMarkerAthPath(void);
 int getBootstrapReady(void);
 int fixSpringBoardApplications(void);
 int loadBlizzardLaunchDaemons(void);
+int respringDeviceNow(void);
+int blizzardPostInstFixup(void);
 #endif /* blizzardJailbreak_h */

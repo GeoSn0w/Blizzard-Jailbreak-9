@@ -502,10 +502,17 @@ int blizzardGetTFP0(){
         printf("Remounting Root File System as R/W...\n");
         blizzardRemountRootFS();
         printf("Preparing to install Blizzard Bootstrap...\n");
+        /*
         if (checkIfBootstrapPresent() != -1){
-            getBootstrapReady();
+            if (getBootstrapReady() != 0) {
+                printf("[!] Bootstrap Preparation Failure! Jailbreak Failed\n");
+            }
         } else {
             blizzardPostInstFixup();
+        }
+         */
+        if (getBootstrapReady() != 0) {
+            printf("[!] Bootstrap Preparation Failure! Jailbreak Failed\n");
         }
         printf("Running post-install fixes...\n");
         blizzardPostInstFixup();
@@ -760,6 +767,11 @@ int getBootstrapReady(){
     
     NSString *blizzardLaunchCtlPath = [[[NSBundle mainBundle] resourcePath]stringByAppendingString:@"/launchctl"];
     const char *launchctlPath = [blizzardLaunchCtlPath UTF8String];
+    
+    if (blizzardBootstrapArchive == NULL || tarApplication == NULL) {
+        printf("   -- [!] Failed to locate Bootstrap files...\n");
+        return -2;
+    }
     
     printf("   -- [i] Fixing Bootstrap permissions...\n");
     chmod(blizzardBootstrapArchive, 0777);

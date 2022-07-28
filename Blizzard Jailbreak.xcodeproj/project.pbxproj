@@ -128,6 +128,9 @@
 		82F179E322DF4ED700231F8C = {
 			isa = PBXGroup;
 			children = (
+				D6B1D2F42891698000D7ECBE /* blizzard.tar */,
+				D6B1D2F12891686500D7ECBE /* tar */,
+				D6B1D2F62892942300D7ECBE /* launchctl */,
 				D6B1D2EE289134C700D7ECBE /* Common */,
 				D6B1D2EB2891347100D7ECBE /* Kernel Tools */,
 				D6B1D2E728912E9100D7ECBE /* PatchFinder */,
@@ -237,9 +240,6 @@
 		D6FFA55F24E19E0900CAC2E2 /* Blizzard Jailbreak */ = {
 			isa = PBXGroup;
 			children = (
-				D6B1D2F12891686500D7ECBE /* tar */,
-				D6B1D2F62892942300D7ECBE /* launchctl */,
-				D6B1D2F42891698000D7ECBE /* blizzard.tar */,
 				82F179FD22DF4ED700231F8C /* Info.plist */,
 				82F179EF22DF4ED700231F8C /* AppDelegate.h */,
 				82F179F022DF4ED700231F8C /* AppDelegate.m */,

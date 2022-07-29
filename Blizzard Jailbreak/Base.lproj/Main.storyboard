@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
-    <device id="retina3_5" orientation="portrait">
+    <device id="retina4_0" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
@@ -15,32 +15,34 @@
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="blizzardView" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="jailbreak_wallpaper" adjustsImageSizeForAccessibilityContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="IMk-rn-peb">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="702"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="1194"/>
                             </imageView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="winter" translatesAutoresizingMaskIntoConstraints="NO" id="Suw-j9-Sy3">
-                                <rect key="frame" x="32" y="84" width="256" height="150"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="150" id="4cz-MJ-nsh"/>
-                                    <constraint firstAttribute="height" constant="150" id="veZ-H9-MjK"/>
-                                </constraints>
+                                <rect key="frame" x="84" y="20" width="153" height="194"/>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="BLIZZARD JAILBREAK" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fV6-tC-CJz">
-                                <rect key="frame" x="30" y="240" width="260" height="29"/>
+                                <rect key="frame" x="30" y="222" width="260" height="29"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="29" id="ZrZ-fC-3IJ"/>
+                                    <constraint firstAttribute="height" constant="29" id="Exi-IR-r0e"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" weight="light" pointSize="24"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="by GeoSn0w (@FCE365)" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2nt-NA-u5V">
+                                <rect key="frame" x="30" y="542" width="260" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <button opaque="NO" alpha="0.84999999999999998" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZQt-HB-KcQ">
-                                <rect key="frame" x="40" y="310" width="240" height="48"/>
+                                <rect key="frame" x="40" y="283" width="240" height="48"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="48" id="n5b-aE-1UC"/>
+                                    <constraint firstAttribute="height" constant="48" id="v4N-4j-yxc"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="18"/>
                                 <state key="normal" title="JAILBREAK" backgroundImage="button_mask">
@@ -59,34 +61,25 @@
                                     <action selector="blizzardInit:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Jh7-HL-oQs"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="by GeoSn0w (@FCE365)" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2nt-NA-u5V">
-                                <rect key="frame" x="30" y="454" width="260" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="fV6-tC-CJz" firstAttribute="top" secondItem="Suw-j9-Sy3" secondAttribute="bottom" constant="6" id="3Xc-Yf-VaY"/>
-                            <constraint firstItem="2nt-NA-u5V" firstAttribute="trailing" secondItem="fV6-tC-CJz" secondAttribute="trailing" id="5Lg-2g-Qxf"/>
-                            <constraint firstItem="IMk-rn-peb" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="5Rf-lp-HFr"/>
-                            <constraint firstItem="ZQt-HB-KcQ" firstAttribute="top" secondItem="Suw-j9-Sy3" secondAttribute="bottom" constant="76" id="8VU-CU-HbD"/>
-                            <constraint firstItem="ZQt-HB-KcQ" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="40" id="CEp-oy-DxF"/>
-                            <constraint firstItem="IMk-rn-peb" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="COe-Os-yxH"/>
-                            <constraint firstItem="fV6-tC-CJz" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="30" id="Cdz-ud-Ycy"/>
-                            <constraint firstItem="Suw-j9-Sy3" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" constant="-175" id="HOt-q2-t22"/>
-                            <constraint firstItem="Suw-j9-Sy3" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="63.5" id="OQ3-JL-RKT"/>
-                            <constraint firstItem="Suw-j9-Sy3" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="OYq-qI-KpH"/>
-                            <constraint firstItem="2nt-NA-u5V" firstAttribute="leading" secondItem="fV6-tC-CJz" secondAttribute="leading" id="SAF-mq-5LS"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="ZQt-HB-KcQ" secondAttribute="trailing" constant="40" id="SSW-cU-K2f"/>
-                            <constraint firstItem="ZQt-HB-KcQ" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="WqY-g3-Csa"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="fV6-tC-CJz" secondAttribute="trailing" constant="30" id="Wxw-hN-w3e"/>
-                            <constraint firstItem="Suw-j9-Sy3" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="aLV-fL-jbw"/>
-                            <constraint firstAttribute="bottom" secondItem="IMk-rn-peb" secondAttribute="bottom" constant="-34" id="abB-9D-Xd3"/>
-                            <constraint firstItem="2nt-NA-u5V" firstAttribute="top" secondItem="ZQt-HB-KcQ" secondAttribute="bottom" constant="96" id="u90-jj-gHE"/>
-                            <constraint firstItem="IMk-rn-peb" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="uRA-zq-YiX"/>
-                            <constraint firstItem="ZQt-HB-KcQ" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="yPD-m1-UWo"/>
+                            <constraint firstItem="fV6-tC-CJz" firstAttribute="leading" secondItem="2nt-NA-u5V" secondAttribute="leading" id="AdK-tz-bbm"/>
+                            <constraint firstItem="ZQt-HB-KcQ" firstAttribute="top" secondItem="fV6-tC-CJz" secondAttribute="bottom" constant="32" id="ELF-Uj-TSN"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="2nt-NA-u5V" secondAttribute="bottom" constant="5" id="G3v-8p-8UC"/>
+                            <constraint firstItem="Suw-j9-Sy3" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="84" id="Hf8-w2-LIB"/>
+                            <constraint firstItem="fV6-tC-CJz" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="30" id="Hyd-CN-W5N"/>
+                            <constraint firstAttribute="trailing" secondItem="IMk-rn-peb" secondAttribute="trailing" id="IpS-pw-7yA"/>
+                            <constraint firstItem="fV6-tC-CJz" firstAttribute="top" secondItem="Suw-j9-Sy3" secondAttribute="bottom" constant="8" symbolic="YES" id="K7i-rF-eNI"/>
+                            <constraint firstItem="Suw-j9-Sy3" firstAttribute="centerX" secondItem="fV6-tC-CJz" secondAttribute="centerX" id="YTm-4R-nQk"/>
+                            <constraint firstItem="fV6-tC-CJz" firstAttribute="trailing" secondItem="2nt-NA-u5V" secondAttribute="trailing" id="dh6-wL-75e"/>
+                            <constraint firstItem="ZQt-HB-KcQ" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="40" id="f9S-uo-hNW"/>
+                            <constraint firstItem="Suw-j9-Sy3" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="kCv-PX-b0x"/>
+                            <constraint firstItem="fV6-tC-CJz" firstAttribute="centerX" secondItem="ZQt-HB-KcQ" secondAttribute="centerX" id="scs-ob-zVR"/>
+                            <constraint firstItem="IMk-rn-peb" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="t0t-5I-lg0"/>
+                            <constraint firstItem="ZQt-HB-KcQ" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" constant="23" id="u9P-wQ-VNn"/>
+                            <constraint firstItem="IMk-rn-peb" firstAttribute="centerX" secondItem="ZQt-HB-KcQ" secondAttribute="centerX" id="wNA-e7-gnt"/>
+                            <constraint firstItem="IMk-rn-peb" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="yQP-so-JfR"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
@@ -96,7 +89,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-9.375" y="132.04225352112675"/>
+            <point key="canvasLocation" x="-9.375" y="131.25"/>
         </scene>
     </scenes>
     <resources>

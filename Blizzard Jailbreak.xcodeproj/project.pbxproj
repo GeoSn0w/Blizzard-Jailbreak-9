@@ -15,7 +15,7 @@
 		D613B71B24E217D90069CA9B /* BlizzardLog.m in Sources */ = {isa = PBXBuildFile; fileRef = D613B71A24E217D90069CA9B /* BlizzardLog.m */; };
 		D613B75024E2CD5E0069CA9B /* BlizzardSpawnerTools.c in Sources */ = {isa = PBXBuildFile; fileRef = D613B74E24E2CD5E0069CA9B /* BlizzardSpawnerTools.c */; };
 		D63EDAC124E1989F009B305D /* blizzardJailbreak.m in Sources */ = {isa = PBXBuildFile; fileRef = D63EDABF24E1989F009B305D /* blizzardJailbreak.m */; };
-		D6B1D2D92891299100D7ECBE /* exploit.c in Sources */ = {isa = PBXBuildFile; fileRef = D6B1D2D82891299100D7ECBE /* exploit.c */; };
+		D6983F822894622100163EAE /* exploit.m in Sources */ = {isa = PBXBuildFile; fileRef = D6983F812894622100163EAE /* exploit.m */; };
 		D6B1D2EA28912EEE00D7ECBE /* patchfinder.m in Sources */ = {isa = PBXBuildFile; fileRef = D6B1D2E928912EEE00D7ECBE /* patchfinder.m */; };
 		D6B1D2ED2891348B00D7ECBE /* KernMemory.m in Sources */ = {isa = PBXBuildFile; fileRef = D6B1D2EC2891348B00D7ECBE /* KernMemory.m */; };
 		D6B1D2F22891686500D7ECBE /* tar in Resources */ = {isa = PBXBuildFile; fileRef = D6B1D2F12891686500D7ECBE /* tar */; };
@@ -61,12 +61,12 @@
 		D613B74F24E2CD5E0069CA9B /* BlizzardSpawnerTools.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BlizzardSpawnerTools.h; sourceTree = "<group>"; };
 		D63EDABF24E1989F009B305D /* blizzardJailbreak.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = blizzardJailbreak.m; sourceTree = "<group>"; };
 		D63EDAC024E1989F009B305D /* blizzardJailbreak.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = blizzardJailbreak.h; sourceTree = "<group>"; };
+		D6983F812894622100163EAE /* exploit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = exploit.m; sourceTree = "<group>"; };
 		D69C4CB5256868BB001DE2BC /* IOReturn.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IOReturn.h; sourceTree = "<group>"; };
 		D69C4CB6256868BB001DE2BC /* IOKitKeys.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IOKitKeys.h; sourceTree = "<group>"; };
 		D69C4CB7256868BB001DE2BC /* IOKitLib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IOKitLib.h; sourceTree = "<group>"; };
 		D69C4CB8256868BB001DE2BC /* IOTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IOTypes.h; sourceTree = "<group>"; };
 		D6B1D2D72891299100D7ECBE /* exploit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = exploit.h; sourceTree = "<group>"; };
-		D6B1D2D82891299100D7ECBE /* exploit.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = exploit.c; sourceTree = "<group>"; };
 		D6B1D2DA28912B0000D7ECBE /* IOCFUnserialize.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IOCFUnserialize.h; sourceTree = "<group>"; };
 		D6B1D2DB28912B0100D7ECBE /* IOKitServer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IOKitServer.h; sourceTree = "<group>"; };
 		D6B1D2DC28912B0100D7ECBE /* IOMessage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IOMessage.h; sourceTree = "<group>"; };
@@ -193,7 +193,7 @@
 			isa = PBXGroup;
 			children = (
 				D6B1D2D72891299100D7ECBE /* exploit.h */,
-				D6B1D2D82891299100D7ECBE /* exploit.c */,
+				D6983F812894622100163EAE /* exploit.m */,
 			);
 			path = "Phoenix Exploit";
 			sourceTree = "<group>";
@@ -393,7 +393,7 @@
 				D6B1D2ED2891348B00D7ECBE /* KernMemory.m in Sources */,
 				D63EDAC124E1989F009B305D /* blizzardJailbreak.m in Sources */,
 				D6B1D2EA28912EEE00D7ECBE /* patchfinder.m in Sources */,
-				D6B1D2D92891299100D7ECBE /* exploit.c in Sources */,
+				D6983F822894622100163EAE /* exploit.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

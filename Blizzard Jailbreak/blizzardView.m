@@ -10,7 +10,11 @@
 #include "blizzardJailbreak.h"
 #import <sys/utsname.h>
 
-#define iosVersionSupport(v)  ([[[UIDevice currentDevice] systemVersion] compare:@v options:NSNumericSearch] != NSOrderedDescending)
+//For iOS version detection
+#define SYSTEM_VERSION_EQUAL_TO(v)                  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedSame)
+#define SYSTEM_VERSION_LESS_THAN(v)                 ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedAscending)
+#define SYSTEM_VERSION_GREATER_THAN(v)              ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedDescending)
+#define SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
 
 @interface blizzardView () <UITextFieldDelegate>
 
@@ -33,7 +37,7 @@
     }
 }
 - (IBAction)blizzardInit:(id)sender {
-    if (iosVersionSupport("9.3.5")){
+    if (SYSTEM_VERSION_LESS_THAN(@"9.3.6") && SYSTEM_VERSION_GREATER_THAN(@"9.0")){
         dispatch_async(dispatch_get_main_queue(), ^{
             self->_blizzardInit.enabled = NO;
             [self->_blizzardInit setTitle:@"Exploiting..." forState:UIControlStateDisabled];
@@ -142,18 +146,15 @@
             }
         });
         
-    } else if (iosVersionSupport("14.0")){
-        printf("The iOS version is not supported");
-        exit(0);
+    } else {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            self->_blizzardInit.enabled = NO;
+            [self->_blizzardInit setTitle:@"UNSUPPORTED" forState:UIControlStateDisabled];
+        });
     }
     
+  
     
-}
-- (IBAction)injectSettingsUI:(id)sender {
-    [self performSegueWithIdentifier:@"settingsView" sender:self];
-}
-- (IBAction)saveJailbreakSettings:(id)sender {
-    [self dismissViewControllerAnimated:YES completion:nil];
 }
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
     [textField resignFirstResponder];

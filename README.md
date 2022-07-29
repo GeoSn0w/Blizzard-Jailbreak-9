@@ -12,3 +12,9 @@ Feel free to mess with the code as long as you do proper crediting where it is d
 * <a href="https://twitter.com/FCE365">GeoSn0w (Personal Dev Account)</a>
 * <a href="https://twitter.com/GetBlizzardJB">Blizzard Jailbreak</a>
 * <a href="https://youtube.com/fce365official">iDevice Central YouTube Channel</a>
+
+### Thanks a lot to
+
+* <a href="https://github.com/dora2-iOS"> dora2iOS - Substantial help with patches and exploit.</a>
+* <a href="https://github.com/siguza"> siguza - Kernel Exploit</a>
+* <a href="https://github.com/zachary7829"> zachary7829 - AMFI PE_I_can_has_debugger offsets.</a>

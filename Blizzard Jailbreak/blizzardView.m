@@ -37,7 +37,7 @@
     }
 }
 - (IBAction)blizzardInit:(id)sender {
-    if (SYSTEM_VERSION_LESS_THAN(@"9.3.6") && SYSTEM_VERSION_GREATER_THAN(@"9.0")){
+    if (SYSTEM_VERSION_LESS_THAN(@"9.3.6") || SYSTEM_VERSION_EQUAL_TO(@"9.3.6") && SYSTEM_VERSION_GREATER_THAN(@"9.0")){
         dispatch_async(dispatch_get_main_queue(), ^{
             self->_blizzardInit.enabled = NO;
             [self->_blizzardInit setTitle:@"Exploiting..." forState:UIControlStateDisabled];

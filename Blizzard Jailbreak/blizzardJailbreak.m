@@ -990,7 +990,16 @@ int initWithCydiaFixup(){
     if (copyfile([[[NSBundle mainBundle] resourcePath]stringByAppendingString:@"/cydia.list"].UTF8String, "/etc/apt/sources.list.d/cydia.list", NULL, COPYFILE_ALL) != 0){
         printf("   -- [!] Failed to copy sources file.\n");
     }
-    return 0;
+    
+    NSFileManager *fileman = [NSFileManager defaultManager];
+    NSString *cydia_no_stash = @"/.cydia_no_stash";
+    
+    if ([fileman fileExistsAtPath:cydia_no_stash]){
+        printf("[i] Cydia No Stash file does exist. Good.\n");
+        return 0;
+    }
+    printf("[!] Fatal error: Cydia No Stash File does NOT exist. Blizzard will not continue because this would mess up the file system!\n");
+    return -1;
 }
 
 int fixBinaryPermissions(){
@@ -1131,7 +1140,10 @@ int blizzardInstallBootstrap(const char *tarbin, const char* bootstrap, const ch
         return -1;
     }
     
-    initWithCydiaFixup();
+    if (initWithCydiaFixup() != 0) {
+        return -2;
+    }
+    
     copyBaseBinariesToPath();
     fixBinaryPermissions();
     

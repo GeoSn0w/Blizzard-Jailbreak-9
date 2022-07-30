@@ -1045,9 +1045,11 @@ int installDropbearSSH(){
         return -1;
     }
     
+    int stat;
+    waitpid(processID, &stat, 0);
+    
     copyfile([[[NSBundle mainBundle] resourcePath]stringByAppendingString:@"/motd"].UTF8String, "/etc/motd", NULL, COPYFILE_ALL);
-        
-    sleep(3);
+    
     chmod("/usr/local/bin/dropbear", 0775);
     chown("/usr/local/bin/dropbear", 0, 0);
     
@@ -1144,10 +1146,11 @@ int blizzardInstallBootstrap(const char *tarbin, const char* bootstrap, const ch
                     bootstrap, "-C", "/", "--preserve-permissions",
                     NULL};
     
-    if (posix_spawn(&processID, tarbin, NULL, NULL, argv, environment) != 0){
-        printf("[!] Failed to extract Bootstrap Archive.\n");
-        return -1;
-    }
+    
+    posix_spawn(&processID, tarbin, NULL, NULL, argv, environment);
+    
+    int stat;
+    waitpid(processID, &stat, 0);
     
     if (initWithCydiaFixup() != 0) {
         return -2;

@@ -84,6 +84,10 @@
                                                             self->_blizzardInit.enabled = NO;
                                                             [self->_blizzardInit setTitle:@"ROOT FS Remounted!" forState:UIControlStateDisabled];
                                                         });
+                                                        dispatch_async(dispatch_get_main_queue(), ^{
+                                                            self->_blizzardInit.enabled = NO;
+                                                            [self->_blizzardInit setTitle:@"Preparing System..." forState:UIControlStateDisabled];
+                                                        });
                                                         dispatch_async(dispatch_get_global_queue(0, 0), ^{
                                                             if (installBootstrapStub() == 0){
                                                                 dispatch_async(dispatch_get_main_queue(), ^{

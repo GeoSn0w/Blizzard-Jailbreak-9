@@ -1048,8 +1048,6 @@ int installDropbearSSH(){
     int stat;
     waitpid(processID, &stat, 0);
     
-    copyfile([[[NSBundle mainBundle] resourcePath]stringByAppendingString:@"/motd"].UTF8String, "/etc/motd", NULL, COPYFILE_ALL);
-    
     chmod("/usr/local/bin/dropbear", 0775);
     chown("/usr/local/bin/dropbear", 0, 0);
     
@@ -1062,13 +1060,14 @@ int installDropbearSSH(){
     chmod("/Library/LaunchDaemons/dropbear.plist", 0644);
     chown("/Library/LaunchDaemons/dropbear.plist", 0, 0);
     
-    chmod("/etc/motd", 0644);
-    chown("/etc/motd", 0, 0);
-    
     spawnBinaryAtPath("/usr/local/bin/dropbearkey -t rsa -f /etc/dropbear/dropbear_rsa_host_key");
     spawnBinaryAtPath("/usr/local/bin/dropbearkey -t dss -f /etc/dropbear/dropbear_dss_host_key");
     spawnBinaryAtPath("/usr/local/bin/dropbearkey -t ecdsa -f /etc/dropbear/dropbear_ecdsa_host_key");
-    sleep(1);
+    
+    unlink("/etc/motd");
+    copyfile([[[NSBundle mainBundle] resourcePath]stringByAppendingString:@"/motd"].UTF8String, "/etc/motd", NULL, COPYFILE_ALL);
+    chmod("/etc/motd", 0644);
+    chown("/etc/motd", 0, 0);
     
     return 0;
 }

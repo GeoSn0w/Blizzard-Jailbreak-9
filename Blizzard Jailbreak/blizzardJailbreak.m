@@ -999,6 +999,15 @@ int initWithCydiaFixup(){
         return 0;
     }
     printf("[!] Fatal error: Cydia No Stash File does NOT exist. Blizzard will not continue because this would mess up the file system!\n");
+    
+    NSString *cydia = @"/Applications/Cydia.app";
+    BOOL cydiaCleanup = [[NSFileManager defaultManager] removeItemAtPath:cydia error:nil];
+    
+    if (cydiaCleanup) {
+        printf("[i] Successfully cleaned Cydia.app up though to prevent accidents.\n");
+    } else {
+        printf("[!!] We could NOT clear Cydia.app. This is likely bad! Do NOT open Cydia.\n");
+    }
     return -1;
 }
 

@@ -19,4 +19,5 @@ Feel free to mess with the code as long as you do proper crediting where it is d
 * <a href="https://github.com/siguza"> siguza - Kernel Exploit</a>
 * <a href="https://github.com/JonathanSeals"> Jonathan Seals - Kernel Version String Hack (Pretty dope) </a>
 * <a href="https://github.com/zachary7829"> zachary7829 - AMFI PE_I_can_has_debugger offsets + Fixes!</a>
+* <a href="https://github.com/p0larisdev"> SPV / P0larisdev - Patchfinder components!</a>
 * <a href="https://twitter.com/Morpheus______"> Jonathan Levin - My mentor.</a>

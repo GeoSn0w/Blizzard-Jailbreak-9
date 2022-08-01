@@ -1182,6 +1182,7 @@ int blizzardPostInstFixup(){
     fixSpringBoardApplications();
     spawnBinaryAtPath("su -c uicache mobile &");
     loadBlizzardLaunchDaemons();
+    installZebraPackageManager(0);
     respringDeviceNow();
     printf("[+] JAILBREAK SUCCEEDED!\n");
     return 0;
@@ -1581,12 +1582,21 @@ int unjailbreakBlizzard(){
 }
 
 int installZebraPackageManager(int shouldKeepCydia){
-    mkdir("/tmp/blizzard", 0777);
-    if (copyfile([[[NSBundle mainBundle] resourcePath]stringByAppendingString:@"/zebra.deb"].UTF8String, "/tmp/blizzard/zebra.deb", NULL, COPYFILE_ALL) != 0){
+    printf("[i] Now installing Zebra Package Manager...\n");
+    mkdir("/var/blizzard", 0777);
+    if (copyfile([[[NSBundle mainBundle] resourcePath]stringByAppendingString:@"/zebra.deb"].UTF8String, "/var/blizzard/zebra.deb", NULL, COPYFILE_ALL) != 0){
         printf("[!] Failed to copy Zebra DEB.\n");
         return -1;
     }
-    spawnBinaryAtPath("dpkg -i /tmp/blizzard/zebra.deb");
+    chmod("/var/blizzard/zebra.deb", 0775);
+    spawnBinaryAtPath("dpkg -i /var/blizzard/zebra.deb");
     spawnBinaryAtPath("su -c uicache mobile &");
-    return 0;
+    unlink("/var/blizzard/zebra.deb");
+    
+    if (access("/Applications/Zebra.app", F_OK) != -1){
+        printf("[i] Zebra Package Manager Installed!\n");
+        return 0;
+    }
+    printf("[!] Could NOT install Zebra Package Manager\n");
+    return -1;
 }

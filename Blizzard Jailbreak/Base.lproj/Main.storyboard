@@ -61,6 +61,19 @@
                                     <action selector="blizzardInit:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Jh7-HL-oQs"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Uninstall Blizzard JB" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="UIy-RH-Bl4">
+                                <rect key="frame" x="40" y="401" width="164" height="21"/>
+                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="Qwk-0X-sHT">
+                                <rect key="frame" x="231" y="396" width="51" height="31"/>
+                                <color key="onTintColor" red="0.82447827780341243" green="0.67522204414254317" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <connections>
+                                    <action selector="blizzardUnjailbreakSwitch:" destination="BYZ-38-t0r" eventType="valueChanged" id="KPc-6K-tZQ"/>
+                                </connections>
+                            </switch>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
@@ -70,11 +83,15 @@
                             <constraint firstItem="Suw-j9-Sy3" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="84" id="Hf8-w2-LIB"/>
                             <constraint firstItem="fV6-tC-CJz" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="30" id="Hyd-CN-W5N"/>
                             <constraint firstAttribute="trailing" secondItem="IMk-rn-peb" secondAttribute="trailing" id="IpS-pw-7yA"/>
+                            <constraint firstItem="UIy-RH-Bl4" firstAttribute="leading" secondItem="ZQt-HB-KcQ" secondAttribute="leading" id="JhX-d0-gbO"/>
                             <constraint firstItem="fV6-tC-CJz" firstAttribute="top" secondItem="Suw-j9-Sy3" secondAttribute="bottom" constant="8" symbolic="YES" id="K7i-rF-eNI"/>
+                            <constraint firstItem="Qwk-0X-sHT" firstAttribute="top" secondItem="ZQt-HB-KcQ" secondAttribute="bottom" constant="65" id="PgK-Zi-GRy"/>
+                            <constraint firstItem="Qwk-0X-sHT" firstAttribute="trailing" secondItem="ZQt-HB-KcQ" secondAttribute="trailing" id="RHa-rC-fTq"/>
                             <constraint firstItem="Suw-j9-Sy3" firstAttribute="centerX" secondItem="fV6-tC-CJz" secondAttribute="centerX" id="YTm-4R-nQk"/>
                             <constraint firstItem="fV6-tC-CJz" firstAttribute="trailing" secondItem="2nt-NA-u5V" secondAttribute="trailing" id="dh6-wL-75e"/>
                             <constraint firstItem="ZQt-HB-KcQ" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="40" id="f9S-uo-hNW"/>
                             <constraint firstItem="Suw-j9-Sy3" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="kCv-PX-b0x"/>
+                            <constraint firstItem="UIy-RH-Bl4" firstAttribute="centerY" secondItem="Qwk-0X-sHT" secondAttribute="centerY" id="ra0-Oj-C9F"/>
                             <constraint firstItem="fV6-tC-CJz" firstAttribute="centerX" secondItem="ZQt-HB-KcQ" secondAttribute="centerX" id="scs-ob-zVR"/>
                             <constraint firstItem="IMk-rn-peb" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="t0t-5I-lg0"/>
                             <constraint firstItem="ZQt-HB-KcQ" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" constant="23" id="u9P-wQ-VNn"/>
@@ -85,6 +102,7 @@
                     </view>
                     <connections>
                         <outlet property="blizzardInit" destination="ZQt-HB-KcQ" id="TU9-7F-pmQ"/>
+                        <outlet property="shouldUnjailbreakBlizzard" destination="Qwk-0X-sHT" id="h2A-iJ-VNa"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

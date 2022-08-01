@@ -1187,6 +1187,7 @@ int unjailbreakBlizzard(){
     spawnBinaryAtPath("killall Zebra");
     spawnBinaryAtPath("killall Filza");
     spawnBinaryAtPath("killall iCleaner");
+    spawnBinaryAtPath("killall iCleaner");
     spawnBinaryAtPath("rm -rf /Applications/Cydia.app/");
     spawnBinaryAtPath("rm -rf /Applications/Zebra.app/");
     spawnBinaryAtPath("rm -rf /Applications/Filza.app/");
@@ -1266,6 +1267,9 @@ int unjailbreakBlizzard(){
     spawnBinaryAtPath("rm -f /library/launchdaemons/com.Saurik.Cydia.Startup.Plist");
     spawnBinaryAtPath("rm -rf /usr/share/bash-completion/");
     spawnBinaryAtPath("rm -rf /usr/share/dict/");
+    spawnBinaryAtPath("rm -rf /usr/share/bigboss/");
+    spawnBinaryAtPath("rm -rf /usr/share/dpkg/");
+    spawnBinaryAtPath("rm -rf /usr/share/misc/");
     spawnBinaryAtPath("rm -rf /usr/share/doc/");
     spawnBinaryAtPath("rm -rf /Library/Activator/");
     spawnBinaryAtPath("rm -rf /Library/Switches/");
@@ -1532,6 +1536,6 @@ int unjailbreakBlizzard(){
     spawnBinaryAtPath("rm -f /usr/bin/uicache");
     spawnBinaryAtPath("rm -f /bin/sh");
     spawnBinaryAtPath("rm -f /bin/rm");
-    
+    printf("[i] Unjailbreak complete!\n");
     return 0;
 }

@@ -10,6 +10,8 @@
 #include "blizzardJailbreak.h"
 #import <sys/utsname.h>
 
+BOOL shouldRemoveBlizzardAction = false;
+
 //For iOS version detection
 #define SYSTEM_VERSION_EQUAL_TO(v)                  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedSame)
 #define SYSTEM_VERSION_LESS_THAN(v)                 ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedAscending)
@@ -36,6 +38,17 @@
         [self->_blizzardInit setTitle:@"JAILBROKEN" forState:UIControlStateDisabled];
     }
 }
+- (IBAction)blizzardUnjailbreakSwitch:(id)sender {
+    if (_shouldUnjailbreakBlizzard.isOn == true){
+        shouldRemoveBlizzardAction = true;
+        [self->_blizzardInit setTitle:@"Remove Blizzard" forState:UIControlStateNormal];
+        [self->_blizzardInit setTintColor:UIColor.redColor];
+    } else {
+        shouldRemoveBlizzardAction = false;
+        [self->_blizzardInit setTitle:@"Jailbreak" forState:UIControlStateNormal];
+    }
+}
+
 - (IBAction)blizzardInit:(id)sender {
     if (SYSTEM_VERSION_GREATER_THAN(@"8.4.1") && SYSTEM_VERSION_LESS_THAN(@"9.3.7")){
         dispatch_async(dispatch_get_main_queue(), ^{

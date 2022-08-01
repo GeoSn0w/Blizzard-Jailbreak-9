@@ -13,6 +13,7 @@ UIBarButtonItem* dismissKeyboardButton;
 @interface blizzardView : UIViewController
 @property (weak, nonatomic) IBOutlet UIButton *blizzardInit;
 @property (weak, nonatomic) IBOutlet UITextField *nonceField;
+@property (weak, nonatomic) IBOutlet UISwitch *shouldUnjailbreakBlizzard;
 
 @end
 

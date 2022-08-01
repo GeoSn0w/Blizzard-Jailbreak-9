@@ -10,8 +10,12 @@
 #include "blizzardJailbreak.h"
 #import <sys/utsname.h>
 #include "../Common/rebootDevice.h"
+#include <mach/mach.h>
+#include <mach-o/loader.h>
 
 int shouldRemoveBlizzardAction = 0;
+int shouldPatchTFP0ForKloader = 0;
+int shouldInstallZebra = 0; // 1 = yes!
 
 //For iOS version detection
 #define SYSTEM_VERSION_EQUAL_TO(v)                  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedSame)
@@ -32,14 +36,34 @@ int shouldRemoveBlizzardAction = 0;
     struct utsname uts;
     uname(&uts);
     
-    if (strstr(uts.version, "Blizzard")) {
+    task_t kernel_task;
+    if (KERN_SUCCESS == task_for_pid(mach_task_self(), 0, &kernel_task)){
         printf("%s %s %s\n", uts.sysname, uts.version, uts.release);
         printf("[i] Already Jailbroken\n");
         self->_blizzardInit.enabled = NO;
         [self->_blizzardInit setTitle:@"JAILBROKEN" forState:UIControlStateDisabled];
         [_shouldUnjailbreakBlizzard setEnabled:NO];
     }
+    
 }
+- (IBAction)zebraOrCydiaToggleChanged:(id)sender {
+    if (_zebraORCydiaToggle.selectedSegmentIndex == 0){
+        printf("[i] Blizzard Jailbreak will install Cydia Package Manager.\n");
+        shouldInstallZebra = 0;
+    } else if (_zebraORCydiaToggle.selectedSegmentIndex == 1){
+        printf("[i] Blizzard Jailbreak will install Zebra Package Manager.\n");
+        shouldInstallZebra = 1;
+    }
+}
+- (IBAction)patchtfp0ToggleChanged:(id)sender {
+    if (_exportTfp0Toggle.isOn == true){
+        shouldPatchTFP0ForKloader = 0;
+        printf("[i] Will also patch tfp0 which will make it available for any tweak!\n");
+    } else {
+        shouldPatchTFP0ForKloader = 1; // Won't patch.
+    }
+}
+
 - (IBAction)blizzardUnjailbreakSwitch:(id)sender {
     if (_shouldUnjailbreakBlizzard.isOn == true){
         shouldRemoveBlizzardAction = 1;
@@ -91,7 +115,7 @@ int shouldRemoveBlizzardAction = 0;
                                             [self->_blizzardInit setTitle:@"Patching Kernel..." forState:UIControlStateDisabled];
                                         });
                                         dispatch_async(dispatch_get_global_queue(0, 0), ^{
-                                            if (applyKernelPatchesStub() == 0){
+                                            if (applyKernelPatchesStub(shouldPatchTFP0ForKloader) == 0){
                                                 dispatch_async(dispatch_get_main_queue(), ^{
                                                     self->_blizzardInit.enabled = NO;
                                                     [self->_blizzardInit setTitle:@"Kernel Patched!" forState:UIControlStateDisabled];
@@ -129,7 +153,7 @@ int shouldRemoveBlizzardAction = 0;
                                                                 });
                                                             } else if (shouldRemoveBlizzardAction == 0){
                                                                 printf("[i] Will not remove Blizzard Jailbreak!\n");
-                                                                if (installBootstrapStub() == 0){
+                                                                if (installBootstrapStub(shouldInstallZebra) == 0){
                                                                     dispatch_async(dispatch_get_main_queue(), ^{
                                                                         self->_blizzardInit.enabled = NO;
                                                                         [self->_blizzardInit setTitle:@"Bootstrap SUCCESS" forState:UIControlStateDisabled];

@@ -14,6 +14,8 @@ UIBarButtonItem* dismissKeyboardButton;
 @property (weak, nonatomic) IBOutlet UIButton *blizzardInit;
 @property (weak, nonatomic) IBOutlet UITextField *nonceField;
 @property (weak, nonatomic) IBOutlet UISwitch *shouldUnjailbreakBlizzard;
+@property (weak, nonatomic) IBOutlet UISwitch *exportTfp0Toggle;
+@property (weak, nonatomic) IBOutlet UISegmentedControl *zebraORCydiaToggle;
 
 @end
 

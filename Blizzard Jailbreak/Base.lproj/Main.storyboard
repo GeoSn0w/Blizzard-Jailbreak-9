@@ -40,7 +40,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" alpha="0.84999999999999998" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZQt-HB-KcQ">
-                                <rect key="frame" x="40" y="283" width="240" height="48"/>
+                                <rect key="frame" x="40" y="281" width="240" height="48"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="48" id="v4N-4j-yxc"/>
                                 </constraints>
@@ -62,52 +62,85 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Uninstall Blizzard JB" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="UIy-RH-Bl4">
-                                <rect key="frame" x="40" y="401" width="164" height="21"/>
+                                <rect key="frame" x="40" y="366" width="164" height="21"/>
+                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Patch tfp0 (kloader)" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Nxd-Fk-S3c">
+                                <rect key="frame" x="40" y="408" width="162" height="21"/>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="Qwk-0X-sHT">
-                                <rect key="frame" x="231" y="396" width="51" height="31"/>
+                                <rect key="frame" x="231" y="361" width="51" height="31"/>
                                 <color key="onTintColor" red="0.82447827780341243" green="0.67522204414254317" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <connections>
                                     <action selector="blizzardUnjailbreakSwitch:" destination="BYZ-38-t0r" eventType="valueChanged" id="KPc-6K-tZQ"/>
                                 </connections>
                             </switch>
+                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="9U2-gJ-omu">
+                                <rect key="frame" x="231" y="403" width="51" height="31"/>
+                                <color key="onTintColor" red="0.82447827780000005" green="0.67522204409999997" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <connections>
+                                    <action selector="patchtfp0ToggleChanged:" destination="BYZ-38-t0r" eventType="valueChanged" id="yQJ-Ud-hW2"/>
+                                </connections>
+                            </switch>
+                            <segmentedControl opaque="NO" alpha="0.94999999999999996" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="Lyv-bs-cch">
+                                <rect key="frame" x="40" y="447" width="240" height="29"/>
+                                <segments>
+                                    <segment title="Cydia"/>
+                                    <segment title="Zebra"/>
+                                </segments>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <connections>
+                                    <action selector="zebraOrCydiaToggleChanged:" destination="BYZ-38-t0r" eventType="valueChanged" id="Hgm-uj-ANc"/>
+                                </connections>
+                            </segmentedControl>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstItem="9U2-gJ-omu" firstAttribute="trailing" secondItem="Lyv-bs-cch" secondAttribute="trailing" id="0RP-ei-qBv"/>
+                            <constraint firstItem="Qwk-0X-sHT" firstAttribute="leading" secondItem="9U2-gJ-omu" secondAttribute="leading" id="0sJ-kF-YLE"/>
+                            <constraint firstItem="Nxd-Fk-S3c" firstAttribute="centerY" secondItem="9U2-gJ-omu" secondAttribute="centerY" id="1XF-GW-t4I"/>
                             <constraint firstItem="fV6-tC-CJz" firstAttribute="leading" secondItem="2nt-NA-u5V" secondAttribute="leading" id="AdK-tz-bbm"/>
-                            <constraint firstItem="ZQt-HB-KcQ" firstAttribute="top" secondItem="fV6-tC-CJz" secondAttribute="bottom" constant="32" id="ELF-Uj-TSN"/>
+                            <constraint firstItem="Lyv-bs-cch" firstAttribute="top" secondItem="9U2-gJ-omu" secondAttribute="bottom" constant="13" id="EEj-jc-pRQ"/>
+                            <constraint firstItem="ZQt-HB-KcQ" firstAttribute="top" secondItem="fV6-tC-CJz" secondAttribute="bottom" constant="30" id="ELF-Uj-TSN"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="2nt-NA-u5V" secondAttribute="bottom" constant="5" id="G3v-8p-8UC"/>
                             <constraint firstItem="Suw-j9-Sy3" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="84" id="Hf8-w2-LIB"/>
                             <constraint firstItem="fV6-tC-CJz" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="30" id="Hyd-CN-W5N"/>
                             <constraint firstAttribute="trailing" secondItem="IMk-rn-peb" secondAttribute="trailing" id="IpS-pw-7yA"/>
-                            <constraint firstItem="UIy-RH-Bl4" firstAttribute="leading" secondItem="ZQt-HB-KcQ" secondAttribute="leading" id="JhX-d0-gbO"/>
                             <constraint firstItem="fV6-tC-CJz" firstAttribute="top" secondItem="Suw-j9-Sy3" secondAttribute="bottom" constant="8" symbolic="YES" id="K7i-rF-eNI"/>
-                            <constraint firstItem="Qwk-0X-sHT" firstAttribute="top" secondItem="ZQt-HB-KcQ" secondAttribute="bottom" constant="65" id="PgK-Zi-GRy"/>
-                            <constraint firstItem="Qwk-0X-sHT" firstAttribute="trailing" secondItem="ZQt-HB-KcQ" secondAttribute="trailing" id="RHa-rC-fTq"/>
+                            <constraint firstItem="Nxd-Fk-S3c" firstAttribute="leading" secondItem="Lyv-bs-cch" secondAttribute="leading" id="MKd-YY-DDk"/>
+                            <constraint firstItem="9U2-gJ-omu" firstAttribute="top" secondItem="Qwk-0X-sHT" secondAttribute="bottom" constant="11" id="O5l-Ze-tVU"/>
                             <constraint firstItem="Suw-j9-Sy3" firstAttribute="centerX" secondItem="fV6-tC-CJz" secondAttribute="centerX" id="YTm-4R-nQk"/>
+                            <constraint firstItem="UIy-RH-Bl4" firstAttribute="leading" secondItem="ZQt-HB-KcQ" secondAttribute="leading" id="ZZ5-fo-19X"/>
                             <constraint firstItem="fV6-tC-CJz" firstAttribute="trailing" secondItem="2nt-NA-u5V" secondAttribute="trailing" id="dh6-wL-75e"/>
                             <constraint firstItem="ZQt-HB-KcQ" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="40" id="f9S-uo-hNW"/>
                             <constraint firstItem="Suw-j9-Sy3" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="kCv-PX-b0x"/>
-                            <constraint firstItem="UIy-RH-Bl4" firstAttribute="centerY" secondItem="Qwk-0X-sHT" secondAttribute="centerY" id="ra0-Oj-C9F"/>
+                            <constraint firstItem="UIy-RH-Bl4" firstAttribute="leading" secondItem="Nxd-Fk-S3c" secondAttribute="leading" id="ljf-AZ-Eag"/>
+                            <constraint firstItem="UIy-RH-Bl4" firstAttribute="centerY" secondItem="Qwk-0X-sHT" secondAttribute="centerY" id="ngd-wP-zXj"/>
+                            <constraint firstItem="Qwk-0X-sHT" firstAttribute="trailing" secondItem="ZQt-HB-KcQ" secondAttribute="trailing" id="oJE-4Q-9n8"/>
                             <constraint firstItem="fV6-tC-CJz" firstAttribute="centerX" secondItem="ZQt-HB-KcQ" secondAttribute="centerX" id="scs-ob-zVR"/>
                             <constraint firstItem="IMk-rn-peb" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="t0t-5I-lg0"/>
-                            <constraint firstItem="ZQt-HB-KcQ" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" constant="23" id="u9P-wQ-VNn"/>
+                            <constraint firstItem="ZQt-HB-KcQ" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" constant="21" id="u9P-wQ-VNn"/>
                             <constraint firstItem="IMk-rn-peb" firstAttribute="centerX" secondItem="ZQt-HB-KcQ" secondAttribute="centerX" id="wNA-e7-gnt"/>
+                            <constraint firstItem="Qwk-0X-sHT" firstAttribute="top" secondItem="ZQt-HB-KcQ" secondAttribute="bottom" constant="32" id="xgK-av-cQ1"/>
                             <constraint firstItem="IMk-rn-peb" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="yQP-so-JfR"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
                         <outlet property="blizzardInit" destination="ZQt-HB-KcQ" id="TU9-7F-pmQ"/>
+                        <outlet property="exportTfp0Toggle" destination="9U2-gJ-omu" id="2qy-sN-nRz"/>
                         <outlet property="shouldUnjailbreakBlizzard" destination="Qwk-0X-sHT" id="h2A-iJ-VNa"/>
+                        <outlet property="zebraORCydiaToggle" destination="Lyv-bs-cch" id="YI4-Eb-FVI"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-9.375" y="131.25"/>
+            <point key="canvasLocation" x="-9.375" y="130.98591549295776"/>
         </scene>
     </scenes>
     <resources>

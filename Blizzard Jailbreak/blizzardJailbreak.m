@@ -621,7 +621,7 @@ int updateKernelVersionString(){
     }
 }
 
-int applyKernelPatchesStub(){
+int applyKernelPatchesStub(int shouldUpdateKernelString){
     printf("Patching Kernel PMAP...\n");
     blizzardPatchPMAP();
     printf("Patching mount_common MACF check...\n");
@@ -635,7 +635,11 @@ int applyKernelPatchesStub(){
     patch_amfi_mmap();
     printf("Patching Sandbox' pe_I_can_has_debugger...\n");
     patch_sb_i_can_has_debugger();
-    updateKernelVersionString();
+    if (shouldUpdateKernelString == 1) {
+        updateKernelVersionString();
+    } else {
+        patchTaskForPid0();
+    }
     return 0;
 }
 
@@ -647,7 +651,7 @@ int remountROOTFSStub(){
     return -1;
 }
 
-int installBootstrapStub(){
+int installBootstrapStub(int shouldInstallZebra){
     printf("Preparing to install Blizzard Bootstrap...\n");
      if (checkIfBootstrapPresent() != -1){
          if (getBootstrapReady() != 0) {
@@ -656,6 +660,9 @@ int installBootstrapStub(){
          } else {
              printf("Installing Dropbear...\n");
              installDropbearSSH();
+             if (shouldInstallZebra == 1){
+                 installZebraPackageManager();
+             }
              printf("Running post-install fixes...\n");
              blizzardPostInstFixup();
              return 0;
@@ -921,6 +928,12 @@ int patch_sb_i_can_has_debugger(){
     }
 }
 
+int patchTaskForPid0(){
+    printf("[i] Preparing to patch tfp0...\n");
+    WriteKernel32(KernelBase + KernelOffset(KernelBase, find_tfp0_patch(KernelBase, kdata, ksize)), 0xbf00bf00);
+    return 0;
+}
+
 int blizzardRemountRootFS(){
     FILE *testCase = fopen("/.blizzard", "w");
     if (!testCase) {
@@ -1181,7 +1194,6 @@ int blizzardPostInstFixup(){
     fixSpringBoardApplications();
     spawnBinaryAtPath("su -c uicache mobile &");
     loadBlizzardLaunchDaemons();
-    installZebraPackageManager(0);
     respringDeviceNow();
     printf("[+] JAILBREAK SUCCEEDED!\n");
     return 0;
@@ -1580,7 +1592,7 @@ int unjailbreakBlizzard(){
     return 0;
 }
 
-int installZebraPackageManager(int shouldKeepCydia){
+int installZebraPackageManager(){
     printf("[i] Now installing Zebra Package Manager...\n");
     mkdir("/var/blizzard", 0777);
     if (copyfile([[[NSBundle mainBundle] resourcePath]stringByAppendingString:@"/zebra.deb"].UTF8String, "/var/blizzard/zebra.deb", NULL, COPYFILE_ALL) != 0){
@@ -1589,10 +1601,10 @@ int installZebraPackageManager(int shouldKeepCydia){
     }
     chmod("/var/blizzard/zebra.deb", 0775);
     spawnBinaryAtPath("dpkg -i /var/blizzard/zebra.deb");
-    spawnBinaryAtPath("su -c uicache mobile &");
     unlink("/var/blizzard/zebra.deb");
     
     if (access("/Applications/Zebra.app", F_OK) != -1){
+        spawnBinaryAtPath("rm -rf /Applications/Cydia.app");
         printf("[i] Zebra Package Manager Installed!\n");
         return 0;
     }

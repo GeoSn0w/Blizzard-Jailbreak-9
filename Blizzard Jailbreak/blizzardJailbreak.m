@@ -1176,8 +1176,98 @@ int blizzardPostInstFixup(){
     return 0;
 }
 
+                              
 int unjailbreakBlizzard(){
     printf("[i] Preparing to remove Blizzard jailbreak, please wait...\n");
+    spawnBinaryAtPath("killall Cydia");
+    spawnBinaryAtPath("killall Zebra");
+    spawnBinaryAtPath("killall Filza");
+    spawnBinaryAtPath("rm -rf /Applications/Cydia.app/");
+    spawnBinaryAtPath("rm -rf /Applications/Zebra.app/");
+    spawnBinaryAtPath("rm -rf /Applications/Filza.app/");
+    spawnBinaryAtPath("rm -rf /Applications/iCleaner.app/");
+    spawnBinaryAtPath("rm -rf /Applications/iFile.app/");
+    spawnBinaryAtPath("rm -rf /Applications/NewTerm.app/");
+    spawnBinaryAtPath("rm -rf /Applications/Flex.app/");
+    spawnBinaryAtPath("rm -rf /Applications/ADManager.app/");
+    spawnBinaryAtPath("rm -rf /Applications/SnowBoard.app/");
+    spawnBinaryAtPath("rm -rf /Library/LaunchDaemons/*");
+    spawnBinaryAtPath("rm -rf /Library/dpkg/");
+    spawnBinaryAtPath("rm -rf /Library/Cylinder/");
+    spawnBinaryAtPath("rm -rf /Library/Zeppelin/");
+    spawnBinaryAtPath("rm -rf /etc/alternatives/");
+    spawnBinaryAtPath("rm -rf /etc/apt/");
+    spawnBinaryAtPath("rm -rf /etc/dpkg/");
+    spawnBinaryAtPath("rm -rf /etc/pam.d/");
+    spawnBinaryAtPath("rm -rf /etc/profile.d/");
+    spawnBinaryAtPath("rm -rf /etc/ssh/");
+
+    printf("[i] Removing Bootstrap components...\n");
+    spawnbinaryatpath("rm -f /bin/bunzip2");
+    spawnbinaryatpath("rm -f /bin/bzcat");
+    spawnbinaryatpath("rm -f /bin/bzip2");
+    spawnbinaryatpath("rm -f /bin/bzip2recover");
+    spawnbinaryatpath("rm -f /bin/cat");
+    spawnbinaryatpath("rm -f /bin/chgrp");
+    spawnbinaryatpath("rm -f /bin/chmod");
+    spawnbinaryatpath("rm -f /bin/chown");
+    spawnbinaryatpath("rm -f /bin/cp");
+    spawnbinaryatpath("rm -f /bin/date");
+    spawnbinaryatpath("rm -f /bin/dd");
+    spawnbinaryatpath("rm -f /bin/dir");
+    spawnbinaryatpath("rm -f /bin/echo");
+    spawnbinaryatpath("rm -f /bin/egrep");
+    spawnbinaryatpath("rm -f /bin/false");
+    spawnbinaryatpath("rm -f /bin/fgrep");
+    spawnbinaryatpath("rm -f /bin/grep");
+    spawnbinaryatpath("rm -f /bin/gtar");
+    spawnbinaryatpath("rm -f /bin/gunzip");
+    spawnbinaryatpath("rm -f /bin/gzexe");
+    spawnbinaryatpath("rm -f /bin/gzip");
+    spawnbinaryatpath("rm -f /bin/kill");
+    spawnbinaryatpath("rm -f /bin/ln");
+    spawnbinaryatpath("rm -f /bin/ls");
+    spawnbinaryatpath("rm -f /bin/mkdir");
+    spawnbinaryatpath("rm -f /bin/mknod");
+    spawnbinaryatpath("rm -f /bin/mktemp");
+    spawnbinaryatpath("rm -f /bin/mv");
+    spawnbinaryatpath("rm -f /bin/pwd");
+    spawnbinaryatpath("rm -f /bin/readlink");
+    spawnbinaryatpath("rm -f /bin/rmdir");
+    spawnbinaryatpath("rm -f /bin/run-parts");
+    spawnbinaryatpath("rm -f /bin/sed");
+    spawnbinaryatpath("rm -f /bin/sleep");
+    spawnbinaryatpath("rm -f /bin/stty");
+    spawnbinaryatpath("rm -f /bin/su");
+    spawnbinaryatpath("rm -f /bin/sync");
+    spawnbinaryatpath("rm -f /bin/tar");
+    spawnbinaryatpath("rm -f /bin/touch");
+    spawnbinaryatpath("rm -f /bin/true");
+    spawnbinaryatpath("rm -f /bin/uname");
+    spawnbinaryatpath("rm -f /bin/uncompress");
+    spawnbinaryatpath("rm -f /bin/vdir");
+    spawnbinaryatpath("rm -f /bin/zcat");
+    spawnbinaryatpath("rm -f /bin/zcmp");
+    spawnbinaryatpath("rm -f /bin/zdiff");
+    spawnbinaryatpath("rm -f /bin/zegrep");
+    spawnbinaryatpath("rm -f /bin/zfgrep");
+    spawnbinaryatpath("rm -f /bin/zforce");
+    spawnbinaryatpath("rm -f /bin/zgrep");
+    spawnbinaryatpath("rm -f /bin/zless");
+    spawnbinaryatpath("rm -f /bin/zmore");
+    spawnbinaryatpath("rm -f /bin/znew");
+    spawnbinaryatpath("rm -f /library/launchdaemons/com.Openssh.Sshd.Plist");
+    spawnbinaryatpath("rm -f /library/launchdaemons/com.Saurik.Cydia.Startup.Plist");
+    spawnbinaryatpath("rm -rf /usr/share/bash-completion/");
+    spawnbinaryatpath("rm -rf /usr/share/dict/");
+    spawnbinaryatpath("rm -rf /usr/share/doc/");
+    
+    printf("[i] Removing Dropbear");
+    spawnBinaryAtPath("rm -f /usr/local/bin/dropbear");
+    spawnBinaryAtPath("rm -f /usr/local/bin/dropbearkey");
+    spawnBinaryAtPath("rm -f /usr/local/bin/dropbearconvert");
+    spawnBinaryAtPath("rm -rf /etc/dropbear/");
+    spawnBinaryAtPath("rm -f /etc/motd");
     
     return 0;
 }

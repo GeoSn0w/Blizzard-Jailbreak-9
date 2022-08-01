@@ -930,7 +930,7 @@ int patch_sb_i_can_has_debugger(){
 
 int patchTaskForPid0(){
     printf("[i] Preparing to patch tfp0...\n");
-    WriteKernel32(KernelBase + KernelOffset(KernelBase, find_tfp0_patch(KernelBase, kdata, ksize)), 0xbf00bf00);
+    WriteKernel32(KernelBase + find_tfp0(KernelBase, kdata, ksize), 0xbf00bf00);
     return 0;
 }
 

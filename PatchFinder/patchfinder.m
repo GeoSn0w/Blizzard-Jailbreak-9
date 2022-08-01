@@ -1695,50 +1695,24 @@ uint32_t find_allproc(uint32_t region, uint8_t* kdata, size_t ksize)
     return val + val2;
 }
 
-// NOP out the conditional branch here.
-uint32_t find_tfp0_patch(uint32_t region, uint8_t* kdata, size_t ksize)
-{
-    // Find the beginning of task_for_pid function
-    const struct find_search_mask search_masks[] =
-    {
-        {0xF8FF, 0x9003}, // str rx, [sp, #0xc]
-        {0xF8FF, 0x9002}, // str rx, [sp, #0x8]
-        {0xF800, 0x2800}, // cmp rx, #0
-        {0xFBC0, 0xF000}, // beq  <-- NOP
-        {0xD000, 0x8000},
-        {0xF800, 0xF000}, // bl _port_name_to_task
-        {0xF800, 0xF800},
-        {0xF8FF, 0x9003}, // str rx, [sp, #0xc]
-        {0xF800, 0x2800}, // cmp rx, #0
-        {0xFBC0, 0xF000}, // beq
-        {0xD000, 0x8000}
-    };
-    
-    const struct find_search_mask search_masks_A5[] =
-    {
-        {0xF8FF, 0x9003}, // str rx, [sp, #0xc]
-        {0xF800, 0x2800}, // cmp rx, #0         // why?!
-        {0xF8FF, 0x9002}, // str rx, [sp, #0x8]
-        {0xFBC0, 0xF000}, // beq  <-- NOP
-        {0xD000, 0x8000},
-        {0xF800, 0xF000}, // bl _port_name_to_task
-        {0xF800, 0xF800},
-        {0xF8FF, 0x9003}, // str rx, [sp, #0xc]
-        {0xF800, 0x2800}, // cmp rx, #0
-        {0xFBC0, 0xF000}, // beq
-        {0xD000, 0x8000}
-    };
-    
-    uint16_t* fn_start = find_with_search_mask(region, kdata, ksize, sizeof(search_masks) / sizeof(*search_masks), search_masks);
-    
-    if(!fn_start) {
-        fn_start = find_with_search_mask(region, kdata, ksize, sizeof(search_masks_A5) / sizeof(*search_masks_A5), search_masks_A5);
-        if(!fn_start) {
-            return 0;
+// Borrowed this function from p0laris, thanks SPV!
+uint32_t find_tfp0(uint32_t region, uint8_t* kdata, size_t ksize) {
+    for (uint32_t i = 0; i < ksize; i++) {
+        if (*(uint16_t*)&kdata[i] == 0x4630 && *(uint64_t*)&kdata[i + 6] == 0xf0000f00f1ba4682 && *(uint32_t*)&kdata[i + 0x10] == 0xf0014650) {
+            for (int a = i; a > (i - 0x30); a -= 2) {
+                if (*(uint16_t*)&kdata[a] == 0xb5f0) {
+                    for (int e = a; e < (a + 0x20); e += 2) {
+                        if (*(uint16_t*)&kdata[e] == 0x2e00) {
+                            uint32_t tfp0 = e + 0x4;
+                            printf("[i] Found tfp0 patch region: 0x%08x\n", tfp0);
+                            return tfp0;
+                        }
+                    }
+                }
+            }
         }
     }
-    
-    return ((uintptr_t)fn_start) + 6 - ((uintptr_t)kdata);
+    return -1;
 }
 
 uint32_t find_sbops(uint32_t region, uint8_t* kdata, size_t ksize) {

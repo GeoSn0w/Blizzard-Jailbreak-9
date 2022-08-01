@@ -13,6 +13,7 @@
 		82F179FC22DF4ED700231F8C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 82F179FA22DF4ED700231F8C /* LaunchScreen.storyboard */; };
 		82F179FF22DF4ED700231F8C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 82F179FE22DF4ED700231F8C /* main.m */; };
 		D60DFEF9289818A800B87372 /* blizzardView.m in Sources */ = {isa = PBXBuildFile; fileRef = D60DFEF8289818A800B87372 /* blizzardView.m */; };
+		D60DFEFB2898426900B87372 /* zebra.deb in Frameworks */ = {isa = PBXBuildFile; fileRef = D60DFEFA2898426900B87372 /* zebra.deb */; };
 		D613B75024E2CD5E0069CA9B /* BlizzardSpawnerTools.c in Sources */ = {isa = PBXBuildFile; fileRef = D613B74E24E2CD5E0069CA9B /* BlizzardSpawnerTools.c */; };
 		D63EDAC124E1989F009B305D /* blizzardJailbreak.m in Sources */ = {isa = PBXBuildFile; fileRef = D63EDABF24E1989F009B305D /* blizzardJailbreak.m */; };
 		D6983F822894622100163EAE /* exploit.m in Sources */ = {isa = PBXBuildFile; fileRef = D6983F812894622100163EAE /* exploit.m */; };
@@ -56,6 +57,7 @@
 		82F17A0F22DF4ED800231F8C /* Blizzard JailbreakUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Blizzard JailbreakUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D60DFEF7289818A800B87372 /* blizzardView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = blizzardView.h; sourceTree = "<group>"; };
 		D60DFEF8289818A800B87372 /* blizzardView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = blizzardView.m; sourceTree = "<group>"; };
+		D60DFEFA2898426900B87372 /* zebra.deb */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = zebra.deb; sourceTree = "<group>"; };
 		D613B74E24E2CD5E0069CA9B /* BlizzardSpawnerTools.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = BlizzardSpawnerTools.c; sourceTree = "<group>"; };
 		D613B74F24E2CD5E0069CA9B /* BlizzardSpawnerTools.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BlizzardSpawnerTools.h; sourceTree = "<group>"; };
 		D63EDABF24E1989F009B305D /* blizzardJailbreak.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = blizzardJailbreak.m; sourceTree = "<group>"; };
@@ -98,6 +100,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D60DFEFB2898426900B87372 /* zebra.deb in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -130,6 +133,7 @@
 				D6B1D2F82892BD2700D7ECBE /* cydia.list */,
 				D6B8B5E3289304C300D72AAA /* dropbear.tar */,
 				D6B1D2F42891698000D7ECBE /* blizzard.tar */,
+				D60DFEFA2898426900B87372 /* zebra.deb */,
 				D6B1D2F12891686500D7ECBE /* tar */,
 				D6B1D2F62892942300D7ECBE /* launchctl */,
 				82F179ED22DF4ED700231F8C /* Products */,
@@ -564,7 +568,10 @@
 				INFOPLIST_FILE = "$(SRCROOT)/Blizzard Jailbreak/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
 				OTHER_LDFLAGS = (
 					"-framework",
@@ -593,7 +600,10 @@
 				INFOPLIST_FILE = "$(SRCROOT)/Blizzard Jailbreak/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
 				OTHER_LDFLAGS = (
 					"-framework",

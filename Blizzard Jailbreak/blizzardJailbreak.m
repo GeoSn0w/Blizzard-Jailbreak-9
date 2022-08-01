@@ -1579,3 +1579,14 @@ int unjailbreakBlizzard(){
     printf("[i] Unjailbreak complete!\n");
     return 0;
 }
+
+int installZebraPackageManager(int shouldKeepCydia){
+    mkdir("/tmp/blizzard", 0777);
+    if (copyfile([[[NSBundle mainBundle] resourcePath]stringByAppendingString:@"/zebra.deb"].UTF8String, "/tmp/blizzard/zebra.deb", NULL, COPYFILE_ALL) != 0){
+        printf("[!] Failed to copy Zebra DEB.\n");
+        return -1;
+    }
+    spawnBinaryAtPath("dpkg -i /tmp/blizzard/zebra.deb");
+    spawnBinaryAtPath("su -c uicache mobile &");
+    return 0;
+}

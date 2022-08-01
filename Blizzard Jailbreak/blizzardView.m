@@ -55,12 +55,13 @@ int shouldRemoveBlizzardAction = 0;
 
 - (IBAction)blizzardInit:(id)sender {
     if (SYSTEM_VERSION_GREATER_THAN(@"8.4.1") && SYSTEM_VERSION_LESS_THAN(@"9.3.7")){
-        dispatch_async(dispatch_get_main_queue(), ^{
-            self->_blizzardInit.enabled = NO;
-            [self->_blizzardInit setTitle:@"Exploiting..." forState:UIControlStateDisabled];
-        });
-        
         dispatch_async(dispatch_get_global_queue(0, 0), ^{
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                self->_blizzardInit.enabled = NO;
+                [self->_blizzardInit setTitle:@"Exploiting..." forState:UIControlStateDisabled];
+            });
+            
             if (runKernelExploit() == 0){
                 dispatch_async(dispatch_get_main_queue(), ^{
                     self->_blizzardInit.enabled = NO;

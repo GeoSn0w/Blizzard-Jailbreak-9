@@ -42,4 +42,5 @@ int patch_amfi_pe_i_can_has_debugger(void);
 int patch_second_amfi_pe_i_can_has_debugger(void);
 int patch_amfi_mmap(void);
 int installDropbearSSH(void);
+int unjailbreakBlizzard(void);
 #endif /* blizzardJailbreak_h */

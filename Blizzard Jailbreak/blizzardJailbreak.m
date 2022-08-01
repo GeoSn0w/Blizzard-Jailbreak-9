@@ -1175,3 +1175,9 @@ int blizzardPostInstFixup(){
     printf("[+] JAILBREAK SUCCEEDED!\n");
     return 0;
 }
+
+int unjailbreakBlizzard(){
+    printf("[i] Preparing to remove Blizzard jailbreak, please wait...\n");
+    
+    return 0;
+}

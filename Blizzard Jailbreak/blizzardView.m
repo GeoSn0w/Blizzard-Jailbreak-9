@@ -49,6 +49,7 @@ int shouldRemoveBlizzardAction = 0;
     } else {
         shouldRemoveBlizzardAction = 0;
         [self->_blizzardInit setTitle:@"Jailbreak" forState:UIControlStateNormal];
+        [_blizzardInit setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     }
 }
 

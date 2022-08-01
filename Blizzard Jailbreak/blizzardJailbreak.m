@@ -22,7 +22,6 @@
 #include <sys/mman.h>
 #include <spawn.h>
 #include <sys/utsname.h>
-#include "BlizzardLog.h"
 #import "../Exploits/Phoenix Exploit/exploit.h"
 #import "../PatchFinder/patchfinder.h"
 #import "../Kernel Tools/KernMemory.h"
@@ -1559,6 +1558,11 @@ int unjailbreakBlizzard(){
     unlink("/.installed_home_depot");
     unlink("/.installed_openpwnage");
     
+    printf("   -- [i] Reverting SpringBoard Non-Default System Apps Fixup...\n");
+    NSMutableDictionary *springboardPath = [[NSMutableDictionary alloc] initWithContentsOfFile:@"/var/mobile/Library/Preferences/com.apple.springboard.plist"];
+    [springboardPath setObject:[NSNumber numberWithBool:NO] forKey:@"SBShowNonDefaultSystemApps"];
+    [springboardPath writeToFile:@"/var/mobile/Library/Preferences/com.apple.springboard.plist" atomically:YES];
+    
     printf("[i] Rebuidling Icon Cache...\n");
     spawnBinaryAtPath("su -c uicache mobile &");
     spawnBinaryAtPath("rm -f /bin/su");
@@ -1570,6 +1574,7 @@ int unjailbreakBlizzard(){
        printf("[i] Unjailbreak FAILED!\n");
         return -1;
     }
+    
     sync();
     printf("[i] Unjailbreak complete!\n");
     return 0;

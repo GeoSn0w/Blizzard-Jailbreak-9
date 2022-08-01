@@ -12,7 +12,7 @@
 		82F179F922DF4ED700231F8C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 82F179F822DF4ED700231F8C /* Assets.xcassets */; };
 		82F179FC22DF4ED700231F8C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 82F179FA22DF4ED700231F8C /* LaunchScreen.storyboard */; };
 		82F179FF22DF4ED700231F8C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 82F179FE22DF4ED700231F8C /* main.m */; };
-		D613B71B24E217D90069CA9B /* BlizzardLog.m in Sources */ = {isa = PBXBuildFile; fileRef = D613B71A24E217D90069CA9B /* BlizzardLog.m */; };
+		D60DFEF9289818A800B87372 /* blizzardView.m in Sources */ = {isa = PBXBuildFile; fileRef = D60DFEF8289818A800B87372 /* blizzardView.m */; };
 		D613B75024E2CD5E0069CA9B /* BlizzardSpawnerTools.c in Sources */ = {isa = PBXBuildFile; fileRef = D613B74E24E2CD5E0069CA9B /* BlizzardSpawnerTools.c */; };
 		D63EDAC124E1989F009B305D /* blizzardJailbreak.m in Sources */ = {isa = PBXBuildFile; fileRef = D63EDABF24E1989F009B305D /* blizzardJailbreak.m */; };
 		D6983F822894622100163EAE /* exploit.m in Sources */ = {isa = PBXBuildFile; fileRef = D6983F812894622100163EAE /* exploit.m */; };
@@ -24,7 +24,6 @@
 		D6B1D2F92892BD2800D7ECBE /* cydia.list in Resources */ = {isa = PBXBuildFile; fileRef = D6B1D2F82892BD2700D7ECBE /* cydia.list */; };
 		D6B1D3012892C28500D7ECBE /* motd in Resources */ = {isa = PBXBuildFile; fileRef = D6B1D3002892C28500D7ECBE /* motd */; };
 		D6B8B5E4289304C300D72AAA /* dropbear.tar in Resources */ = {isa = PBXBuildFile; fileRef = D6B8B5E3289304C300D72AAA /* dropbear.tar */; };
-		D6FFA56224E1A59A00CAC2E2 /* blizzardView.m in Sources */ = {isa = PBXBuildFile; fileRef = D6FFA56124E1A59A00CAC2E2 /* blizzardView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,8 +54,8 @@
 		82F179FE22DF4ED700231F8C /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		82F17A0422DF4ED800231F8C /* Blizzard JailbreakTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Blizzard JailbreakTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		82F17A0F22DF4ED800231F8C /* Blizzard JailbreakUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Blizzard JailbreakUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		D613B71924E217D90069CA9B /* BlizzardLog.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BlizzardLog.h; sourceTree = "<group>"; };
-		D613B71A24E217D90069CA9B /* BlizzardLog.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BlizzardLog.m; sourceTree = "<group>"; };
+		D60DFEF7289818A800B87372 /* blizzardView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = blizzardView.h; sourceTree = "<group>"; };
+		D60DFEF8289818A800B87372 /* blizzardView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = blizzardView.m; sourceTree = "<group>"; };
 		D613B74E24E2CD5E0069CA9B /* BlizzardSpawnerTools.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = BlizzardSpawnerTools.c; sourceTree = "<group>"; };
 		D613B74F24E2CD5E0069CA9B /* BlizzardSpawnerTools.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BlizzardSpawnerTools.h; sourceTree = "<group>"; };
 		D63EDABF24E1989F009B305D /* blizzardJailbreak.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = blizzardJailbreak.m; sourceTree = "<group>"; };
@@ -92,8 +91,6 @@
 		D6B1D2F82892BD2700D7ECBE /* cydia.list */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = cydia.list; sourceTree = "<group>"; };
 		D6B1D3002892C28500D7ECBE /* motd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = motd; sourceTree = "<group>"; };
 		D6B8B5E3289304C300D72AAA /* dropbear.tar */ = {isa = PBXFileReference; lastKnownFileType = archive.tar; path = dropbear.tar; sourceTree = "<group>"; };
-		D6FFA56024E1A59A00CAC2E2 /* blizzardView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = blizzardView.h; sourceTree = "<group>"; };
-		D6FFA56124E1A59A00CAC2E2 /* blizzardView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = blizzardView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -238,10 +235,8 @@
 				82F179FA22DF4ED700231F8C /* LaunchScreen.storyboard */,
 				D63EDAC024E1989F009B305D /* blizzardJailbreak.h */,
 				D63EDABF24E1989F009B305D /* blizzardJailbreak.m */,
-				D6FFA56024E1A59A00CAC2E2 /* blizzardView.h */,
-				D6FFA56124E1A59A00CAC2E2 /* blizzardView.m */,
-				D613B71924E217D90069CA9B /* BlizzardLog.h */,
-				D613B71A24E217D90069CA9B /* BlizzardLog.m */,
+				D60DFEF7289818A800B87372 /* blizzardView.h */,
+				D60DFEF8289818A800B87372 /* blizzardView.m */,
 				D613B74E24E2CD5E0069CA9B /* BlizzardSpawnerTools.c */,
 				D613B74F24E2CD5E0069CA9B /* BlizzardSpawnerTools.h */,
 			);
@@ -387,10 +382,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D6FFA56224E1A59A00CAC2E2 /* blizzardView.m in Sources */,
 				82F179FF22DF4ED700231F8C /* main.m in Sources */,
+				D60DFEF9289818A800B87372 /* blizzardView.m in Sources */,
 				D613B75024E2CD5E0069CA9B /* BlizzardSpawnerTools.c in Sources */,
-				D613B71B24E217D90069CA9B /* BlizzardLog.m in Sources */,
 				82F179F122DF4ED700231F8C /* AppDelegate.m in Sources */,
 				D6B1D2ED2891348B00D7ECBE /* KernMemory.m in Sources */,
 				D63EDAC124E1989F009B305D /* blizzardJailbreak.m in Sources */,

@@ -1186,6 +1186,7 @@ int unjailbreakBlizzard(){
     spawnBinaryAtPath("killall Cydia");
     spawnBinaryAtPath("killall Zebra");
     spawnBinaryAtPath("killall Filza");
+    spawnBinaryAtPath("killall iCleaner");
     spawnBinaryAtPath("rm -rf /Applications/Cydia.app/");
     spawnBinaryAtPath("rm -rf /Applications/Zebra.app/");
     spawnBinaryAtPath("rm -rf /Applications/Filza.app/");
@@ -1509,10 +1510,18 @@ int unjailbreakBlizzard(){
     spawnBinaryAtPath("rm -rf /etc/dropbear");
     spawnBinaryAtPath("rm -f /etc/motd");
     
+    //Just in case...
+    spawnBinaryAtPath("rm -rf /Applications/circuitbreaker.app/");
+    spawnBinaryAtPath("rm -f /var/mobile/Library/Preferences/com.thecomputerwhisperer.cbtweaks.plist");
+    spawnBinaryAtPath("rm -f /var/mobile/Library/Preferences/com.thecomputerwhisperer.cbprefs.plist");
+    spawnBinaryAtPath("rm -f /var/mobile/Library/Preferences/com.thecomputerwhisperer.CBPrefsList.plist");
+    spawnBinaryAtPath("rm -f /var/mobile/Library/Preferences/aaa.thecomputerwhisperer.fuku.plist");
+    spawnBinaryAtPath("rm -f /var/mobile/Library/Preferences/com.thecomputerwhisperer.CircuitBreakerPrefs.plist");
+    
     printf("[i] Removing marker files...\n");
     spawnBinaryAtPath("rm -f /.blizzardJB");
     spawnBinaryAtPath("rm -f /.blizzard");
-    spawnBinaryAtPath("rm -f /.cydia_no_stash");
+    spawnBinaryAtPath("rm -rf /.cydia_no_stash");
     spawnBinaryAtPath("rm -f /.p0laris");
     spawnBinaryAtPath("rm -f /.installed_home_depot");
     spawnBinaryAtPath("rm -f /.installed-openpwnage");

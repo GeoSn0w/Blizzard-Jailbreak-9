@@ -481,7 +481,7 @@ static int blizzardInitializeKernel(kaddr_t base) {
 }
 
 int runKernelExploit(){
-    printf("Blizzard is exploting the kernel...\n");
+    printf("Blizzard is exploiting the kernel...\n");
     exploit();
     kern_task = tfp0;
     if (tfp0 != 0){
@@ -788,12 +788,13 @@ int blizzardEscapeSandbox(){
         
         printf("[i] Testing current SandBox conditions...\n");
         
-        FILE *testFile = fopen("/var/mobile/blizzard", "w");
+        FILE *testFile = fopen("/var/blizzard", "w");
         if (!testFile) {
             printf("[!] Failed to unsandbox process! Patch failed.\n");
              return -2;
         }
         else {
+            unlink("/var/blizzard");
             printf("[+] Successfully escaped Sandbox and patched policies.\n");
         }
         
@@ -1060,6 +1061,9 @@ int installDropbearSSH(){
     chmod("/Library/LaunchDaemons/dropbear.plist", 0644);
     chown("/Library/LaunchDaemons/dropbear.plist", 0, 0);
     
+    unlink("/etc/dropbear/dropbear_rsa_host_key");
+    unlink("/etc/dropbear/dropbear_dss_host_key");
+    unlink("/etc/dropbear/dropbear_ecdsa_host_key");
     spawnBinaryAtPath("/usr/local/bin/dropbearkey -t rsa -f /etc/dropbear/dropbear_rsa_host_key");
     spawnBinaryAtPath("/usr/local/bin/dropbearkey -t dss -f /etc/dropbear/dropbear_dss_host_key");
     spawnBinaryAtPath("/usr/local/bin/dropbearkey -t ecdsa -f /etc/dropbear/dropbear_ecdsa_host_key");
@@ -1068,7 +1072,7 @@ int installDropbearSSH(){
     copyfile([[[NSBundle mainBundle] resourcePath]stringByAppendingString:@"/motd"].UTF8String, "/etc/motd", NULL, COPYFILE_ALL);
     chmod("/etc/motd", 0644);
     chown("/etc/motd", 0, 0);
-    
+    sync();
     return 0;
 }
 
@@ -1132,6 +1136,10 @@ int loadBlizzardLaunchDaemons(){
 }
 
 int checkIfBootstrapPresent(){
+    if (access("/.blizzardJB", F_OK) == 0){
+        printf("[!!] .blizzardJB EXISTS!\n");
+    }
+    
     if(((access("/.blizzardJB", F_OK) != -1) ||
         (access("/.installed_home_depot", F_OK) != -1) ||
         (access("/.installed-openpwnage", F_OK) != -1) ||
@@ -1197,6 +1205,13 @@ int unjailbreakBlizzard(){
     spawnBinaryAtPath("rm -rf /Applications/Flex.app/");
     spawnBinaryAtPath("rm -rf /Applications/ADManager.app/");
     spawnBinaryAtPath("rm -rf /Applications/SnowBoard.app/");
+    unlink("/Applications/Cydia.app/");
+    unlink("/Applications/Zebra.app/");
+    unlink("/Applications/Filza.app/");
+    unlink("/Applications/iCleaner.app/");
+    unlink("/Applications/NewTerm.app/");
+    unlink("/Applications/Flex.app/");
+    unlink("/Applications/SnowBoard.app/");
     spawnBinaryAtPath("rm -rf /Library/LaunchDaemons/*");
     spawnBinaryAtPath("rm -rf /Library/dpkg/");
     spawnBinaryAtPath("rm -rf /Library/Cylinder/");
@@ -1513,6 +1528,14 @@ int unjailbreakBlizzard(){
     spawnBinaryAtPath("rm -f /usr/local/bin/dropbearconvert");
     spawnBinaryAtPath("rm -rf /etc/dropbear");
     spawnBinaryAtPath("rm -f /etc/motd");
+    unlink("/usr/local/bin/dropbear");
+    unlink("/usr/local/bin/dropbearkey");
+    unlink("/usr/local/bin/dropbearconvert");
+    unlink("/etc/dropbear");
+    unlink("/etc/motd");
+    unlink("/etc/dropbear/dropbear_rsa_host_key");
+    unlink("/etc/dropbear/dropbear_dss_host_key");
+    unlink("/etc/dropbear/dropbear_ecdsa_host_key");
     
     //Just in case...
     spawnBinaryAtPath("rm -rf /Applications/circuitbreaker.app/");
@@ -1523,12 +1546,18 @@ int unjailbreakBlizzard(){
     spawnBinaryAtPath("rm -f /var/mobile/Library/Preferences/com.thecomputerwhisperer.CircuitBreakerPrefs.plist");
     
     printf("[i] Removing marker files...\n");
-    spawnBinaryAtPath("rm -f /.blizzardJB");
-    spawnBinaryAtPath("rm -f /.blizzard");
+    spawnBinaryAtPath("rm -rf /.blizzardJB");
+    spawnBinaryAtPath("rm -rf /.blizzard");
     spawnBinaryAtPath("rm -rf /.cydia_no_stash");
-    spawnBinaryAtPath("rm -f /.p0laris");
-    spawnBinaryAtPath("rm -f /.installed_home_depot");
-    spawnBinaryAtPath("rm -f /.installed-openpwnage");
+    spawnBinaryAtPath("rm -rf /.p0laris");
+    spawnBinaryAtPath("rm -rf /.installed_home_depot");
+    spawnBinaryAtPath("rm -rf /.installed-openpwnage");
+    unlink("/.cydia_no_stash");
+    unlink("/.blizzard");
+    unlink("/.blizzardJB");
+    unlink("/.p0laris");
+    unlink("/.installed_home_depot");
+    unlink("/.installed_openpwnage");
     
     printf("[i] Rebuidling Icon Cache...\n");
     spawnBinaryAtPath("su -c uicache mobile &");
@@ -1536,6 +1565,12 @@ int unjailbreakBlizzard(){
     spawnBinaryAtPath("rm -f /usr/bin/uicache");
     spawnBinaryAtPath("rm -f /bin/sh");
     spawnBinaryAtPath("rm -f /bin/rm");
+    
+    if (access("/.blizzardJB", F_OK) != -1 && access("/.blizzard", F_OK) != -1){
+       printf("[i] Unjailbreak FAILED!\n");
+        return -1;
+    }
+    sync();
     printf("[i] Unjailbreak complete!\n");
     return 0;
 }

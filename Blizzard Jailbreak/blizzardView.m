@@ -11,7 +11,7 @@
 #import <sys/utsname.h>
 #include "../Common/rebootDevice.h"
 
-BOOL shouldRemoveBlizzardAction = false;
+int shouldRemoveBlizzardAction = 0;
 
 //For iOS version detection
 #define SYSTEM_VERSION_EQUAL_TO(v)                  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedSame)
@@ -37,16 +37,17 @@ BOOL shouldRemoveBlizzardAction = false;
         printf("[i] Already Jailbroken\n");
         self->_blizzardInit.enabled = NO;
         [self->_blizzardInit setTitle:@"JAILBROKEN" forState:UIControlStateDisabled];
+        [_shouldUnjailbreakBlizzard setEnabled:NO];
     }
 }
 - (IBAction)blizzardUnjailbreakSwitch:(id)sender {
     if (_shouldUnjailbreakBlizzard.isOn == true){
-        shouldRemoveBlizzardAction = true;
+        shouldRemoveBlizzardAction = 1;
         [self->_blizzardInit setTitle:@"Remove Blizzard" forState:UIControlStateNormal];
         [_blizzardInit setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
         
     } else {
-        shouldRemoveBlizzardAction = false;
+        shouldRemoveBlizzardAction = 0;
         [self->_blizzardInit setTitle:@"Jailbreak" forState:UIControlStateNormal];
     }
 }
@@ -101,16 +102,22 @@ BOOL shouldRemoveBlizzardAction = false;
                                                         });
                                                         dispatch_async(dispatch_get_main_queue(), ^{
                                                             self->_blizzardInit.enabled = NO;
-                                                            [self->_blizzardInit setTitle:@"Preparing System..." forState:UIControlStateDisabled];
+                                                            if (shouldRemoveBlizzardAction == 1) {
+                                                                [self->_blizzardInit setTitle:@"Removing Blizzard..." forState:UIControlStateDisabled];
+                                                            } else {
+                                                                [self->_blizzardInit setTitle:@"Preparing System..." forState:UIControlStateDisabled];
+                                                            }
                                                         });
                                                         dispatch_async(dispatch_get_global_queue(0, 0), ^{
-                                                            if (shouldRemoveBlizzardAction == true) {
+                                                            if (shouldRemoveBlizzardAction == 1) {
+                                                                printf("[!] Will remove Blizzard Jailbreak!\n");
                                                                 dispatch_async(dispatch_get_global_queue(0, 0), ^{
                                                                     if (unjailbreakBlizzard() == 0) {
                                                                         dispatch_async(dispatch_get_main_queue(), ^{
                                                                             self->_blizzardInit.enabled = NO;
-                                                                            [self->_blizzardInit setTitle:@"Success! Rebooting!" forState:UIControlStateDisabled];
+                                                                            [self->_blizzardInit setTitle:@"SUCCESS! Rebooting..." forState:UIControlStateDisabled];
                                                                         });
+                                                                        sleep(4);
                                                                         reboot(RB_QUICK);
                                                                     }
                                                                     dispatch_async(dispatch_get_main_queue(), ^{
@@ -118,7 +125,8 @@ BOOL shouldRemoveBlizzardAction = false;
                                                                         [self->_blizzardInit setTitle:@"Removing Blizzard..." forState:UIControlStateDisabled];
                                                                     });
                                                                 });
-                                                            } else {
+                                                            } else if (shouldRemoveBlizzardAction == 0){
+                                                                printf("[i] Will not remove Blizzard Jailbreak!\n");
                                                                 if (installBootstrapStub() == 0){
                                                                     dispatch_async(dispatch_get_main_queue(), ^{
                                                                         self->_blizzardInit.enabled = NO;

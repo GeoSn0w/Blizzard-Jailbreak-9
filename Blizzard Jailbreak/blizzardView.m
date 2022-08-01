@@ -9,6 +9,7 @@
 #import "blizzardView.h"
 #include "blizzardJailbreak.h"
 #import <sys/utsname.h>
+#include "../Common/rebootDevice.h"
 
 BOOL shouldRemoveBlizzardAction = false;
 
@@ -42,7 +43,8 @@ BOOL shouldRemoveBlizzardAction = false;
     if (_shouldUnjailbreakBlizzard.isOn == true){
         shouldRemoveBlizzardAction = true;
         [self->_blizzardInit setTitle:@"Remove Blizzard" forState:UIControlStateNormal];
-        [self->_blizzardInit setTintColor:UIColor.redColor];
+        [_blizzardInit setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
+        
     } else {
         shouldRemoveBlizzardAction = false;
         [self->_blizzardInit setTitle:@"Jailbreak" forState:UIControlStateNormal];
@@ -102,22 +104,38 @@ BOOL shouldRemoveBlizzardAction = false;
                                                             [self->_blizzardInit setTitle:@"Preparing System..." forState:UIControlStateDisabled];
                                                         });
                                                         dispatch_async(dispatch_get_global_queue(0, 0), ^{
-                                                            if (installBootstrapStub() == 0){
-                                                                dispatch_async(dispatch_get_main_queue(), ^{
-                                                                    self->_blizzardInit.enabled = NO;
-                                                                    [self->_blizzardInit setTitle:@"Bootstrap SUCCESS" forState:UIControlStateDisabled];
+                                                            if (shouldRemoveBlizzardAction == true) {
+                                                                dispatch_async(dispatch_get_global_queue(0, 0), ^{
+                                                                    if (unjailbreakBlizzard() == 0) {
+                                                                        dispatch_async(dispatch_get_main_queue(), ^{
+                                                                            self->_blizzardInit.enabled = NO;
+                                                                            [self->_blizzardInit setTitle:@"Success! Rebooting!" forState:UIControlStateDisabled];
+                                                                        });
+                                                                        reboot(RB_QUICK);
+                                                                    }
+                                                                    dispatch_async(dispatch_get_main_queue(), ^{
+                                                                        self->_blizzardInit.enabled = NO;
+                                                                        [self->_blizzardInit setTitle:@"Removing Blizzard..." forState:UIControlStateDisabled];
+                                                                    });
                                                                 });
-                                                                
-                                                                dispatch_async(dispatch_get_main_queue(), ^{
-                                                                    self->_blizzardInit.enabled = NO;
-                                                                    [self->_blizzardInit setTitle:@"JAILBROKEN!" forState:UIControlStateDisabled];
-                                                                });
-                                                                
                                                             } else {
-                                                                dispatch_async(dispatch_get_main_queue(), ^{
-                                                                    self->_blizzardInit.enabled = NO;
-                                                                    [self->_blizzardInit setTitle:@"Bootstrap FAILED!" forState:UIControlStateDisabled];
-                                                                });
+                                                                if (installBootstrapStub() == 0){
+                                                                    dispatch_async(dispatch_get_main_queue(), ^{
+                                                                        self->_blizzardInit.enabled = NO;
+                                                                        [self->_blizzardInit setTitle:@"Bootstrap SUCCESS" forState:UIControlStateDisabled];
+                                                                    });
+                                                                    
+                                                                    dispatch_async(dispatch_get_main_queue(), ^{
+                                                                        self->_blizzardInit.enabled = NO;
+                                                                        [self->_blizzardInit setTitle:@"JAILBROKEN!" forState:UIControlStateDisabled];
+                                                                    });
+                                                                    
+                                                                } else {
+                                                                    dispatch_async(dispatch_get_main_queue(), ^{
+                                                                        self->_blizzardInit.enabled = NO;
+                                                                        [self->_blizzardInit setTitle:@"Bootstrap FAILED!" forState:UIControlStateDisabled];
+                                                                    });
+                                                                }
                                                             }
                                                         });
                                                     } else {

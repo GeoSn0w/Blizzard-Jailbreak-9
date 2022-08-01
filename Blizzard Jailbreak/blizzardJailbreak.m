@@ -787,16 +787,15 @@ int blizzardEscapeSandbox(){
         
         printf("[i] Testing current SandBox conditions...\n");
         
-        FILE *testFile = fopen("/var/blizzard", "w");
+        FILE *testFile = fopen("/var/.blizzard", "w");
         if (!testFile) {
             printf("[!] Failed to unsandbox process! Patch failed.\n");
              return -2;
         }
         else {
-            unlink("/var/blizzard");
             printf("[+] Successfully escaped Sandbox and patched policies.\n");
         }
-        
+        unlink("/var/.blizzard");
         return 0;
     }
     printf("[-] Cannot find SBOPS offset. Aborting...\n");

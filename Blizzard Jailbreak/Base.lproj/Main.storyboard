@@ -87,7 +87,7 @@
                                     <action selector="patchtfp0ToggleChanged:" destination="BYZ-38-t0r" eventType="valueChanged" id="yQJ-Ud-hW2"/>
                                 </connections>
                             </switch>
-                            <segmentedControl opaque="NO" alpha="0.94999999999999996" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="Lyv-bs-cch">
+                            <segmentedControl hidden="YES" opaque="NO" userInteractionEnabled="NO" alpha="0.94999999999999996" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="Lyv-bs-cch">
                                 <rect key="frame" x="40" y="447" width="240" height="29"/>
                                 <segments>
                                     <segment title="Cydia"/>

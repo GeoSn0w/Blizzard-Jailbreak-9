@@ -1247,7 +1247,7 @@ int unjailbreakBlizzard(){
     spawnBinaryAtPath("killall Zebra");
     spawnBinaryAtPath("killall Filza");
     spawnBinaryAtPath("killall iCleaner");
-    spawnBinaryAtPath("killall iCleaner");
+    spawnBinaryAtPath("killall MTerminal");
     spawnBinaryAtPath("rm -rf /Applications/Cydia.app/");
     spawnBinaryAtPath("rm -rf /Applications/Zebra.app/");
     spawnBinaryAtPath("rm -rf /Applications/Filza.app/");
@@ -1257,6 +1257,7 @@ int unjailbreakBlizzard(){
     spawnBinaryAtPath("rm -rf /Applications/Flex.app/");
     spawnBinaryAtPath("rm -rf /Applications/ADManager.app/");
     spawnBinaryAtPath("rm -rf /Applications/SnowBoard.app/");
+    spawnBinaryAtPath("rm -rf /Applications/MTerminal.app/");
     unlink("/Applications/Cydia.app/");
     unlink("/Applications/Zebra.app/");
     unlink("/Applications/Filza.app/");
@@ -1634,6 +1635,9 @@ int unjailbreakBlizzard(){
 }
 
 int installZebraPackageManager(){
+    //Currently broken because Zebra seems to have SSL certificate issues.
+    return -1;
+    
     printf("[i] Now installing Zebra Package Manager...\n");
     mkdir("/var/blizzard", 0777);
     if (copyfile([[[NSBundle mainBundle] resourcePath]stringByAppendingString:@"/zebra.deb"].UTF8String, "/var/blizzard/zebra.deb", NULL, COPYFILE_ALL) != 0){
@@ -1644,8 +1648,8 @@ int installZebraPackageManager(){
     spawnBinaryAtPath("dpkg -i /var/blizzard/zebra.deb");
     unlink("/var/blizzard/zebra.deb");
     
-    if (access("/Applications/Zebra.app", F_OK) != -1){
-        spawnBinaryAtPath("rm -rf /Applications/Cydia.app");
+    if (access("/Applications/Zebra.app/Zebra", F_OK) != -1){
+        spawnBinaryAtPath("rm -rf /Applications/Cydia.app/");
         printf("[i] Zebra Package Manager Installed!\n");
         return 0;
     }

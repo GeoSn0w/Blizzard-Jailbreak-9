@@ -12,10 +12,20 @@
 #include "../Common/rebootDevice.h"
 #include <mach/mach.h>
 #include <mach-o/loader.h>
+#include <unistd.h>
+#include <string.h>
+#include <dlfcn.h>
 
+int csops(pid_t pid, unsigned int  ops, void * useraddr, size_t usersize);
 int shouldRemoveBlizzardAction = 0;
 int shouldPatchTFP0ForKloader = 0;
 int shouldInstallZebra = 0; // 1 = yes!
+
+#define CS_PLATFORM_BINARY    0x4000000    /* this is a platform binary */
+#define CS_PLATFORM_PATH    0x8000000    /* platform binary by the fact of path (osx only) */
+
+/* csops  operations */
+#define CS_OPS_STATUS       0   /* return status */
 
 //For iOS version detection
 #define SYSTEM_VERSION_EQUAL_TO(v)                  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedSame)
@@ -37,14 +47,20 @@ int shouldInstallZebra = 0; // 1 = yes!
     uname(&uts);
     
     task_t kernel_task;
-    if (KERN_SUCCESS == task_for_pid(mach_task_self(), 0, &kernel_task)){
+    task_for_pid(mach_task_self(), 0, &kernel_task);
+    
+    uint32_t flags;
+    csops(getpid(), CS_OPS_STATUS, &flags, 0);
+    
+    printf("Kernel Task: %x\n", kernel_task);
+    
+    if ((flags & CS_PLATFORM_BINARY)){
         printf("%s %s %s\n", uts.sysname, uts.version, uts.release);
         printf("[i] Already Jailbroken\n");
         self->_blizzardInit.enabled = NO;
         [self->_blizzardInit setTitle:@"JAILBROKEN" forState:UIControlStateDisabled];
         [_shouldUnjailbreakBlizzard setEnabled:NO];
     }
-    
 }
 - (IBAction)zebraOrCydiaToggleChanged:(id)sender {
     if (_zebraORCydiaToggle.selectedSegmentIndex == 0){

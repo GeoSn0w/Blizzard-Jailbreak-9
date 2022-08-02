@@ -831,6 +831,8 @@ int blizzardEscapeSandbox(){
 #define L1_SECT_SORDER          (0)
 #define L1_SECT_DEFCACHE        (L1_SECT_SORDER)
 #define L1_PROTO_TTE(entry)     (entry | L1_SECT_S_BIT | L1_SECT_DEFPROT | L1_SECT_DEFCACHE)
+uint32_t tte_virt;
+uint32_t tte_phys;
 
 uint32_t pmaps[TTB_SIZE];
 int page_maps_count = 0;
@@ -838,8 +840,8 @@ int page_maps_count = 0;
 int blizzardPatchPMAP() {
     uint32_t kernel_pmap            = KernelOffset(KernelBase, find_pmap_location(KernelBase, kdata, ksize));
     uint32_t kernel_pmap_store      = ReadKernel32(kernel_pmap);
-    uint32_t tte_virt               = ReadKernel32(kernel_pmap_store);
-    uint32_t tte_phys               = ReadKernel32(kernel_pmap_store+4);
+    tte_virt               = ReadKernel32(kernel_pmap_store);
+    tte_phys               = ReadKernel32(kernel_pmap_store+4);
     
     if (kernel_pmap == 0) {
         printf("[!] Failed to locate Kernel PMAP. Aborting...\n");

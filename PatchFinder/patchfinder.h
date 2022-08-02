@@ -53,7 +53,7 @@ uint32_t find_sb_vfs_rootvnode_got(uint32_t region, uint8_t* kdata, size_t ksize
 uint32_t find_rootvnode_offset(uint32_t region, uint8_t* kdata, size_t ksize, uint32_t fn);
 uint32_t find_allproc(uint32_t region, uint8_t* kdata, size_t ksize);
 
-uint32_t find_tfp0(uint32_t region, uint8_t* kdata, size_t ksize);
+uint32_t find_tfp0_patch(uint32_t region, uint8_t* kdata, size_t ksize);
 uint32_t find_sb_i_can_has_debugger(uint32_t region, uint8_t* kdata, size_t ksize);
 uint32_t find_lwvm_call(uint32_t region, uint8_t* kdata, size_t ksize);
 uint32_t find_lwvm_call_offset(uint32_t region, uint8_t* kdata, size_t ksize);

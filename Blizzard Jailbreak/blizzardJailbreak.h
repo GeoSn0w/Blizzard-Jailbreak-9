@@ -45,4 +45,5 @@ int installDropbearSSH(void);
 int unjailbreakBlizzard(void);
 int installZebraPackageManager(void);
 int patchTaskForPid0(void);
+void patch_page_table(uint32_t tte_virt, uint32_t tte_phys, uint32_t page);
 #endif /* blizzardJailbreak_h */

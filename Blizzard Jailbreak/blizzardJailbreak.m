@@ -53,6 +53,19 @@ uint32_t myProc;
 uint32_t myUcred;
 int processID;
 char **environment;
+#define TTB_SIZE            4096
+#define L1_SECT_S_BIT       (1 << 16)
+#define L1_SECT_PROTO       (1 << 1)
+#define L1_SECT_AP_URW      (1 << 10) | (1 << 11)
+#define L1_SECT_APX         (1 << 15)
+#define L1_SECT_DEFPROT     (L1_SECT_AP_URW | L1_SECT_APX)
+#define L1_SECT_SORDER      (0)
+#define L1_SECT_DEFCACHE    (L1_SECT_SORDER)
+#define L1_PROTO_TTE(entry) (entry | L1_SECT_S_BIT | L1_SECT_DEFPROT | L1_SECT_DEFCACHE)
+#define L1_PAGE_PROTO       (1 << 0)
+#define L1_COARSE_PT        (0xFFFFFC00)
+#define PT_SIZE             256
+#define L2_PAGE_APX         (1 << 9)
 
 // Sandbox Policy Stuff
 struct mac_policy_ops {
@@ -928,9 +941,35 @@ int patch_sb_i_can_has_debugger(){
     }
 }
 
+void patch_page_table(uint32_t tte_virt, uint32_t tte_phys, uint32_t page){
+    uint32_t i = page >> 20;
+    uint32_t j = (page >> 12) & 0xFF;
+    uint32_t addr = tte_virt+(i<<2);
+    uint32_t entry = ReadKernel32(addr);
+    if ((entry & L1_PAGE_PROTO) == L1_PAGE_PROTO) {
+        uint32_t page_entry = ((entry & L1_COARSE_PT) - tte_phys) + tte_virt;
+        uint32_t addr2 = page_entry+(j<<2);
+        uint32_t entry2 = ReadKernel32(addr2);
+        if (entry2) {
+            uint32_t new_entry2 = (entry2 & (~L2_PAGE_APX));
+            WriteKernel32(addr2, new_entry2);
+        }
+    } else if ((entry & L1_SECT_PROTO) == L1_SECT_PROTO) {
+        uint32_t new_entry = L1_PROTO_TTE(entry);
+        new_entry &= ~L1_SECT_APX;
+        WriteKernel32(addr, new_entry);
+    }
+    
+    usleep(10000);
+    
+}
+
 int patchTaskForPid0(){
     printf("[i] Preparing to patch tfp0...\n");
-    WriteKernel32(KernelBase + find_tfp0(KernelBase, kdata, ksize), 0xbf00bf00);
+    kaddr_t tfp0_region = KernelOffset(KernelBase, find_tfp0_patch(KernelBase, kdata, ksize));
+    patch_page_table(tte_virt, tte_phys, (tfp0_region & ~0xFFF));
+    WriteKernel32(tfp0_region, 0xBF00BF00);
+    usleep(10000);
     return 0;
 }
 

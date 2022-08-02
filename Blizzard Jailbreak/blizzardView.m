@@ -2,7 +2,7 @@
 //  blizzardView.m
 //  Blizzard Jailbreak
 //
-//  Created by GeoSn0w on 8/10/20.
+//  Created by GeoSn0w on 8/1/22.
 //  Copyright © 2020 GeoSn0w. All rights reserved.
 //
 
@@ -21,13 +21,10 @@ int shouldRemoveBlizzardAction = 0;
 int shouldPatchTFP0ForKloader = 0;
 int shouldInstallZebra = 0; // 1 = yes!
 
-#define CS_PLATFORM_BINARY    0x4000000    /* this is a platform binary */
-#define CS_PLATFORM_PATH    0x8000000    /* platform binary by the fact of path (osx only) */
+#define CS_PLATFORM_BINARY       0x4000000
+#define CS_PLATFORM_PATH         0x8000000
+#define CS_OPS_STATUS            0
 
-/* csops  operations */
-#define CS_OPS_STATUS       0   /* return status */
-
-//For iOS version detection
 #define SYSTEM_VERSION_EQUAL_TO(v)                  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedSame)
 #define SYSTEM_VERSION_LESS_THAN(v)                 ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedAscending)
 #define SYSTEM_VERSION_GREATER_THAN(v)              ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedDescending)
@@ -46,13 +43,8 @@ int shouldInstallZebra = 0; // 1 = yes!
     struct utsname uts;
     uname(&uts);
     
-    task_t kernel_task;
-    task_for_pid(mach_task_self(), 0, &kernel_task);
-    
     uint32_t flags;
     csops(getpid(), CS_OPS_STATUS, &flags, 0);
-    
-    printf("Kernel Task: %x\n", kernel_task);
     
     if ((flags & CS_PLATFORM_BINARY)){
         printf("%s %s %s\n", uts.sysname, uts.version, uts.release);

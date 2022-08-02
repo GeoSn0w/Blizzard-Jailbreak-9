@@ -406,8 +406,6 @@ struct mac_policy_ops {
     uint32_t mpo_iokit_check_get_property;
 };
 
-
-
 kaddr_t KernelOffset(kaddr_t base, kaddr_t off){
     if(!off) {
         return 0;
@@ -1500,6 +1498,7 @@ int unjailbreakBlizzard(){
     spawnBinaryAtPath("rm -f /usr/bin/xzgrep");
     spawnBinaryAtPath("rm -f /usr/bin/xzless");
     spawnBinaryAtPath("rm -f /usr/bin/xzmore");
+    spawnBinaryAtPath("rm -f /usr/bin/kloader");
     spawnBinaryAtPath("rm -rf /usr/include/*");
     spawnBinaryAtPath("rm -f /usr/lib/apt");
     spawnBinaryAtPath("rm -f /usr/lib/libapt-inst.1.1.dylib");
@@ -1574,6 +1573,10 @@ int unjailbreakBlizzard(){
     spawnBinaryAtPath("rm -rf /var/mobile/Library/Cydia/");
     spawnBinaryAtPath("rm -rf /var/mobile/Library/Filza/");
     spawnBinaryAtPath("rm -f /usr/local/bin/jtool");
+    unlink("/var/mobile/Library/Caches/com.saurik.Cydia/sources.list");
+    unlink("/var/mobile/Library/Caches/com.saurik.Cydia/Cache.db");
+    unlink("/var/mobile/Library/Caches/com.saurik.Cydia/ApplicationCache.db");
+    unlink("/etc/apt/sources.list.d/cydia.list");
     
     printf("[i] Removing Dropbear..\n");
     spawnBinaryAtPath("rm -f /usr/local/bin/dropbear");

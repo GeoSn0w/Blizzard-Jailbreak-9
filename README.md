@@ -10,8 +10,10 @@ Feel free to mess with the code as long as you do proper crediting where it is d
 
 ### Find Me on Social Media:
 * <a href="https://twitter.com/FCE365">GeoSn0w (Personal Dev Account)</a>
+* <a href="https://idevicecentral.com">iDevice Central Website</a>
 * <a href="https://twitter.com/GetBlizzardJB">Blizzard Jailbreak</a>
 * <a href="https://youtube.com/fce365official">iDevice Central YouTube Channel</a>
+* <a href="https://gametutorialpro.com">Game Tutorial Pro Website</a>
 
 ### Thanks a lot to
 

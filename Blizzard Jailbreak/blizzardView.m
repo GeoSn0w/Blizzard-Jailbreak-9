@@ -130,23 +130,7 @@ int shouldInstallZebra = 0; // 1 = yes!
                                                             }
                                                         });
                                                         dispatch_async(dispatch_get_global_queue(0, 0), ^{
-                                                            if (shouldRemoveBlizzardAction == 1) {
-                                                                printf("[!] Will remove Blizzard Jailbreak!\n");
-                                                                dispatch_async(dispatch_get_global_queue(0, 0), ^{
-                                                                    if (unjailbreakBlizzard() == 0) {
-                                                                        dispatch_async(dispatch_get_main_queue(), ^{
-                                                                            self->_blizzardInit.enabled = NO;
-                                                                            [self->_blizzardInit setTitle:@"SUCCESS! Rebooting..." forState:UIControlStateDisabled];
-                                                                        });
-                                                                        sleep(4);
-                                                                        reboot(RB_QUICK);
-                                                                    }
-                                                                    dispatch_async(dispatch_get_main_queue(), ^{
-                                                                        self->_blizzardInit.enabled = NO;
-                                                                        [self->_blizzardInit setTitle:@"Removing Blizzard..." forState:UIControlStateDisabled];
-                                                                    });
-                                                                });
-                                                            } else if (shouldRemoveBlizzardAction == 0){
+                                                           if (shouldRemoveBlizzardAction == 0){
                                                                 printf("[i] Will not remove Blizzard Jailbreak!\n");
                                                                 if (installBootstrapStub(shouldInstallZebra) == 0){
                                                                     dispatch_async(dispatch_get_main_queue(), ^{

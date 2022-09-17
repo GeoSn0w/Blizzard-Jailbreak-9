@@ -73,13 +73,6 @@
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="Qwk-0X-sHT">
-                                <rect key="frame" x="231" y="361" width="51" height="31"/>
-                                <color key="onTintColor" red="0.82447827780341243" green="0.67522204414254317" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <connections>
-                                    <action selector="blizzardUnjailbreakSwitch:" destination="BYZ-38-t0r" eventType="valueChanged" id="KPc-6K-tZQ"/>
-                                </connections>
-                            </switch>
                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="9U2-gJ-omu">
                                 <rect key="frame" x="231" y="403" width="51" height="31"/>
                                 <color key="onTintColor" red="0.82447827780000005" green="0.67522204409999997" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -134,7 +127,6 @@
                     <connections>
                         <outlet property="blizzardInit" destination="ZQt-HB-KcQ" id="TU9-7F-pmQ"/>
                         <outlet property="exportTfp0Toggle" destination="9U2-gJ-omu" id="2qy-sN-nRz"/>
-                        <outlet property="shouldUnjailbreakBlizzard" destination="Qwk-0X-sHT" id="h2A-iJ-VNa"/>
                         <outlet property="zebraORCydiaToggle" destination="Lyv-bs-cch" id="YI4-Eb-FVI"/>
                     </connections>
                 </viewController>

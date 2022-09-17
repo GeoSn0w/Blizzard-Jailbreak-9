@@ -72,19 +72,6 @@ int shouldInstallZebra = 0; // 1 = yes!
     }
 }
 
-- (IBAction)blizzardUnjailbreakSwitch:(id)sender {
-    if (_shouldUnjailbreakBlizzard.isOn == true){
-        shouldRemoveBlizzardAction = 1;
-        [self->_blizzardInit setTitle:@"Remove Blizzard" forState:UIControlStateNormal];
-        [_blizzardInit setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
-        
-    } else {
-        shouldRemoveBlizzardAction = 0;
-        [self->_blizzardInit setTitle:@"Jailbreak" forState:UIControlStateNormal];
-        [_blizzardInit setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    }
-}
-
 - (IBAction)blizzardInit:(id)sender {
     if (SYSTEM_VERSION_GREATER_THAN(@"8.4.1") && SYSTEM_VERSION_LESS_THAN(@"9.3.7")){
         dispatch_async(dispatch_get_global_queue(0, 0), ^{

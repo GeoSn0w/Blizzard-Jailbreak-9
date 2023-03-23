@@ -24,3 +24,9 @@ Feel free to mess with the code as long as you do proper crediting where it is d
 * <a href="https://github.com/p0larisdev"> SPV / P0larisdev - Patchfinder components.</a>
 * <a href="https://twitter.com/REALKJCMEMBER"> REALKJCMEMBER - PMAP patch component</a>
 * <a href="https://twitter.com/Morpheus______"> Jonathan Levin - My mentor.</a>
+
+### My Websites
+* <a href="https://idevicecentral.com">Latest iOS 16 Jailbreak News</a>
+* <a href="https://gametutorialpro.com">Latest Gaming News & Guides</a>
+* <a href="https://jailbreak.fce365.info">iOS Jailbreak Forum</a>
+* <a href="https://gsmbypass.com">Latest FRP Bypass Tools & Guides</a>

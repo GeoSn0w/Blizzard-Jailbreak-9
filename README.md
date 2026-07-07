@@ -13,7 +13,7 @@ Feel free to mess with the code as long as you do proper crediting where it is d
 * <a href="https://idevicecentral.com">iDevice Central Website</a>
 * <a href="https://twitter.com/GetBlizzardJB">Blizzard Jailbreak</a>
 * <a href="https://youtube.com/fce365official">iDevice Central YouTube Channel</a>
-* <a href="https://gametutorialpro.com">Game Tutorial Pro Website</a>
+* <a href="https://geosn0w.com">GeoSn0w's Blog</a>
 
 ### Thanks a lot to
 
@@ -27,6 +27,6 @@ Feel free to mess with the code as long as you do proper crediting where it is d
 
 ### My Websites
 * <a href="https://idevicecentral.com">Latest iOS 16 Jailbreak News</a>
-* <a href="https://gametutorialpro.com">Latest Gaming News & Guides</a>
+* <a href="https://geosn0w.com">GeoSn0w's Blog</a>
 * <a href="https://jailbreak.fce365.info">iOS Jailbreak Forum</a>
 * <a href="https://gsmbypass.com">Latest FRP Bypass Tools & Guides</a>
